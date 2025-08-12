@@ -2,8 +2,8 @@
 // import PopNewCard from "../PopUps/PopNewCard/PopNewCard";
 // import PopUserSet from "../PopUps/PopUserSet";
 // import PopExit from "../PopUps/PopExit/PopExit";
-import  * as S from "./Header.styled.js"
-
+import * as S from './Header.styled.tsx';
+import Container from '../Container/Container.styled.tsx';
 
 function Header() {
   // const [isOpenPopUser, setIsOpenPopUser] = useState(false);
@@ -18,30 +18,31 @@ function Header() {
   // }
 
   return (
-    <S.Header >
-      <S.Block>
-        {/* <div className="header__block"> */}
+    <S.Header>
+      <Container>
+        <S.Block>
+     
           <S.LogoBlock>
-            <a href="#" >
+            <a href="#">
               <img
-                src="../../../public/logo.svg"
+                className=""
+                src="../../../../../public/logo.svg"
                 alt="Логотип "
               />
             </a>
-            <p>Онлайн-тренировки для занятий дома</p>
+            <S.LogoText>Онлайн-тренировки для занятий дома</S.LogoText>
           </S.LogoBlock>
-   
-          <S.ProfileBlock>
-          
 
+          <S.ProfileBlock>
             {/* <PopNewCard isOpenPopCard ={isOpenPopCard} onClose={() => setIsOpenPopCard(false)}/> */}
-<img src="../../../public/profile.svg"  alt="Иконка профиля"/>
-            <button
+            <img src="../../../../../public/profile.svg" alt="Иконка профиля" />
+            <S.ProfileButton
+              type="button"
               className="button_user"
               // onClick={handleClickPopupUser}
             >
               Ivan Ivanov
-            </button>
+            </S.ProfileButton>
 
             {/* <PopUserSet
               setIsOpenPopUser={setIsOpenPopUser}
@@ -49,9 +50,10 @@ function Header() {
               isOpenPopUser={isOpenPopUser}
             /> */}
           </S.ProfileBlock>
-        {/* </div> */}
-      </S.Block>
-      {/* <PopExit isOpen={isOpenPopExit} onClose={() => setIsOpenPopExit(false)} /> */}
+          {/* </div> */}
+        </S.Block>
+        {/* <PopExit isOpen={isOpenPopExit} onClose={() => setIsOpenPopExit(false)} /> */}
+      </Container>
     </S.Header>
   );
 }
