@@ -1,18 +1,12 @@
 import styled from 'styled-components';
 
 export const CourseCard = styled.div`
+  max-width: 360px;
 
-max-width: 360px;
+  border-radius: 30px;
 
-border-radius: 30px;
-/* padding-bottom: 15px; */
-box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);
-
-
- 
+  box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);
 `;
-
-
 
 export const CourseDiscription = styled.div`
   display: flex;
@@ -21,13 +15,11 @@ export const CourseDiscription = styled.div`
   padding-top: 24px;
   padding-left: 30px;
   padding-right: 30px;
-
 `;
-//Change later
+
 export const Title = styled.h3`
-  font-family: Roboto;
   font-weight: 500;
-  font-style: Medium;
+
   font-size: 32px;
 
   line-height: 110.00000000000001%;
@@ -37,21 +29,18 @@ export const Duration = styled.div`
   display: flex;
   flex-direction: row;
   gap: 6px;
-    margin-bottom: 6px;
+  margin-bottom: 6px;
 `;
 
 export const Difficulty = styled.div`
-  font-family: Roboto;
   font-weight: 400;
-  font-style: Regular;
+
   font-size: 16px;
 
   line-height: 110.00000000000001%;
   letter-spacing: 0px;
   vertical-align: bottom;
-margin-bottom: 15px;
-
-
+  margin-bottom: 15px;
 `;
 
 export const Badge = styled.div`
@@ -65,9 +54,8 @@ export const Badge = styled.div`
 
   color: rgba(32, 32, 32, 1);
 
-  font-family: Roboto;
   font-weight: 400;
-  font-style: Regular;
+
   font-size: 16px;
 
   line-height: 110.00000000000001%;

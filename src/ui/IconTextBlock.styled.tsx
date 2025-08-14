@@ -1,0 +1,23 @@
+import styled from 'styled-components';
+
+export const IconTextBlock = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 284px;
+`;
+
+export const IconImage = styled.img`
+  width: 26px;
+  height: 26px;
+`;
+
+export const IconText = styled.p`
+
+  font-weight: 400;
+
+  font-size: 24px;
+
+  line-height: 110.00000000000001%;
+  letter-spacing: 0px;
+`;
