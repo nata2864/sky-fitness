@@ -1,5 +1,5 @@
 import Card from '../Card/Card';
-import Container from '../Container/Container.styled';
+import Container from '../../ui/Container.styled';
 import * as S from './Main.styled';
 
 function Main() {

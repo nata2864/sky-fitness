@@ -3,7 +3,7 @@
 // import PopUserSet from "../PopUps/PopUserSet";
 // import PopExit from "../PopUps/PopExit/PopExit";
 import * as S from './Header.styled.tsx';
-import Container from '../Container/Container.styled.tsx';
+import Container from '../../ui/Container.styled.tsx';
 
 function Header() {
   // const [isOpenPopUser, setIsOpenPopUser] = useState(false);
@@ -21,7 +21,6 @@ function Header() {
     <S.Header>
       <Container>
         <S.Block>
-     
           <S.LogoBlock>
             <a href="#">
               <img
