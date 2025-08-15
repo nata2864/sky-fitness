@@ -78,7 +78,7 @@ function CourseDescription() {
           <button>Добавить курс</button>
         </S.FooterContent>
         <S.FooterImage>
-          <img src="../../../../../../public/footerImage.png" />
+          <img src="../../../../../../public/footerImg.png" />
         </S.FooterImage>
       </S.FooterCourseDiscription>
     </Container>
