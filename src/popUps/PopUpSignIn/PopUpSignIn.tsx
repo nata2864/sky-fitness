@@ -1,7 +1,7 @@
 import { Overlay } from "../../ui/Overlay.styled";
 import {AuthWrapper, Logo, FormFields,InputItem} from "../../ui/Form.styled";
 
-import { Button
+import { Button, Secondarybutton
  } from "../../ui/Button.styled";
 
 
@@ -19,7 +19,7 @@ return(
              
             </FormFields>
                   <Button type="submit">Войти</Button>
-            <Button type="button">Зарегистрироваться</Button>
+            <Secondarybutton type="button">Зарегистрироваться</Secondarybutton>
       
   </form>
         </AuthWrapper>

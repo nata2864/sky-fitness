@@ -12,19 +12,19 @@ function CoursesList() {
           <Card imageSrc="../../../../public/yoga.png" imageAlt="Йога" isFavorite ={true} />
 
           <Card
-            imageSrc="../../../../public/streching.jpg"
+            imageSrc="../../../../public/streching.png"
             imageAlt="Стретчинг" isFavorite ={true} 
           />
 
-          <Card imageSrc="../../../../public/fitness.jpg" imageAlt="Фитнес" isFavorite ={false}  />
+          <Card imageSrc="../../../../public/fitness.png" imageAlt="Фитнес" isFavorite ={false}  />
 
           <Card
-            imageSrc="../../../../public/aerobica.jpg"
+            imageSrc="../../../../public/step.png"
             imageAlt="Степ-аэробика" isFavorite ={false} 
           />
 
           <Card
-            imageSrc="../../../../public/bodiflex.jpg"
+            imageSrc="../../../../public/flex.png"
             imageAlt="Бодифлекс" isFavorite ={true} 
           />
         </S.Courses>

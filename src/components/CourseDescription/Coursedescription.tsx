@@ -6,13 +6,15 @@ import {
   IconText,
 } from '../../ui/IconTextBlock.styled';
 
+import FooterContent from '../FooterContent/FooterContent';
+
 function CourseDescription() {
   const srcIcon = '../../../../../../public/Sparcle.svg';
 
   return (
-    <Container>
+    <><Container>
       <S.DescriptionBlock>
-        <S.CourseImage src="../../../../../../public/yogaPage.jpg" alt="Yoga" />
+        <S.CourseImage  />
 
         <S.Title>Подойдет для вас, если:</S.Title>
         <S.SuggestionsBlock>
@@ -65,8 +67,9 @@ function CourseDescription() {
           </IconTextBlock>
         </S.Directions>
       </S.DirectionsBlock>
-      <S.FooterCourseDiscription>
-        <S.FooterContent>
+   <S.FooterCourseDiscription>
+    <FooterContent/>
+        {/* <S.FooterContent>
           <S.FooterTitle>Начните путь к новому телу</S.FooterTitle>
           <S.FooterList>
             <li>проработка всех групп мышц</li>
@@ -75,13 +78,41 @@ function CourseDescription() {
             <li>упражнения заряжают бодростью</li>
             <li>помогают противостоять стрессам</li>
           </S.FooterList>
-          <button>Добавить курс</button>
-        </S.FooterContent>
-        <S.FooterImage>
-          <img src="../../../../../../public/footerImg.png" />
-        </S.FooterImage>
+          <Button>Добавить курс</Button>
+        </S.FooterContent> */}
+        {/* <S.FooterImage> */}
+    
+               {/* <S.FooterImage src="../../../../../../public/footerImg3.png" /> */}
+                 <S.FooterImage src="../../../../../../public/MaskGroup.svg" />
+          
+        {/* </S.FooterImage> */}
       </S.FooterCourseDiscription>
     </Container>
+       
+      <S.MobileFooter>
+    {/* упрощённая верстка для мобилы */}
+    <S.MobileImage src="../../../../../../public/footerImg.png"/>
+     <Container>
+      <S.MobileCard>
+       
+        {/* <S.MobileContent>
+      <h2>Начните путь к новому телу</h2>
+      <ul>
+        <li>проработка всех групп мышц</li>
+        <li>тренировка суставов</li>
+        <li>улучшение циркуляции крови</li>
+        <li>упражнения заряжают бодростью</li>
+        <li>помогают противостоять стрессам</li>
+      </ul>
+      <Button>Добавить курс</Button>
+      </S.MobileContent> */}
+      <FooterContent/>
+    
+    </S.MobileCard>
+   </Container>
+  </S.MobileFooter>
+    </>
+    
   );
 }
 

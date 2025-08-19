@@ -23,3 +23,10 @@ export const Button = styled.button`
   border: none;
   margin-bottom: 10px;
 `;
+
+export const Secondarybutton = styled(Button)`
+background: transparent;
+border: 1px solid rgba(0, 0, 0, 1)
+`;
+
+

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Header = styled.header`
   width: 100%;
   padding-top: 50px;
-  padding-bottom: 60px;
+  padding-bottom: 50px;
 
     @media (max-width: 768px){
    padding-top: 40px;
