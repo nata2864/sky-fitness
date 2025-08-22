@@ -9,7 +9,7 @@ import {
 import FooterContent from '../FooterContent/FooterContent';
 
 function CourseDescription() {
-  const srcIcon = '../../../../../../public/Sparcle.svg';
+  const srcIcon = '/public/Sparcle.svg';
 
   return (
     <><Container>
@@ -83,7 +83,7 @@ function CourseDescription() {
         {/* <S.FooterImage> */}
     
                {/* <S.FooterImage src="../../../../../../public/footerImg3.png" /> */}
-                 <S.FooterImage src="../../../../../../public/MaskGroup.svg" />
+                 <S.FooterImage src="../../../../../../public/footerImg.png" />
           
         {/* </S.FooterImage> */}
       </S.FooterCourseDiscription>

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Button } from '../../ui/Button.styled';
 
 export const TitleBlock = styled.div`
   display: flex;
@@ -44,8 +45,12 @@ height: 167px;
   }
 `;
 
-export const FooterButton = styled.div`
+export const FooterButton = styled(Button)`
 padding-top: 34px;
+width: 127px;
+height: 52px;
+
+
   @media (max-width: 768px) {
     padding-top: 24px;
   }

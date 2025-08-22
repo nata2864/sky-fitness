@@ -1,19 +1,26 @@
 import * as S from './Card.styled.tsx';
+import type  {Course} from '../../data.tsx';
+import { getCourseImage } from '../../utils/getCourseImage/getCourseImage.ts';
 
 type CardProps = {
-  imageSrc: string;
-  imageAlt: string;
+  // imageSrc: string;
+  // imageAlt: string;
+  course:  Course;
   isFavorite: boolean;
 };
 
-function Card({ imageSrc, imageAlt, isFavorite }: CardProps) {
+function Card({ course, isFavorite }: CardProps) {
   const srcMinusIcon = '../../../../public/removeIcon.svg';
   const srcPlusIcon = '../../../../public/addIcon.svg';
+
+
+ const {nameEN, nameRU , durationInDays, dailyDurationInMinutes, difficulty } = course;
+ const srcPath = getCourseImage(nameEN);
 
   return (
     <S.CourseCard>
       <S.ImageWrapper>
-        <S.CardImg src={imageSrc} alt={imageAlt} />
+        <S.CardImg src={`/${srcPath}.png`} alt={nameEN} />
 
         <S.Icon
           src={isFavorite ? srcMinusIcon : srcPlusIcon}
@@ -22,15 +29,15 @@ function Card({ imageSrc, imageAlt, isFavorite }: CardProps) {
       </S.ImageWrapper>
 
       <S.CourseDiscription>
-        <S.Title>Йога</S.Title>
+        <S.Title>{ nameRU}</S.Title>
         <S.Duration>
           <S.Badge>
             <img src="../../../../public/time.svg" alt="time icon" />
-            25 дней
+            {durationInDays} дней
           </S.Badge>
           <S.Badge>
             <img src="../../../../public/calendar.svg" alt="calendar icon" />
-            20-50 мин/день
+            {`${dailyDurationInMinutes.from}-${dailyDurationInMinutes.to}`} мин/день
           </S.Badge>
         </S.Duration>
 
@@ -40,7 +47,7 @@ function Card({ imageSrc, imageAlt, isFavorite }: CardProps) {
               src="../../../../public/difficulty.svg"
               alt="difficulty icon"
             />
-            Сложность
+            {difficulty}
           </S.Badge>
         </S.Difficulty>
       </S.CourseDiscription>
@@ -49,3 +56,5 @@ function Card({ imageSrc, imageAlt, isFavorite }: CardProps) {
 }
 
 export default Card;
+
+

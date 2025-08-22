@@ -3,7 +3,9 @@ export const RoutesApp = {
   SIGN_IN: "/sign-in",
   SIGN_UP: "/sign-up",
   NOT_FOUND: "/*",
-  NEWCARD: "card/add",
-  BROWSE: "card/:id",
+  COURSE: "/course",
+  // BROWSE: "card/:id",
   EXIT: "/exit",
 };
+
+//удалить ненужное

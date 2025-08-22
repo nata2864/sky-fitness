@@ -1,4 +1,4 @@
-type Course = {
+export type Course = {
   dailyDurationInMinutes: {
     from: number;
     to: number;
@@ -16,7 +16,7 @@ type Course = {
   __v: number;
 };
 
-const courses: Course[] = [
+export const courses: Course[] = [
   {
     dailyDurationInMinutes: { from: 30, to: 45 },
     _id: 'kfpq8e',
