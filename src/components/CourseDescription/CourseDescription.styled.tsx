@@ -9,17 +9,17 @@ export const DescriptionBlock = styled.div`
   }
 `;
 
-export const CourseImage = styled.div`
+export const CourseImage = styled.div<{ $desktop: string; $mobile: string }>`
   margin-bottom: 60px;
 
-  background-image: url('/yoga_big.png');
+   background-image: url(${(props) => props.$desktop});
   /* background-size: cover; */
   background-repeat: no-repeat;
   background-position: center;
   width: 100%;
   height: 310px;
   @media (max-width: 768px) {
-    background-image: url('/yoga.png');
+    background-image: url(${(props) => props.$mobile});
     /* width: 343px; */
     height: 325px;
     margin-bottom: 40px;

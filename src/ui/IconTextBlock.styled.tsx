@@ -4,7 +4,7 @@ export const IconTextBlock = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
-  width: 284px;
+  max-width: 284px;
 `;
 
 export const IconImage = styled.img`

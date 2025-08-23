@@ -5,66 +5,69 @@ import {
   IconImage,
   IconText,
 } from '../../ui/IconTextBlock.styled';
+import { useParams } from "react-router-dom";
+import courses from '../../data';
 
+import { getCourseImage } from '../../utils/getCourseImage/getCourseImage';
 import FooterContent from '../FooterContent/FooterContent';
+
+
 
 function CourseDescription() {
   const srcIcon = '/public/Sparcle.svg';
+    const {_id } = useParams();
+
+    const course = courses.find(course => course._id === _id);
+
+if (!course) {
+  return ;
+}
+
+const { nameEN, fitting, directions } = course;
+const basePath = getCourseImage(nameEN);
+
+const images = {
+  desktop: `/${basePath}_big.png`,
+  mobile: `/${basePath}.png`,
+};
 
   return (
     <><Container>
       <S.DescriptionBlock>
-        <S.CourseImage  />
+        
+        <S.CourseImage  $desktop={images.desktop} $mobile={images.mobile}
+         />
 
         <S.Title>Подойдет для вас, если:</S.Title>
         <S.SuggestionsBlock>
-          <S.Suggestion>
-            <S.SuggestionNumber>1</S.SuggestionNumber>
-            <S.SuggestionText>
-              Давно хотели попробовать йогу, но не решались начать
-            </S.SuggestionText>
-          </S.Suggestion>
-          <S.Suggestion>
-            <S.SuggestionNumber>2</S.SuggestionNumber>
-            <S.SuggestionText>
-              Давно хотели попробовать йогу, но не решались начать
-            </S.SuggestionText>
-          </S.Suggestion>
-          <S.Suggestion>
-            <S.SuggestionNumber>3</S.SuggestionNumber>
-            <S.SuggestionText>
-              Давно хотели попробовать йогу, но не решались начать
-            </S.SuggestionText>
-          </S.Suggestion>
+
+{fitting.map((fit:string, index:number) => (
+  <S.Suggestion key={index}>
+    <S.SuggestionNumber>{index + 1}</S.SuggestionNumber>
+    <S.SuggestionText>
+      {fit}
+    </S.SuggestionText>
+  </S.Suggestion>
+))}
+
+
         </S.SuggestionsBlock>
       </S.DescriptionBlock>
       <S.DirectionsBlock>
         <S.Title>Направления</S.Title>
         <S.Directions>
-          <IconTextBlock>
+
+
+{directions.map((direction:string, index:number) => (
+ <IconTextBlock key={index}>
             <IconImage src={srcIcon}></IconImage>
-            <IconText> Йога для новичков</IconText>
+            <IconText> {direction}</IconText>
           </IconTextBlock>
-          <IconTextBlock>
-            <IconImage src={srcIcon}></IconImage>
-            <IconText> Кундалини-йога</IconText>
-          </IconTextBlock>
-          <IconTextBlock>
-            <IconImage src={srcIcon}></IconImage>
-            <IconText> Хатха-йога</IconText>
-          </IconTextBlock>
-          <IconTextBlock>
-            <IconImage src={srcIcon}></IconImage>
-            <IconText> Классическая йога</IconText>
-          </IconTextBlock>
-          <IconTextBlock>
-            <IconImage src={srcIcon}></IconImage>
-            <IconText> Йога для новичков</IconText>
-          </IconTextBlock>
-          <IconTextBlock>
-            <IconImage src={srcIcon}></IconImage>
-            <IconText> Йога для новичков</IconText>
-          </IconTextBlock>
+))}
+
+
+
+
         </S.Directions>
       </S.DirectionsBlock>
    <S.FooterCourseDiscription>
@@ -83,6 +86,7 @@ function CourseDescription() {
         {/* <S.FooterImage> */}
     
                {/* <S.FooterImage src="../../../../../../public/footerImg3.png" /> */}
+              {/* <img src="/greenLine.svg" alt="" /> */}
                  <S.FooterImage src="../../../../../../public/footerImg.png" />
           
         {/* </S.FooterImage> */}

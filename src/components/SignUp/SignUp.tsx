@@ -1,7 +1,8 @@
 // import { Overlay } from '../../ui/Overlay.styled';
 import { AuthWrapper, Logo, FormFields, InputItem, AuthContainer } from '../../ui/Form.styled';
-
+import { RoutesApp } from '../../const';
 import { Button, Secondarybutton } from '../../ui/Button.styled';
+import { Link } from 'react-router-dom';
 
 function SignUp() {
   return (
@@ -20,7 +21,9 @@ function SignUp() {
             />
           </FormFields>
           <Button type="submit">Зарегистрироваться</Button>
-          <Secondarybutton type="button">Войти</Secondarybutton>
+         <Link to={RoutesApp.SIGN_IN}>
+            <Secondarybutton type="button">Войти</Secondarybutton></Link>
+       
         </form>
       </AuthWrapper>
      </AuthContainer>

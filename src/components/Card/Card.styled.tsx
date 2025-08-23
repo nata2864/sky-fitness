@@ -4,11 +4,10 @@ export const CourseCard = styled.div`
   max-width: 360px;
   border-radius: 30px;
   box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);
-   @media (max-width: 768px){
-   max-width: 343px;
+  @media (max-width: 768px) {
+    max-width: 343px;
   }
 `;
-
 
 export const CourseDiscription = styled.div`
   display: flex;
@@ -22,9 +21,19 @@ export const ImageWrapper = styled.div`
   position: relative;
 `;
 
-export const CardImg = styled.img`
-  @media (max-width: 768px){
-   max-width: 343px;
+export const CardImg = styled.img<{ $src: string }>`
+  background-image: url(${(props) => props.$src});
+
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 100%;
+border-radius:30px;
+  height: 325px;
+  position:relative;
+
+  @media (max-width: 768px) {
+    max-width: 343px;
   }
 `;
 
@@ -43,8 +52,8 @@ export const Title = styled.h3`
   font-size: 32px;
   line-height: 110.00000000000001%;
   margin-bottom: 20px;
-  @media (max-width: 768px){
-   font-size: 24px;
+  @media (max-width: 768px) {
+    font-size: 24px;
   }
 `;
 

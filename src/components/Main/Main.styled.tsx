@@ -46,12 +46,18 @@ height: 167px;
 `;
 
 export const FooterButton = styled(Button)`
-padding-top: 34px;
-width: 127px;
-height: 52px;
+margin-top: 34px;
+/* width: 127px; */
+/* height: 52px; */
+padding-top: 16px;
+padding-right: 26px;
+padding-bottom: 16px;
+padding-left: 26px;
+
+
 
 
   @media (max-width: 768px) {
-    padding-top: 24px;
+   margin-top: 24px;
   }
 `;

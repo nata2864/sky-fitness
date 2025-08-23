@@ -4,6 +4,7 @@ export const RoutesApp = {
   SIGN_UP: "/sign-up",
   NOT_FOUND: "/*",
   COURSE: "/course",
+  PROFILE: "/profile",
   // BROWSE: "card/:id",
   EXIT: "/exit",
 };

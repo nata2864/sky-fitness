@@ -6,6 +6,7 @@ import MainLayout from './pages/MainLayout/MainLayout';
 import CoursePage from './pages/CoursePage/CoursePage';
 import SignInPage from './pages/SignInPage/SignInPage';
 import SignUpPage from './pages/SignUpPage/SignUpPage';
+import ProfilPage from './pages/ProfilPage/ProfilPage';
 
 function AppRoutes() {
   return (
@@ -21,7 +22,9 @@ function AppRoutes() {
       <Route path={RoutesApp.SIGN_UP} element={<SignUpPage />} /> */}
       <Route element={<MainLayout />}>
         <Route path={RoutesApp.MAIN} element={<MainPage />} />
-        <Route path={RoutesApp.COURSE} element={<CoursePage />} />
+         <Route path="/course/:_id" element={<CoursePage />} />
+         //Исправить в будущем и вынести в константы
+        <Route path={RoutesApp.PROFILE} element={<ProfilPage />} />
          
       </Route>
        <Route path={RoutesApp.SIGN_IN} element={<SignInPage />} />

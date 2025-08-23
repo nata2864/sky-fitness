@@ -39,6 +39,7 @@ export const LogoBlock = styled.div`
 `;
 
 export const ProfileBlock = styled.div`
+position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
