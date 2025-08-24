@@ -1,45 +1,41 @@
 type FormatValidationResult = {
   hasErrors: boolean;
-  errors: Record<string, boolean>;
-  errorMessage?: string;
+  errors: Record<string, string | null>; // теперь храним текст ошибки
 };
 
-// type FormValues = {
-//   email: string;
-//   password: string;
-//   [key: string]: string;
-// };
-
 export const formatValidator = (values: Record<string, string>): FormatValidationResult => {
-  const errors: Record<string, boolean> = {};
+  const errors: Record<string, string | null> = {};
   let hasErrors = false;
-  let errorMessage = '';
 
   if ('email' in values) {
     const email = values.email.trim();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      errors.email = true;
+      errors.email = 'Неверный формат email';
       hasErrors = true;
-      errorMessage ||= 'Неверный формат email';
+    } else {
+      errors.email = null;
     }
   }
 
   if ('password' in values) {
     const password = values.password;
     if (password.length < 6) {
-      errors.password = true;
+      errors.password = 'Пароль должен быть не менее 6 символов';
       hasErrors = true;
-      errorMessage ||= 'Пароль должен быть не менее 6 символов';
+    } else {
+      errors.password = null;
     }
 
-    if ('confirmPassword' in values && values.confirmPassword !== password) {
-      errors.confirmPassword = true;
-      hasErrors = true;
-      errorMessage ||= 'Пароли не совпадают';
+    if ('confirmPassword' in values) {
+      if (values.confirmPassword !== password) {
+        errors.confirmPassword = 'Пароли не совпадают';
+        hasErrors = true;
+      } else {
+        errors.confirmPassword = null;
+      }
     }
   }
 
-  return { hasErrors, errors, errorMessage };
+  return { hasErrors, errors };
 };
-
