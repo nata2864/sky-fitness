@@ -63,7 +63,7 @@ function SignUp() {
               value={formData.confirmPassword}
             />
           </FormFields>
-          <Button type="submit" onClick={onSubmit}>Зарегистрироваться</Button>
+          <Button type="submit"  onClick={onSubmit} >Зарегистрироваться</Button>
           <Link to={RoutesApp.SIGN_IN}>
             <Secondarybutton type="button">Войти</Secondarybutton>
           </Link>

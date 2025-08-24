@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 import { emptyFieldsValidator } from '../validators/emptyFieldsValidator';
+import { formatValidator } from '../validators/formatValidator';
 
 type FormData = Record<string, string>;
 type Errors = Record<string, boolean>;
@@ -32,6 +33,14 @@ export const useFormValidation = (initialFields: FormData) => {
       setError('Пожалуйста, заполните все поля');
       return false;
     }
+
+    const { hasErrors, errors: formatErrors, errorMessage } = formatValidator(formData);
+
+     if (hasErrors) {
+      setErrors(formatErrors);
+      setError(errorMessage || 'Ошибка валидации');
+      return false;
+    }
     setErrors({});
     setError('');
     return true;
@@ -42,6 +51,7 @@ export const useFormValidation = (initialFields: FormData) => {
     setFormData,
     errors,
     error,
+
     setError,
     setErrors,
     handleChange,
