@@ -3,14 +3,20 @@ import styled from 'styled-components';
 export const Header = styled.header`
   width: 100%;
   padding-top: 50px;
-  padding-bottom: 60px;
+  padding-bottom: 50px;
+
+    @media (max-width: 768px){
+   padding-top: 40px;
+  padding-bottom: 40px;
+  }
 `;
 
 export const Block = styled.div`
   display: flex;
-  flex-wrap: nowrap;
+ 
   align-items: center;
   justify-content: space-between;
+   
 `;
 
 export const LogoText = styled.p`
@@ -19,6 +25,12 @@ export const LogoText = styled.p`
 
   font-size: 18px;
   letter-spacing: 0px;
+      @media (max-width: 900px){
+   display:none;
+  }
+     @media (max-width: 768px){
+   display:none;
+  }
 `;
 
 export const LogoBlock = styled.div`
@@ -27,6 +39,7 @@ export const LogoBlock = styled.div`
 `;
 
 export const ProfileBlock = styled.div`
+position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -57,4 +70,13 @@ export const ProfileButton = styled.button`
     margin: -6px 0 0 5px;
     padding: 0;
   }
+
+    @media (max-width: 1024px){
+   display:none;
+  }
+
+     @media (max-width: 768px){
+   display:none;
+  }
 `;
+

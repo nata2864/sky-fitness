@@ -1,40 +1,68 @@
 import * as S from './Card.styled.tsx';
+import type { Course } from '../../data.tsx';
+import { getCourseImage } from '../../utils/getCourseImage/getCourseImage.ts';
+import { Link } from 'react-router-dom';
+import Progress from '../Progress/Progress.tsx';
+
+
 
 type CardProps = {
-  imageSrc: string;
-  imageAlt: string;
+  // imageSrc: string;
+  // imageAlt: string;
+  course: Course;
+  isFavorite: boolean;
 };
 
-function Card({ imageSrc, imageAlt }: CardProps) {
+function Card({ course, isFavorite }: CardProps) {
+  const srcMinusIcon = '../../../../public/removeIcon.svg';
+  const srcPlusIcon = '../../../../public/addIcon.svg';
+
+  const { nameEN, nameRU, durationInDays, dailyDurationInMinutes, difficulty,_id } =
+    course;
+  const srcPath = getCourseImage(nameEN);
+
+  
+
   return (
     <S.CourseCard>
-      <img src={imageSrc} alt={imageAlt} />
+      <Link to= {`/course/${_id}`}>
+        <S.ImageWrapper>
+          <S.CardImg $src={`/${srcPath}.png`}  />
+
+          <S.Icon
+            src={isFavorite ? srcMinusIcon : srcPlusIcon}
+            alt={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+          />
+        </S.ImageWrapper>
+      </Link>
 
       <S.CourseDiscription>
-        <S.Title>Йога</S.Title>
+        <S.Title>{nameRU}</S.Title>
         <S.Duration>
           <S.Badge>
-            {' '}
             <img src="../../../../public/time.svg" alt="time icon" />
-            25 дней
+            {durationInDays} дней
           </S.Badge>
           <S.Badge>
             <img src="../../../../public/calendar.svg" alt="calendar icon" />
-            20-50 мин/день
+            {`${dailyDurationInMinutes.from}-${dailyDurationInMinutes.to}`}{' '}
+            мин/день
           </S.Badge>
         </S.Duration>
 
         <S.Difficulty>
           <S.Badge>
-            {' '}
             <img
               src="../../../../public/difficulty.svg"
               alt="difficulty icon"
             />
-            Сложность{' '}
+            {difficulty}
           </S.Badge>
         </S.Difficulty>
+          <Progress/>
+          <S.CourseButton></S.CourseButton>
       </S.CourseDiscription>
+    
     </S.CourseCard>
   );
 }

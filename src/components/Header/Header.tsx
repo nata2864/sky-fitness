@@ -1,25 +1,27 @@
-// import { useState } from "react";
+import { useState } from "react";
 // import PopNewCard from "../PopUps/PopNewCard/PopNewCard";
 // import PopUserSet from "../PopUps/PopUserSet";
 // import PopExit from "../PopUps/PopExit/PopExit";
 import * as S from './Header.styled.tsx';
 import Container from '../../ui/Container.styled.tsx';
+import PopUserSet from "../../popUps/PopUserSet/PopUserSet.tsx";
 
 function Header() {
-  // const [isOpenPopUser, setIsOpenPopUser] = useState(false);
+  const [isOpenPopUser, setIsOpenPopUser] = useState(false);
   // const [isOpenPopCard, setIsOpenPopCard] = useState(false);
   // const [isOpenPopExit, setIsOpenPopExit] = useState(false);
 
-  // function handleClickPopupUser() {
-  //   setIsOpenPopUser((prev) => !prev);
-  // }
+  function handleClickPopupUser() {
+    setIsOpenPopUser((prev) => !prev);
+  }
   // function handleClickPopupCard() {
   //   setIsOpenPopCard(!isOpenPopCard);
   // }
 
   return (
-    <S.Header>
       <Container>
+    <S.Header>
+    
         <S.Block>
           <S.LogoBlock>
             <a href="#">
@@ -38,22 +40,23 @@ function Header() {
             <S.ProfileButton
               type="button"
               className="button_user"
-              // onClick={handleClickPopupUser}
+              onClick={handleClickPopupUser}
             >
               Ivan Ivanov
             </S.ProfileButton>
 
-            {/* <PopUserSet
+            <PopUserSet
               setIsOpenPopUser={setIsOpenPopUser}
-              setIsOpenPopExit={setIsOpenPopExit}
+              // setIsOpenPopExit={setIsOpenPopExit}
               isOpenPopUser={isOpenPopUser}
-            /> */}
+            />
           </S.ProfileBlock>
           {/* </div> */}
         </S.Block>
         {/* <PopExit isOpen={isOpenPopExit} onClose={() => setIsOpenPopExit(false)} /> */}
-      </Container>
+  
     </S.Header>
+        </Container>
   );
 }
 

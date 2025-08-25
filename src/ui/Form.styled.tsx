@@ -1,5 +1,17 @@
 import styled from 'styled-components';
 
+export const AuthContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  min-width: 320px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(95, 91, 91, 0.1);
+`;
+
 export const AuthWrapper = styled.div`
   border-radius: 30px;
   padding: 40px;
@@ -24,8 +36,13 @@ export const Logo = styled.img`
   margin-bottom: 48px;
 `;
 
-export const InputItem = styled.input`
+export const InputWrapper = styled.div`
+  width: 100%;
+`;
 
+export const InputItem = styled.input`
+  width: 100%;
+  box-sizing: border-box; 
   border-radius: 8px;
   padding: 16px 18px;
   border: 1px solid rgba(208, 206, 206, 1);
@@ -38,12 +55,11 @@ export const InputItem = styled.input`
     font-size: 18px;
     line-height: 110%;
     color: #d0cece;
-    opacity: 1; 
+    opacity: 1;
   }
 
   /* Firefox */
   :-moz-placeholder {
-  
     font-weight: 400;
     font-style: normal;
     font-size: 18px;

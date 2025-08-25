@@ -1,7 +1,7 @@
 import { Overlay } from '../../ui/Overlay.styled';
 import { AuthWrapper, Logo, FormFields, InputItem } from '../../ui/Form.styled';
 
-import { Button } from '../../ui/Button.styled';
+import { Button, Secondarybutton } from '../../ui/Button.styled';
 
 function PopUpSignUp() {
   return (
@@ -19,7 +19,7 @@ function PopUpSignUp() {
             />
           </FormFields>
           <Button type="submit">Зарегистрироваться</Button>
-          <Button type="button">Войти</Button>
+          <Secondarybutton type="button">Войти</Secondarybutton>
         </form>
       </AuthWrapper>
     </Overlay>

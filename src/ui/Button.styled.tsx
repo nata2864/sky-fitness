@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Button = styled.button`
-  width: 280px;
+  width: 100%;
   height: 52px;
   border-radius: 46px;
   gap: 10px;
@@ -23,3 +23,10 @@ export const Button = styled.button`
   border: none;
   margin-bottom: 10px;
 `;
+
+export const Secondarybutton = styled(Button)`
+background: transparent;
+border: 1px solid rgba(0, 0, 0, 1)
+`;
+
+
