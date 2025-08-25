@@ -1,9 +1,15 @@
 import Container from '../../ui/Container.styled';
 import * as S from "./CoursesList.styled"
 import Card from '../Card/Card';
-import {courses} from '../../data';
+// import {courses} from '../../data';
+import type { Course } from '../../sharesTypes/sharesTypes';
 
-function CoursesList() {
+
+type CoursesListProps ={
+courses: Course[]
+}
+
+function CoursesList({courses}:CoursesListProps) {
   return (
     <Container>
       <section>

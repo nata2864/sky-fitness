@@ -1,11 +1,38 @@
 import CoursesList from '../CoursesList/CoursesList';
 import Container from '../../ui/Container.styled';
 import * as S from './Main.styled';
+import { useCallback, useState, useEffect } from 'react';
+import { fetchAllCourses } from '../../services/api';
+import { handleAxiosError } from '../../utils/handleAxiosError/handleAxiosError';
+import type { Course } from '../../sharesTypes/sharesTypes';
 
 function Main() {
+
+const [courses, setCourses] = useState<Course[]>([]);
+
+   const getAllCourses = useCallback(async () => {
+
+    try {
+      const data = await fetchAllCourses();
+      if (data) setCourses(data);
+  
+    } catch (error) {
+      handleAxiosError(error);
+    } 
+    //  finally {
+    //      setLoading(false);
+    //   }
+    // Доделать загрузку
+   }, []);
+
+  useEffect(() => {
+    getAllCourses();
+  }, [getAllCourses]);
+
+      console.log(courses)
   return (
     <Container>
-      <section className="MainBlock">
+      <section >
         <S.TitleBlock>
           <S.Title>
             Начните заниматься спортом и улучшите качество жизни
@@ -15,7 +42,7 @@ function Main() {
             alt="Логотип к названию сайта"
           />
         </S.TitleBlock>
-       <CoursesList/>
+       <CoursesList courses={courses}/>
       </section>
       <S.Footer>
         <S.FooterButton>Наверх ↑</S.FooterButton>
