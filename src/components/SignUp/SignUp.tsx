@@ -8,10 +8,11 @@ import {
 } from '../../ui/Form.styled';
 import { RoutesApp } from '../../const';
 import { Button, Secondarybutton } from '../../ui/Button.styled';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useFormValidation } from '../../hooks/useFormValidation';
 
 function SignUp() {
+    const navigate = useNavigate();
   const { formData, errors, handleChange, validateForm, validateField } = useFormValidation({
     email: '',
     password: '',
@@ -27,6 +28,7 @@ function SignUp() {
       return;
     } else {
       console.log('Валидация прошла');
+       navigate(RoutesApp.SIGN_IN);
     }
 
     const dataToSend = {

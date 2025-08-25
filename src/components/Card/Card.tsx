@@ -2,6 +2,9 @@ import * as S from './Card.styled.tsx';
 import type { Course } from '../../data.tsx';
 import { getCourseImage } from '../../utils/getCourseImage/getCourseImage.ts';
 import { Link } from 'react-router-dom';
+import Progress from '../Progress/Progress.tsx';
+
+
 
 type CardProps = {
   // imageSrc: string;
@@ -56,7 +59,10 @@ function Card({ course, isFavorite }: CardProps) {
             {difficulty}
           </S.Badge>
         </S.Difficulty>
+          <Progress/>
+          <S.CourseButton></S.CourseButton>
       </S.CourseDiscription>
+    
     </S.CourseCard>
   );
 }

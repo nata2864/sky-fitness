@@ -47,7 +47,7 @@ height: 167px;
 
 export const FooterButton = styled(Button)`
 margin-top: 34px;
-/* width: 127px; */
+max-width: 172px;
 /* height: 52px; */
 padding-top: 16px;
 padding-right: 26px;

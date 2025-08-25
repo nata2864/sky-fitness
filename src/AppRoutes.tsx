@@ -7,14 +7,14 @@ import CoursePage from './pages/CoursePage/CoursePage';
 import SignInPage from './pages/SignInPage/SignInPage';
 import SignUpPage from './pages/SignUpPage/SignUpPage';
 import ProfilPage from './pages/ProfilPage/ProfilPage';
+import WorkOutPage from './pages/WorkOutPage/WorkOutPage';
 
 function AppRoutes() {
   return (
     <Routes>
       {/* <Route element={<PrivateRoute />}>
         <Route path={RoutesApp.MAIN} element={<MainPage />}
-          <Route path={RoutesApp.NEWCARD} element={<PopNewCardPage />} />
-          <Route path={RoutesApp.BROWSE} element={<PopBrowsePage />} />
+       
           <Route path={RoutesApp.EXIT} element={<PopExitPage />} />
         </Route>
       </Route> */}
@@ -23,7 +23,7 @@ function AppRoutes() {
       <Route element={<MainLayout />}>
         <Route path={RoutesApp.MAIN} element={<MainPage />} />
          <Route path="/course/:_id" element={<CoursePage />} />
-         //Исправить в будущем и вынести в константы
+          <Route path={RoutesApp.WORKOUT} element={<WorkOutPage />} />
         <Route path={RoutesApp.PROFILE} element={<ProfilPage />} />
          
       </Route>

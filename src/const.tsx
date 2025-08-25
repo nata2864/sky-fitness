@@ -7,6 +7,7 @@ export const RoutesApp = {
   PROFILE: "/profile",
   // BROWSE: "card/:id",
   EXIT: "/exit",
+  WORKOUT: "/workout"
 };
 
 //удалить ненужное

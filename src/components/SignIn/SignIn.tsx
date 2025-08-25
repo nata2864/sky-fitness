@@ -6,12 +6,14 @@ import {
   AuthContainer,
   InputWrapper
 } from '../../ui/Form.styled';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button, Secondarybutton } from '../../ui/Button.styled';
 import { useFormValidation } from '../../hooks/useFormValidation';
 import { RoutesApp } from '../../const';
 
+
 function SignIn() {
+    const navigate = useNavigate();
   const { formData, errors, handleChange, validateForm, validateField } = useFormValidation({
     email: '',
     password: '',
@@ -34,6 +36,7 @@ function SignIn() {
     };
 
     console.log('Отправляем:', dataToSend);
+     navigate(RoutesApp.MAIN);
   };
 
   return (

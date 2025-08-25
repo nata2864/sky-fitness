@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Button } from '../../ui/Button.styled';
 
 export const CourseCard = styled.div`
   max-width: 360px;
@@ -70,7 +71,7 @@ export const Difficulty = styled.div`
   line-height: 110.00000000000001%;
   letter-spacing: 0px;
   vertical-align: bottom;
-  margin-bottom: 15px;
+  margin-bottom: 30px;
 `;
 
 export const Badge = styled.div`
@@ -97,3 +98,10 @@ export const Badge = styled.div`
     height: 18px;
   }
 `;
+
+export const CourseButton = styled(Button)`
+margin-bottom: 15px;
+margin-top:30px;
+`
+
+
