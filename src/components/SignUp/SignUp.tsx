@@ -8,33 +8,45 @@ import {
 } from '../../ui/Form.styled';
 import { RoutesApp } from '../../const';
 import { Button, Secondarybutton } from '../../ui/Button.styled';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useFormValidation } from '../../hooks/useFormValidation';
+import { signUpUser } from '../../services/auth';
+import { handleAxiosError } from '../../utils/handleAxiosError/handleAxiosError';
 
 function SignUp() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const { formData, errors, handleChange, validateForm, validateField } = useFormValidation({
     email: '',
     password: '',
     confirmPassword: '',
   });
 
-  const onSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!validateForm(['email', 'password', 'confirmPassword'])) {
       console.log('Валидация не прошла');
       console.log(errors);
       return;
-    } else {
-      console.log('Валидация прошла');
-       navigate(RoutesApp.SIGN_IN);
-    }
+    } 
+    
+    // else {
+    //   console.log('Валидация прошла');
+    //    navigate(RoutesApp.SIGN_IN);
+    // }
 
     const dataToSend = {
       email: formData.email,
       password: formData.password,
     };
+ try {
+     signUpUser(dataToSend);
+      navigate(RoutesApp.SIGN_IN);
+    }
+      catch(error)  {
+        handleAxiosError(error);
+      };
+
 
     console.log('Отправляем:', dataToSend);
   };
@@ -43,7 +55,7 @@ function SignUp() {
     <AuthContainer>
       <AuthWrapper>
         <Logo src="./logo.svg" alt="Logo" />
-        <form>
+         <form onSubmit={onSubmit}>
           <FormFields>
             <InputWrapper>
               <InputItem
@@ -82,7 +94,7 @@ function SignUp() {
             </InputWrapper>
           </FormFields>
 
-          <Button type="submit" onClick={onSubmit}>
+          <Button type="submit">
             Зарегистрироваться
           </Button>
 

@@ -10,6 +10,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button, Secondarybutton } from '../../ui/Button.styled';
 import { useFormValidation } from '../../hooks/useFormValidation';
 import { RoutesApp } from '../../const';
+import { signInUser } from '../../services/auth';
+import { handleAxiosError } from '../../utils/handleAxiosError/handleAxiosError';
 
 
 function SignIn() {
@@ -19,31 +21,37 @@ function SignIn() {
     password: '',
   });
 
-  const onSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!validateForm(['email', 'password'])) {
       console.log('Валидация не прошла');
       console.log(errors);
       return;
-    } else {
-      console.log('Валидация прошла');
-    }
+    } 
 
     const dataToSend = {
       email: formData.email,
       password: formData.password,
     };
 
+     try {
+         signInUser(dataToSend);
+          navigate(RoutesApp.MAIN);
+        }
+          catch(error)  {
+            handleAxiosError(error);
+          };
+
     console.log('Отправляем:', dataToSend);
-     navigate(RoutesApp.MAIN);
+    //  navigate(RoutesApp.MAIN);
   };
 
   return (
     <AuthContainer>
       <AuthWrapper>
         <Logo src="./logo.svg" alt="Logo" />
-        <form>
+        <form onSubmit={onSubmit}>
           <FormFields>
             <InputWrapper>
               <InputItem
@@ -70,7 +78,7 @@ function SignIn() {
             </InputWrapper>
           </FormFields>
 
-          <Button type="submit" onClick={onSubmit}>
+          <Button type="submit" >
             Войти
           </Button>
 
