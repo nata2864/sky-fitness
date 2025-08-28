@@ -12,21 +12,27 @@ import PrivateRoute from './PrivateRoute';
 
 function AppRoutes() {
   return (
-    <Routes>
-      <Route element={<MainLayout />}>
-        <Route path={RoutesApp.MAIN} element={<MainPage />} />
-        <Route path="/course/:_id" element={<CoursePage />} />
-      </Route>
-      <Route path={RoutesApp.SIGN_IN} element={<SignInPage />} />
-      <Route path={RoutesApp.SIGN_UP} element={<SignUpPage />} />
+   <Routes>
+  {/* Публичные страницы в MainLayout */}
+  <Route element={<MainLayout />}>
+    <Route path={RoutesApp.MAIN} element={<MainPage />} />
+    <Route path="/course/:_id" element={<CoursePage />} />
 
-      <Route path={RoutesApp.NOT_FOUND} element={<NotFoundPage />} />
+    {/* Приватные страницы внутри PrivateRoute */}
+    <Route element={<PrivateRoute />}>
+      <Route path="/workouts/:_id" element={<WorkOutPage />} />
+      <Route path={RoutesApp.PROFILE} element={<ProfilPage />} />
+    </Route>
+  </Route>
 
-      <Route element={<PrivateRoute />}>
-        <Route path="/workouts/:_id" element={<WorkOutPage />} />
-        <Route path={RoutesApp.PROFILE} element={<ProfilPage />} />
-      </Route>
-    </Routes>
+  {/* Авторизация */}
+  <Route path={RoutesApp.SIGN_IN} element={<SignInPage />} />
+  <Route path={RoutesApp.SIGN_UP} element={<SignUpPage />} />
+
+  {/* 404 */}
+  <Route path={RoutesApp.NOT_FOUND} element={<NotFoundPage />} />
+</Routes>
+
   );
 }
 

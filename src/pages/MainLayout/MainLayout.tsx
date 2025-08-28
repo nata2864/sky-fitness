@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import { Wrapper } from "./MainLayout.styled";
 
-function MainPage() {
+function MainLayout() {
   return (
     <Wrapper>
       <Header />
@@ -12,4 +12,4 @@ function MainPage() {
   );
 }
 
-export default MainPage;
+export default MainLayout;

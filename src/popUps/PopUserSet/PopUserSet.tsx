@@ -2,9 +2,9 @@ import { useNavigate } from 'react-router-dom';
 
 import * as S from './PopUserSet.styled.ts';
 import { RoutesApp } from '../../const';
-import { getUsernameFromEmail } from "../../utils/getUsernameFromEmail/getUsernameFromEmail.ts";
-import { AuthContext } from "../../context/AuthContext";
-import { useContext } from "react";
+import { getUsernameFromEmail } from '../../utils/getUsernameFromEmail/getUsernameFromEmail.ts';
+import { AuthContext } from '../../context/AuthContext';
+import { useContext } from 'react';
 
 type PopUserSetProps = {
   setIsOpenPopUser: (open: boolean) => void;
@@ -13,16 +13,14 @@ type PopUserSetProps = {
 
 function PopUserSet({ setIsOpenPopUser, isOpenPopUser }: PopUserSetProps) {
   const { user } = useContext(AuthContext);
-   const parsedMail = getUsernameFromEmail(user?.login || '');
-
+  const parsedMail = getUsernameFromEmail(user?.login || '');
   const navigate = useNavigate();
 
   return (
     <S.PopUserSet $isOpen={isOpenPopUser}>
       <div>
         <S.UserName>{parsedMail}</S.UserName>
-        <S.UserMail>{ user?.login }</S.UserMail>
-
+        <S.UserMail>{user?.login}</S.UserMail>
         <S.PopUserButton
           type="button"
           onClick={() => {
@@ -32,7 +30,6 @@ function PopUserSet({ setIsOpenPopUser, isOpenPopUser }: PopUserSetProps) {
         >
           Мой профиль
         </S.PopUserButton>
-
         <S.PopUserSecondaryButton
           type="button"
           onClick={() => {
