@@ -1,7 +1,20 @@
-import CourseDescription from "../../components/CourseDescription/CourseDescription";
+// import CourseDescription from "../../components/CourseDescription/CourseDescription";
+// import WorkOutForm from "../../components/WorkOutForm/WorkOutForm ";
+
+import CourseDescription
+from "../../components/CourseDescription/Coursedescription";
+
+
 
 function CoursePage() {
-  return <CourseDescription />;
+   return (
+      <>
+  <CourseDescription />;
+     {/* <WorkOutForm/> */}
+  </>
+   )
+
+ 
 }
 
 export default CoursePage;

@@ -7,21 +7,32 @@ import {
 } from '../../ui/IconTextBlock.styled';
 import { useParams } from "react-router-dom";
 import courses from '../../data';
-
+import { useCallback, useState, useEffect } from 'react';
 import { getCourseImage } from '../../utils/getCourseImage/getCourseImage';
 import FooterContent from '../FooterContent/FooterContent';
+import { handleAxiosError } from '../../utils/handleAxiosError/handleAxiosError';
+import { fetchListWorkOuts } from '../../services/api';
+import type { WorkOut } from '../../sharesTypes/sharesTypes';
+import PopUpWorkOut from '../../popUps/PopUpWorkOut/PopUpWorkOut';
+
+
 
 
 
 function CourseDescription() {
-  const srcIcon = '/public/Sparcle.svg';
+ const [isOpenWorkOut, setIsOpenPopWorkOut] = useState(false);
+  const [workouts, setWorkouts] = useState<WorkOut[]>([]);
+ 
+  const srcIcon = '/Sparcle.svg';
     const {_id } = useParams();
 
     const course = courses.find(course => course._id === _id);
 
 if (!course) {
-  return ;
+  return null;
 }
+
+
 
 const { nameEN, fitting, directions } = course;
 const basePath = getCourseImage(nameEN);
@@ -31,6 +42,30 @@ const images = {
   mobile: `/${basePath}.png`,
 };
 
+if (!_id) return null;
+
+  const getListWorkOuts = useCallback(async () => {
+   
+    try {  
+      const data = await fetchListWorkOuts(_id);
+    if (data) setWorkouts(data);
+    }
+    
+     catch (error) {
+      handleAxiosError(error);
+    }},
+    
+  [_id]);
+
+  useEffect(() => {
+    getListWorkOuts();
+  }, [ getListWorkOuts]);
+
+
+
+   function handleClickPopUpWorkOut() {
+    setIsOpenPopWorkOut((prev) => !prev);
+  }
   return (
     <><Container>
       <S.DescriptionBlock>
@@ -71,50 +106,28 @@ const images = {
         </S.Directions>
       </S.DirectionsBlock>
    <S.FooterCourseDiscription>
-    <FooterContent/>
-        {/* <S.FooterContent>
-          <S.FooterTitle>Начните путь к новому телу</S.FooterTitle>
-          <S.FooterList>
-            <li>проработка всех групп мышц</li>
-            <li>тренировка суставов</li>
-            <li>улучшение циркуляции крови</li>
-            <li>упражнения заряжают бодростью</li>
-            <li>помогают противостоять стрессам</li>
-          </S.FooterList>
-          <Button>Добавить курс</Button>
-        </S.FooterContent> */}
-        {/* <S.FooterImage> */}
-    
-               {/* <S.FooterImage src="../../../../../../public/footerImg3.png" /> */}
-              {/* <img src="/greenLine.svg" alt="" /> */}
-                 <S.FooterImage src="../../../../../../public/footerImg.png" />
+    <FooterContent onClick ={handleClickPopUpWorkOut}/>
+      
+                 <S.FooterImage src="/footerImg.png" />
           
         {/* </S.FooterImage> */}
-      </S.FooterCourseDiscription>
+      </S.FooterCourseDiscription >
     </Container>
        
       <S.MobileFooter>
     {/* упрощённая верстка для мобилы */}
-    <S.MobileImage src="../../../../../../public/footerImg.png"/>
+    <S.MobileImage src="/footerImg.png"/>
      <Container>
       <S.MobileCard>
-       
-        {/* <S.MobileContent>
-      <h2>Начните путь к новому телу</h2>
-      <ul>
-        <li>проработка всех групп мышц</li>
-        <li>тренировка суставов</li>
-        <li>улучшение циркуляции крови</li>
-        <li>упражнения заряжают бодростью</li>
-        <li>помогают противостоять стрессам</li>
-      </ul>
-      <Button>Добавить курс</Button>
-      </S.MobileContent> */}
-      <FooterContent/>
-    
+      <FooterContent onClick ={handleClickPopUpWorkOut}/>
     </S.MobileCard>
    </Container>
+
   </S.MobileFooter>
+  <PopUpWorkOut
+  
+ workouts={workouts}
+              isOpenWorkOut={isOpenWorkOut}/>
     </>
     
   );

@@ -1,10 +1,13 @@
 import CoursesList from '../../components/CoursesList/CoursesList.tsx';
 import Container from '../../ui/Container.styled';
-import * as S from './ProfilPage.styled.tsx'
+import * as S from './ProfilPage.styled.tsx';
+import courses from "../../data.tsx"
+
 
 
 function ProfilPage() {
   
+  const mockData = courses;
 
   return (
  <Container>
@@ -24,7 +27,7 @@ function ProfilPage() {
     </section>
     <section>
        <S.Title>Мои курсы</S.Title> 
-       <CoursesList/>
+       <CoursesList courses ={mockData} isUserCourse={true}/>
     </section>
  </Container>
   );

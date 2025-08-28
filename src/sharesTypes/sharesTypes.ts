@@ -15,3 +15,21 @@ export type Course = {
   workouts: string[];
   __v: number;
 };
+
+export type Exercise = {
+  _id: string;
+  name: string;
+  quantity: number;
+}
+
+
+
+
+export type WorkOutLesson = 
+  {
+    _id: string,
+    name: string,
+    video: string,
+    exercises: Exercise[];
+  }
+

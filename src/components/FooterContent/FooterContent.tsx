@@ -1,7 +1,10 @@
 import * as S from "./FooterContent.styled";
 
+type FooterContentProps = {
+  onClick?: () => void;
+};
 
-function FooterContent () {
+function FooterContent ({ onClick }: FooterContentProps) {
     return (
            <S.ContentBlock>
                   <S.FooterTitle>Начните путь к новому телу</S.FooterTitle>
@@ -12,8 +15,8 @@ function FooterContent () {
                     <li>упражнения заряжают бодростью</li>
                     <li>помогают противостоять стрессам</li>
                   </S.FooterList>
-                  <S.FooterButton>Добавить курс</S.FooterButton>
-                </S.ContentBlock>
+                  <S.FooterButton onClick={onClick}>Добавить курс</S.FooterButton>
+           </S.ContentBlock>
     )
 }
 

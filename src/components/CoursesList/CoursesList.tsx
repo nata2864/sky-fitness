@@ -6,21 +6,20 @@ import type { Course } from '../../sharesTypes/sharesTypes';
 
 
 type CoursesListProps ={
-courses: Course[]
+courses: Course[],
+isUserCourse: boolean;
 }
 
-function CoursesList({courses}:CoursesListProps) {
+function CoursesList({courses, isUserCourse}:CoursesListProps) {
   return (
     <Container>
       <section>
         <S.Courses>
           {courses.map((course) => (
-            <Card
+            <Card isUserCourse={isUserCourse} 
               key={course._id}
-              // imageSrc={`/${course.nameEN}.png`} // путь к картинке из public
-              // imageAlt={course.nameEN} // можно использовать название курса
-              isFavorite={true}
               course={course}
+             
             />
           ))}
         </S.Courses>

@@ -9,6 +9,7 @@ import SignUpPage from './pages/SignUpPage/SignUpPage';
 import ProfilPage from './pages/ProfilPage/ProfilPage';
 import WorkOutPage from './pages/WorkOutPage/WorkOutPage';
 
+
 function AppRoutes() {
   return (
     <Routes>
@@ -23,7 +24,8 @@ function AppRoutes() {
       <Route element={<MainLayout />}>
         <Route path={RoutesApp.MAIN} element={<MainPage />} />
          <Route path="/course/:_id" element={<CoursePage />} />
-          <Route path={RoutesApp.WORKOUT} element={<WorkOutPage />} />
+          <Route path="/workouts/:_id" element={<WorkOutPage />} />
+     
         <Route path={RoutesApp.PROFILE} element={<ProfilPage />} />
          
       </Route>

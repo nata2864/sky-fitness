@@ -42,7 +42,7 @@ const [courses, setCourses] = useState<Course[]>([]);
             alt="Логотип к названию сайта"
           />
         </S.TitleBlock>
-       <CoursesList courses={courses}/>
+       <CoursesList courses={courses} isUserCourse={false}/>
       </section>
       <S.Footer>
         <S.FooterButton>Наверх ↑</S.FooterButton>

@@ -3,7 +3,8 @@ export const RoutesApp = {
   SIGN_IN: "/sign-in",
   SIGN_UP: "/sign-up",
   NOT_FOUND: "/*",
-  COURSE: "/course",
+
+// 
   PROFILE: "/profile",
   // BROWSE: "card/:id",
   EXIT: "/exit",
@@ -11,3 +12,5 @@ export const RoutesApp = {
 };
 
 //удалить ненужное
+
+export const getCoursePath = (id: string | number) => `/course/${id}`;

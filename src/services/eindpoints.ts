@@ -7,7 +7,12 @@ export const API_ENDPOINTS = {
 //   GET_SELECTION_BY_ID: (id:  string | number) => `/catalog/selection/${id}/`,
   GET_TOKEN: '/user/token/',
 GET_USER_DATA: '/users/me',
-  ADD_TO_FAVORITES: (id:string | number) => `/catalog/track/${id}/favorite/`,
+  // ADD_TO_FAVORITES: (id:string | number) => `/catalog/track/${id}/favorite/`,
   REMOVE_FROM_FAVORITES: (id:string | number) => `/catalog/track/${id}/favorite/`,
-  GET_FAVORITES: '/catalog/track/favorite/all/',
+  // GET_FAVORITES: '/catalog/track/favorite/all/',
+  GET_COURSE_BY_ID: (id:  string | number) => `/courses/${id}/`,
+    GET_LIST_WORKOUTS: (id:  string | number) => `/courses/${id}/workouts/`,
+
+    GET_WORKOUT_BY_ID: (id:  string | number) => `/workouts/${id}/`,
+
 };
