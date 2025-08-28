@@ -5,11 +5,18 @@ import { useState } from "react";
 import * as S from './Header.styled.tsx';
 import Container from '../../ui/Container.styled.tsx';
 import PopUserSet from "../../popUps/PopUserSet/PopUserSet.tsx";
+import { AuthContext } from "../../context/AuthContext";
+import { useContext } from "react";
+import { Button } from "../../ui/Button.styled.tsx";
+import { getUsernameFromEmail } from "../../utils/getUsernameFromEmail/getUsernameFromEmail.ts";
 
 function Header() {
   const [isOpenPopUser, setIsOpenPopUser] = useState(false);
   // const [isOpenPopCard, setIsOpenPopCard] = useState(false);
   // const [isOpenPopExit, setIsOpenPopExit] = useState(false);
+   const { user } = useContext(AuthContext);
+   console.log({user})
+  const parsedMail = getUsernameFromEmail(user?.login || '');
 
   function handleClickPopupUser() {
     setIsOpenPopUser((prev) => !prev);
@@ -33,16 +40,16 @@ function Header() {
             </a>
             <S.LogoText>Онлайн-тренировки для занятий дома</S.LogoText>
           </S.LogoBlock>
-
-          <S.ProfileBlock>
+  {user ? 
+  <S.ProfileBlock>
             {/* <PopNewCard isOpenPopCard ={isOpenPopCard} onClose={() => setIsOpenPopCard(false)}/> */}
-            <img src="../../../../../public/profile.svg" alt="Иконка профиля" />
+            <img src="/profile.svg" alt="Иконка профиля" />
             <S.ProfileButton
               type="button"
               className="button_user"
               onClick={handleClickPopupUser}
             >
-              Ivan Ivanov
+            {parsedMail}
             </S.ProfileButton>
 
             <PopUserSet
@@ -50,7 +57,8 @@ function Header() {
               // setIsOpenPopExit={setIsOpenPopExit}
               isOpenPopUser={isOpenPopUser}
             />
-          </S.ProfileBlock>
+          </S.ProfileBlock> : <Button >Войти</Button>}
+          
           {/* </div> */}
         </S.Block>
         {/* <PopExit isOpen={isOpenPopExit} onClose={() => setIsOpenPopExit(false)} /> */}

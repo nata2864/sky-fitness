@@ -4,9 +4,9 @@ import { AuthContext } from "./AuthContext";
 import { checkLocalStorage } from "../utils/checkLocalStorage/checkLocalStorage";
 
 // Тип данных пользователя
-export interface User {
-  name: string;
-  token: string;
+export type User ={
+  _id: string;
+  login: string;
 }
 
 // Тип пропсов провайдера

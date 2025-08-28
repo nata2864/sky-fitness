@@ -12,7 +12,7 @@ import { getCourseImage } from '../../utils/getCourseImage/getCourseImage';
 import FooterContent from '../FooterContent/FooterContent';
 import { handleAxiosError } from '../../utils/handleAxiosError/handleAxiosError';
 import { fetchListWorkOuts } from '../../services/api';
-import type { WorkOut } from '../../sharesTypes/sharesTypes';
+import type { WorkOutLesson } from '../../sharesTypes/sharesTypes';
 import PopUpWorkOut from '../../popUps/PopUpWorkOut/PopUpWorkOut';
 
 
@@ -21,7 +21,7 @@ import PopUpWorkOut from '../../popUps/PopUpWorkOut/PopUpWorkOut';
 
 function CourseDescription() {
  const [isOpenWorkOut, setIsOpenPopWorkOut] = useState(false);
-  const [workouts, setWorkouts] = useState<WorkOut[]>([]);
+  const [workouts, setWorkouts] = useState<WorkOutLesson[]>([]);
  
   const srcIcon = '/Sparcle.svg';
     const {_id } = useParams();

@@ -2,9 +2,9 @@ import { useNavigate } from 'react-router-dom';
 
 import * as S from './PopUserSet.styled.ts';
 import { RoutesApp } from '../../const';
-
-// import { AuthContext } from "../../../context/AuthContext";
-// import { useContext } from "react";
+import { getUsernameFromEmail } from "../../utils/getUsernameFromEmail/getUsernameFromEmail.ts";
+import { AuthContext } from "../../context/AuthContext";
+import { useContext } from "react";
 
 type PopUserSetProps = {
   setIsOpenPopUser: (open: boolean) => void;
@@ -12,15 +12,16 @@ type PopUserSetProps = {
 };
 
 function PopUserSet({ setIsOpenPopUser, isOpenPopUser }: PopUserSetProps) {
-  // const { user } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+   const parsedMail = getUsernameFromEmail(user?.login || '');
 
   const navigate = useNavigate();
 
   return (
     <S.PopUserSet $isOpen={isOpenPopUser}>
       <div>
-        <S.UserName>Ivan</S.UserName>
-        <S.UserMail>sergey.petrov96@mail.ru</S.UserMail>
+        <S.UserName>{parsedMail}</S.UserName>
+        <S.UserMail>{ user?.login }</S.UserMail>
 
         <S.PopUserButton
           type="button"

@@ -3,13 +3,13 @@
 
 import * as S from "./WorkOutForm.styled";
 // import { useState } from 'react';
-import type { WorkOut } from "../../sharesTypes/sharesTypes";
+import type { WorkOutLesson } from "../../sharesTypes/sharesTypes";
 import { parseCourseName } from "../../utils/parseCourseName/parseCourseName";
 import { Link } from "react-router-dom";
 
 
 type WorkOutFormtProps = {
- workouts: WorkOut[];
+ workouts: WorkOutLesson[];
 
 };
 
