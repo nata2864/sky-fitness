@@ -36,3 +36,16 @@ export async function fetchWorkOutsById(  id: string | number,): Promise<WorkOut
     },);
   return response.data;
 }
+
+
+
+export async function fetchCoursesById(  id: string | number,): Promise<Course> {
+  const response = await api.get
+
+ (API_ENDPOINTS.GET_COURSE_BY_ID(id), {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },);
+  return response.data;
+}

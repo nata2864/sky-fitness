@@ -36,7 +36,7 @@ function WorkOut() {
   }, [ getListWorkOuts]);
 
    
-  
+  console.log({workoutsLes});
     if (!workoutsLes) return null;
      const workoutTasks = workoutsLes.exercises
 console.log(workoutsLes);

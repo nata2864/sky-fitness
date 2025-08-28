@@ -40,7 +40,7 @@ function WorkOutForm ({workouts}:WorkOutFormtProps) {
 
    {workouts.map((workout, index) => {
           const parsed = parseCourseName(workout.name);
-console.log(workout.name)
+
           return (
                   <Link to= {`/workouts/${workout._id}`}>
             <S.WorkOutItem key={index}>

@@ -1,11 +1,11 @@
 import WorkOutForm from '../../components/WorkOutForm/WorkOutForm ';
 import { Overlay } from '../../ui/Overlay.styled';
 import * as S from "./PopUpWorkOut.styled";
-import type { WorkOut } from '../../sharesTypes/sharesTypes';
+import type { WorkOutLesson } from '../../sharesTypes/sharesTypes';
 
 
 type PopUpWorkOutProps = {
- workouts: WorkOut[];
+ workouts: WorkOutLesson[];
   isOpenWorkOut: boolean;
 };
 
