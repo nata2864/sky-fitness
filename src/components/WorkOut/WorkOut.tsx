@@ -7,16 +7,18 @@ import { useCallback, useState, useEffect } from 'react';
 import { fetchWorkOutsById} from '../../services/api';
 import type { WorkOutLesson } from '../../sharesTypes/sharesTypes';
 import { handleAxiosError } from '../../utils/handleAxiosError/handleAxiosError';
-
+import { useContext } from 'react';
+import { CourseContext } from '../../context/CourseContext';
 
 function WorkOut() {
 
   const [workoutsLes, setWorkoutsLes] = useState<WorkOutLesson| null>(null);
+  
 
      const {_id } = useParams();
      console.log({_id})
-
-     
+const { course } = useContext(CourseContext)!;
+       console.log({course})
 
        const getListWorkOuts = useCallback(async () => {
    if (!_id) return null;
@@ -48,7 +50,7 @@ console.log(workoutTasks);
     
     <>
     <Container>
-      <S.Title>Фитнес</S.Title>
+      <S.Title>{course?.nameRU}</S.Title>
 
 
 <S.VideoCourse 

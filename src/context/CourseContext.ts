@@ -1,13 +1,12 @@
 import { createContext } from "react";
-// import type { User } from "./AuthProvider";
+import type { Course } from "../sharesTypes/sharesTypes";
 
-// type CourseContextType = {
-//   user: User | null;
-//   login: (loginData: User) => boolean;
-//   logout: () => boolean;
-//   updateUserInfo: (userData: User | null) => void;
-// }
+export type CourseContextValue = {
+  course: Course | null;
+  loading: boolean;
+  getCourseById: (id: string) => Promise<void>;
+}
 
-
-
-export const CourseContext = createContext(null); 
+export const CourseContext = createContext<CourseContextValue | undefined>(
+  undefined
+);

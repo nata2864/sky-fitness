@@ -6,20 +6,31 @@ import {
   IconText,
 } from '../../ui/IconTextBlock.styled';
 import { useParams } from 'react-router-dom';
-import courses from '../../data';
-import { useCallback, useState, useEffect } from 'react';
+// import courses from '../../data';
+import {  useState, useEffect } from 'react';
 import { getCourseImage } from '../../utils/getCourseImage/getCourseImage';
 import FooterContent from '../FooterContent/FooterContent';
-
+import { useContext } from 'react';
 import PopUpWorkOut from '../../popUps/PopUpWorkOut/PopUpWorkOut';
 import { useWorkoutsList } from '../../hooks/useWorkoutsList';
+import { CourseContext } from '../../context/CourseContext';
 
 function CourseDescription() {
   const [isOpenWorkOut, setIsOpenPopWorkOut] = useState(false);
   const { _id } = useParams();
   const { workouts } = useWorkoutsList(_id);
+ const { course, getCourseById } = useContext(CourseContext)!;
+
+ console.log({course})
   const srcIcon = '/Sparcle.svg';
-  const course = courses.find((course) => course._id === _id);
+  // const course = courses.find((course) => course._id === _id);
+
+  if (!_id) {
+  return null; // или можно редирект сделать
+}
+  useEffect(() => {
+  getCourseById(_id); 
+}, []);
 
   if (!course) {
     return null;
@@ -33,20 +44,6 @@ function CourseDescription() {
   };
 
 
-
-  //     const data = await fetchListWorkOuts(_id);
-  //   if (data) setWorkouts(data);
-  //   }
-
-  //    catch (error) {
-  //     handleAxiosError(error);
-  //   }},
-
-  // [_id]);
-
-  // useEffect(() => {
-  //   getListWorkOuts();
-  // }, [ getListWorkOuts]);
 
   function handleClickPopUpWorkOut() {
     setIsOpenPopWorkOut((prev) => !prev);

@@ -1,13 +1,16 @@
 import { Outlet } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import { Wrapper } from "./MainLayout.styled";
+import CourseProvider from "../../context/CourseProvider";
 
 function MainLayout() {
   return (
     <Wrapper>
       <Header />
-      
-      <Outlet />
+      <CourseProvider>
+         <Outlet />
+      </CourseProvider>
+     
     </Wrapper>
   );
 }
