@@ -1,5 +1,5 @@
 
-import type { Course, WorkOut } from '../sharesTypes/sharesTypes';
+import type { Course, WorkOutLesson } from '../sharesTypes/sharesTypes';
 import api from './axios';
 import { API_ENDPOINTS } from './eindpoints';
 
@@ -14,7 +14,7 @@ export async function fetchAllCourses(): Promise<Course[]> {
   return response.data;
 }
 
-export async function fetchListWorkOuts(  id: string | number,): Promise<WorkOut[]> {
+export async function fetchListWorkOuts(  id: string | number,): Promise<WorkOutLesson[]> {
   const response = await api.get
 
  (API_ENDPOINTS.GET_LIST_WORKOUTS(id), {
@@ -26,7 +26,7 @@ export async function fetchListWorkOuts(  id: string | number,): Promise<WorkOut
 }
 
 
-export async function fetchWorkOutsById(  id: string | number,): Promise<WorkOut> {
+export async function fetchWorkOutsById(  id: string | number,): Promise<WorkOutLesson> {
   const response = await api.get
 
  (API_ENDPOINTS.GET_WORKOUT_BY_ID(id), {
