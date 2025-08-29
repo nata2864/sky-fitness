@@ -9,10 +9,12 @@ import type { WorkOutLesson } from '../../sharesTypes/sharesTypes';
 import { handleAxiosError } from '../../utils/handleAxiosError/handleAxiosError';
 import { useContext } from 'react';
 import { CourseContext } from '../../context/CourseContext';
+import PopMyProgress from '../../popUps/PopMyProgress/PopMyProgress';
 
 function WorkOut() {
 
   const [workoutsLes, setWorkoutsLes] = useState<WorkOutLesson| null>(null);
+  
   
 
      const {_id } = useParams();
@@ -40,44 +42,42 @@ const { course } = useContext(CourseContext)!;
    
   console.log({workoutsLes});
     if (!workoutsLes) return null;
-     const workoutTasks = workoutsLes.exercises
-console.log(workoutsLes);
-     
-console.log(workoutTasks);
-  return (
+     const workoutTasks = workoutsLes.exercises;
+         const hasTasks = workoutTasks && workoutTasks.length > 0;
 
-
-    
+ return (
     <>
-    <Container>
-      <S.Title>{course?.nameRU}</S.Title>
+      <Container>
+        <S.Title>{course?.nameRU}</S.Title>
 
+        <S.VideoCourse 
+          src={workoutsLes.video}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
 
-<S.VideoCourse 
-  src={workoutsLes.video}
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-  allowFullScreen
-/>
+        <S.CourseProgressBlock>
+          <S.CourseProgressTitle>{workoutsLes.name}</S.CourseProgressTitle>
+          <S.CourseProgressBox>
+            {hasTasks && workoutTasks.map((workOuttask, index) => (
+              <S.ProgressBlock key={index}>
+                <S.ProgressText>{workOuttask.name}</S.ProgressText>
+                <S.ProgressBar type="range" value={50} max={100}/>
+              </S.ProgressBlock>
+            ))}
+          </S.CourseProgressBox>
 
+          {hasTasks && (
+            <S.CourseProgressButton>
+              Заполнить свой прогресс
+            </S.CourseProgressButton>
+          )}
+        </S.CourseProgressBlock>
+      </Container>
 
-
-      <S.CourseProgressBlock>
-        <S.CourseProgressTitle>{workoutsLes.name}</S.CourseProgressTitle>
-        <S.CourseProgressBox>
-
-          {workoutTasks.map((workOuttask, index)=>{ return( <S.ProgressBlock key ={index}>
-              <S.ProgressText>{workOuttask.name}</S.ProgressText>
-              <S.ProgressBar type="range" value={50} max={100}/>
-          </S.ProgressBlock>)})}
-         
-
-        </S.CourseProgressBox>
-            <S.CourseProgressButton>Заполнить свой прогресс</S.CourseProgressButton>
-      </S.CourseProgressBlock>
-    </Container>
-    {/* <ProgressForm/> */}
+      {hasTasks && <PopMyProgress workoutTasks={workoutTasks} />}
     </>
-  );
+      );
 }
 
 export default WorkOut;
