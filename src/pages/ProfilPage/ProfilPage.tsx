@@ -1,11 +1,51 @@
 import CoursesList from '../../components/CoursesList/CoursesList.tsx';
 import Container from '../../ui/Container.styled';
-import * as S from './ProfilPage.styled.tsx'
+import * as S from './ProfilPage.styled.tsx';
+import courses from "../../data.tsx";
+import { getUsernameFromEmail } from "../../utils/getUsernameFromEmail/getUsernameFromEmail.ts";
+import { AuthContext } from "../../context/AuthContext";
+import { useContext } from "react";
+
+// import { useState } from 'react';
+// import type { Course } from '../../sharesTypes/sharesTypes.ts';
+// import { handleAxiosError } from '../../utils/handleAxiosError/handleAxiosError';
 
 
 function ProfilPage() {
-  
+    const { user } = useContext(AuthContext);
+   const parsedMail = getUsernameFromEmail(user?.login || '');
 
+  const mockData = courses;
+
+
+  //  const getAllUsersCourses = useCallback(async () => {
+
+  //   try {
+  //     const data = await fetchAllUsersCourses();
+  //     if (data) setUsersCourses(data);
+  
+  //   } catch (error) {
+  //     handleAxiosError(error);
+  //   } 
+  //   //  finally {
+  //   //      setLoading(false);
+  //   //   }
+  //   // Доделать загрузку
+  //  }, []);
+
+  // useEffect(() => {
+  //   getAllUsersCourses();
+  // }, [getAllUsersCourses]);
+
+  //     console.log({usersCourses})
+
+
+
+
+
+
+
+  
   return (
  <Container>
     <section>
@@ -14,8 +54,8 @@ function ProfilPage() {
     <S.ImageTextBlock>
   <S.ProfilIeImg src="/profil.jpg" alt="" />
 < S.ProfilInfoBox>
-<S.UserName>Сергей</S.UserName>
-<S.UserLogin>Логин: sergey.petrov96</S.UserLogin>
+<S.UserName>{parsedMail}</S.UserName>
+<S.UserLogin>Логин: { user?.login }</S.UserLogin>
 <S.UserButton type="button">Выйти</S.UserButton>
 </S.ProfilInfoBox>
     </S.ImageTextBlock>
@@ -24,7 +64,7 @@ function ProfilPage() {
     </section>
     <section>
        <S.Title>Мои курсы</S.Title> 
-       <CoursesList/>
+       <CoursesList courses ={mockData} isUserCourse={true}/>
     </section>
  </Container>
   );

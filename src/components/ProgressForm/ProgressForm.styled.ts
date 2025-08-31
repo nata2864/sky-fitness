@@ -17,7 +17,7 @@ export const ProgressWrapper = styled(AuthWrapper)`
 `;
 
 export const ProgressFormFields = styled(FormFields)`
-min-width: 320px;
+min-width: 300px;
 
 `;                                            
 

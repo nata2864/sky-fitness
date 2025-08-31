@@ -1,6 +1,6 @@
 type FormatValidationResult = {
   hasErrors: boolean;
-  errors: Record<string, string | null>; // теперь храним текст ошибки
+  errors: Record<string, string | null>; 
 };
 
 export const formatValidator = (values: Record<string, string>): FormatValidationResult => {
@@ -11,7 +11,7 @@ export const formatValidator = (values: Record<string, string>): FormatValidatio
     const email = values.email.trim();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      errors.email = 'Неверный формат email';
+      errors.email = 'Введите корректный Email';
       hasErrors = true;
     } else {
       errors.email = null;
@@ -20,10 +20,23 @@ export const formatValidator = (values: Record<string, string>): FormatValidatio
 
   if ('password' in values) {
     const password = values.password;
+
+    // базовая проверка длины
     if (password.length < 6) {
-      errors.password = 'Пароль должен быть не менее 6 символов';
+      errors.password = 'Пароль должен содержать не менее 6 символов';
       hasErrors = true;
-    } else {
+    } 
+    // проверка спецсимволов (минимум 2)
+    else if ((password.match(/[^A-Za-z0-9]/g) || []).length < 2) {
+      errors.password = 'Пароль должен содержать не менее 2 спецсимволов';
+      hasErrors = true;
+    } 
+    // проверка заглавной буквы
+    else if (!/[A-Z]/.test(password)) {
+      errors.password = 'Пароль должен содержать как минимум одну заглавную букву';
+      hasErrors = true;
+    } 
+    else {
       errors.password = null;
     }
 

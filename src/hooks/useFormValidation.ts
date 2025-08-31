@@ -5,15 +5,15 @@ import { emptyFieldsValidator } from '../validators/emptyFieldsValidator';
 import { formatValidator } from '../validators/formatValidator';
 
 type FormData = Record<string, string>;
-type Errors = Record<string, string | null>; // текст ошибки по полю или null
+type Errors = Record<string, string | null>; 
 
 export const useFormValidation = (initialFields: FormData) => {
   const [formData, setFormData] = useState<FormData>(initialFields);
   const [errors, setErrors] = useState<Errors>({});
-  const [error, setError] = useState<string>(''); // можно использовать для общей ошибки, если нужно
+  const [error, setError] = useState<string>(''); 
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -22,34 +22,35 @@ export const useFormValidation = (initialFields: FormData) => {
   };
 
   // Валидация одного поля (для onBlur)
-  const validateField = (name: string, requiredFields: string[]): string | null => {
-  let fieldError: string | null = null;
+  const validateField = (
+    name: string,
+    requiredFields: string[]
+  ): string | null => {
+    let fieldError: string | null = null;
 
-  // Проверка на пустоту
-  if (requiredFields.includes(name)) {
-    const { hasEmpty, errors: emptyErrors } = emptyFieldsValidator(
-      { [name]: formData[name] },
-      [name],
-    );
-    if (hasEmpty && emptyErrors[name]) {
-      fieldError = 'Поле обязательно для заполнения';
+ 
+    if (requiredFields.includes(name)) {
+      const { hasEmpty, errors: emptyErrors } = emptyFieldsValidator(
+        { [name]: formData[name] },
+        [name]
+      );
+      if (hasEmpty && emptyErrors[name]) {
+        fieldError = 'Поле обязательно для заполнения';
+      }
     }
-  }
 
-  // Проверка формата (передаём всю форму, чтобы confirmPassword мог сравниваться)
-  if (!fieldError) {
-    const { hasErrors, errors: formatErrors } = formatValidator(formData);
-    if (hasErrors && formatErrors[name]) {
-      fieldError = formatErrors[name];
+    if (!fieldError) {
+      const { hasErrors, errors: formatErrors } = formatValidator(formData);
+      if (hasErrors && formatErrors[name]) {
+        fieldError = formatErrors[name];
+      }
     }
-  }
 
-  setErrors((prev) => ({ ...prev, [name]: fieldError }));
-  return fieldError;
-};
+    setErrors((prev) => ({ ...prev, [name]: fieldError }));
+    return fieldError;
+  };
 
-
-  // Валидация всей формы (для onSubmit)
+ 
   const validateForm = (requiredFields: string[]): boolean => {
     const newErrors: Errors = {};
     let hasError = false;

@@ -3,48 +3,72 @@ import type { Course } from '../../data.tsx';
 import { getCourseImage } from '../../utils/getCourseImage/getCourseImage.ts';
 import { Link } from 'react-router-dom';
 import Progress from '../Progress/Progress.tsx';
-
-
+import { Button } from '../../ui/Button.styled.tsx';
+import { CourseContext } from '../../context/CourseContext';
+import { useContext } from 'react';
 
 type CardProps = {
-  // imageSrc: string;
-  // imageAlt: string;
   course: Course;
-  isFavorite: boolean;
+  isUserCourse: boolean;
+    onClick?: () => void;
+    selectedCourseId?: string | null;
 };
 
-function Card({ course, isFavorite }: CardProps) {
-  const srcMinusIcon = '../../../../public/removeIcon.svg';
-  const srcPlusIcon = '../../../../public/addIcon.svg';
+function Card({ course, isUserCourse, onClick, selectedCourseId }: CardProps) {
+  // const srcMinusIcon = '/removeIcon.svg';
+  // const srcPlusIcon = '/addIcon.svg';
 
-  const { nameEN, nameRU, durationInDays, dailyDurationInMinutes, difficulty,_id } =
-    course;
+    const context = useContext(CourseContext);
+  
+    if (!context) {
+      // Можно отрендерить заглушку, если контекста нет
+      return null;
+    }
+  
+
+    const { addCourseToFavorites} = context;
+
+  const {
+    nameEN,
+    nameRU,
+    durationInDays,
+    dailyDurationInMinutes,
+    difficulty,
+    _id,
+  } = course;
   const srcPath = getCourseImage(nameEN);
 
+  console.log({selectedCourseId})
+
+  function handleAddToFavorites(){
+ 
+if (selectedCourseId) {
+  addCourseToFavorites(selectedCourseId);
+}
   
+}
 
   return (
     <S.CourseCard>
-      <Link to= {`/course/${_id}`}>
+      <Link to={`/course/${_id}`}>
         <S.ImageWrapper>
-          <S.CardImg $src={`/${srcPath}.png`}  />
-
+          <S.CardImg $src={`/${srcPath}.png`} />
           <S.Icon
-            src={isFavorite ? srcMinusIcon : srcPlusIcon}
-            alt={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+            src={isUserCourse ? '/removeIcon.svg' : '/addIcon.svg'}
+            alt={isUserCourse ? 'Remove from favorites' : 'Add to favorites'}
           />
         </S.ImageWrapper>
       </Link>
 
-      <S.CourseDiscription>
+      <S.CourseDiscription onClick={onClick}>
         <S.Title>{nameRU}</S.Title>
         <S.Duration>
           <S.Badge>
-            <img src="../../../../public/time.svg" alt="time icon" />
+            <img src="/time.svg" alt="time icon" />
             {durationInDays} дней
           </S.Badge>
           <S.Badge>
-            <img src="../../../../public/calendar.svg" alt="calendar icon" />
+            <img src="/calendar.svg" alt="calendar icon" />
             {`${dailyDurationInMinutes.from}-${dailyDurationInMinutes.to}`}{' '}
             мин/день
           </S.Badge>
@@ -52,17 +76,18 @@ function Card({ course, isFavorite }: CardProps) {
 
         <S.Difficulty>
           <S.Badge>
-            <img
-              src="../../../../public/difficulty.svg"
-              alt="difficulty icon"
-            />
+            <img src="/difficulty.svg" alt="difficulty icon" />
             {difficulty}
           </S.Badge>
         </S.Difficulty>
-          <Progress/>
-          <S.CourseButton></S.CourseButton>
+        <Button onClick={handleAddToFavorites}>Добавить курс</Button>
+        {isUserCourse && (
+          <>
+            <Progress />
+            <S.CourseButton>Начать тренировки</S.CourseButton>
+          </>
+        )}
       </S.CourseDiscription>
-    
     </S.CourseCard>
   );
 }

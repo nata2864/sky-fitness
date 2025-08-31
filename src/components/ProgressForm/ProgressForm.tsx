@@ -1,85 +1,74 @@
 import {
-
-
   FormFields,
   InputItem,
-//   AuthContainer,
   InputWrapper
 } from '../../ui/Form.styled';
-
 import { Button } from '../../ui/Button.styled';
 import { Overlay } from '../../ui/Overlay.styled';
-import * as S from "./ProgressForm.styled"
+import * as S from "./ProgressForm.styled";
+import type { Exercise } from '../../sharesTypes/sharesTypes';
+import { getExerciseQuestion } from '../../utils/getExerciseQuestion/getExerciseQuestion';
+import { useState } from 'react';
+
+
+type ProgressFormProps = {
+  workoutTasks: Exercise[];
+  courseId: string;
+  workoutId: string;
+  updateProgress: (courseId: string, workoutId: string, progressData: number[]) => Promise<void>;
+};
 
 
 
-function ProgressForm() {
+function ProgressForm({ workoutTasks, courseId, workoutId, updateProgress }: ProgressFormProps) {
 
+    const [formValues, setFormValues] = useState<{ [key: string]: string }>({});
 
-  const onSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormValues((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
- 
-
-    // const dataToSend = {
-    //   email: email,
-    //   password: fpassword,
-    // };
-
-    // console.log('Отправляем:', dataToSend);
    
+
+    const progressData = workoutTasks.map((_, index) =>
+      Number(formValues[`exercise-${index}`] || 0)
+    );
+
+    if (courseId && workoutId) {
+      await updateProgress(courseId, workoutId, progressData);
+    }
   };
+
+   console.log({workoutTasks})
 
   return (
     <Overlay>
       <S.ProgressWrapper>
-      <S.ProgressFormTitle>Мой прогресс</S.ProgressFormTitle>
-        <form>
+        <S.ProgressFormTitle>Мой прогресс</S.ProgressFormTitle>
+      <form onSubmit={onSubmit}>
           <FormFields>
-            <InputWrapper>
-            <S.InputText>Сколько раз вы сделали наклоны вперед?</S.InputText>
-              <InputItem
-                name="email"
-                type="email"
-                placeholder="0"
-                // onChange={handleChange}
-            
-                // value={email}
-              />
-           
-            </InputWrapper>
-
-            <InputWrapper>
-               <S.InputText>Сколько раз вы сделали наклоны назад?</S.InputText>
-              <InputItem
-                name="password"
-                type="password"
-                placeholder="0"
-                // onChange={handleChange}
-              
-                // value={password}
-              />
-            
-            </InputWrapper>
-               <InputWrapper>
-               <S.InputText>Сколько раз вы сделали поднятие ног, согнутых в коленях?</S.InputText>
-              <InputItem
-                name="password"
-                type="password"
-                placeholder="0"
-                // onChange={handleChange}
-              
-                // value={password}
-              />
-            
-            </InputWrapper>
+            {workoutTasks.map((task, index) => (
+              <InputWrapper key={task._id || index}>
+                <S.InputText>{getExerciseQuestion(task.name)}</S.InputText>
+                <InputItem
+                  name={`exercise-${index}`}
+                  type="number"
+                  placeholder="0"
+                  value={formValues[`exercise-${index}`] || ""}
+                  onChange={handleChange}
+                />
+              </InputWrapper>
+            ))}
           </FormFields>
 
           <Button type="submit" onClick={onSubmit}>
-         Сохранить
+            Сохранить
           </Button>
-</form>
-       
+        </form>
       </S.ProgressWrapper>
     </Overlay>
   );
