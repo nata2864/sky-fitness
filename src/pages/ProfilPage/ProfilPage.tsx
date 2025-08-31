@@ -14,6 +14,7 @@ function ProfilPage() {
 
   const mockData = courses;
 
+  
   return (
  <Container>
     <section>

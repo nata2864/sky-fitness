@@ -3,19 +3,27 @@
 
 import * as S from "./WorkOutForm.styled";
 // import { useState } from 'react';
-import type { WorkOutLesson } from "../../sharesTypes/sharesTypes";
+import type {  WorkOutLesson } from "../../sharesTypes/sharesTypes";
 import { parseCourseName } from "../../utils/parseCourseName/parseCourseName";
 import { Link } from "react-router-dom";
 
 
 type WorkOutFormtProps = {
  workouts: WorkOutLesson[];
+ courseId:string|undefined
 
 };
 
+//временно
 
 
-function WorkOutForm ({workouts}:WorkOutFormtProps) {
+// type WorkOutFormtProps = {
+//  workouts: string[];
+
+// };
+
+
+function WorkOutForm ({workouts,courseId}:WorkOutFormtProps) {
 
 // const [isActiveCheckMark, setIsActiveCheckMark] = useState(true)
 
@@ -23,6 +31,7 @@ function WorkOutForm ({workouts}:WorkOutFormtProps) {
 //    setIsActiveCheckMark((prev) => !prev);
 // }
   console.log({workouts})
+  // if(!courseId)return
 
   return (
     <>
@@ -42,7 +51,8 @@ function WorkOutForm ({workouts}:WorkOutFormtProps) {
           const parsed = parseCourseName(workout.name);
 
           return (
-                  <Link to= {`/workouts/${workout._id}`}>
+                  <Link to= {`/course/${courseId}/workouts/${workout._id}`}>
+                
             <S.WorkOutItem key={index}>
               <S.CheckMark />
               <S.WorkOutText>

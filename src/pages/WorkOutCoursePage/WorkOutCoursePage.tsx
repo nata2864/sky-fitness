@@ -1,7 +1,7 @@
 // import WorkOut from "../../components/WorkOut/WorkOut";
 import WorkOut from "../../components/WorkOut/WorkOut";
 
-function WorkOutPage() {
+function WorkOutCoursePage() {
   return (
     <>
     <WorkOut/>
@@ -9,4 +9,4 @@ function WorkOutPage() {
   );
 }
 
-export default WorkOutPage;
+export default WorkOutCoursePage;

@@ -1,5 +1,8 @@
 import styled from 'styled-components';
 
+
+// Нужно AuthContainer вынести в отдельный компоненте
+
 export const AuthContainer = styled.div`
   width: 100%;
   height: 100%;

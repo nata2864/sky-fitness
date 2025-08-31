@@ -1,5 +1,5 @@
 
-import type { Course, WorkOutLesson } from '../sharesTypes/sharesTypes';
+import type { Course, WorkOutLesson, ProgressData } from '../sharesTypes/sharesTypes';
 import api from './axios';
 import { API_ENDPOINTS } from './eindpoints';
 
@@ -49,3 +49,161 @@ export async function fetchCoursesById(  id: string | number,): Promise<Course> 
     },);
   return response.data;
 }
+
+ 
+export async function fetchProgressWorkOutById(params: {
+  courseId: string;
+  workoutId: string;
+
+}): Promise<ProgressData> {
+  const { courseId, workoutId } = params;
+
+  const response = await api.get(API_ENDPOINTS.GET_PROGRESS_WORKOUT_BY_ID(), {
+  params: { courseId, workoutId },
+  headers: { Authorization: `Bearer ${token}` },
+});
+
+  return response.data
+}
+
+
+
+// export async function addFavoriteCourse(courseId: string): Promise<Course[]> {
+//   const response = await api.post(
+//     API_ENDPOINTS.ADD_TO_FAVORITES( courseId),
+//    null , // <- тело запроса
+//     {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//     }
+//   );
+//   return response.data;
+// }
+
+export async function addFavoriteCourse(courseId: string): Promise<any> {
+
+
+  
+  const response = await api.post(
+    API_ENDPOINTS.ADD_TO_FAVORITES(), // /api/fitness/users/me/courses
+    JSON.stringify({ courseId }),     // тело запроса в виде строки
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': '',
+      },
+    }
+  );
+
+
+  return response.data;
+}
+
+
+// export async function patchProgressWorkOut(params: { 
+//   courseId: string; 
+//   workoutId: string; 
+//   progressData: number[];
+// }): Promise<ProgressData> {
+//   const { courseId, workoutId, progressData } = params;
+
+//   const formData = new FormData();
+//   // 👇 кладём массив в JSON, чтобы на бэке его можно было распарсить
+//   formData.append('progressData', JSON.stringify(progressData));
+
+//   const response = await api.patch(
+//     API_ENDPOINTS.PATCH_PROGRESS_WORKOUT_BY_ID(courseId, workoutId),
+//     formData,
+//     {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//         'Content-Type': '',
+//       },
+//     }
+//   );
+
+//   return response.data;
+// }
+
+// export async function patchProgressWorkOut(params: { 
+//   courseId: string; 
+//   workoutId: string; 
+//   progressData: number[];
+// }): Promise<ProgressData> {
+//   const { courseId, workoutId, progressData } = params;
+
+//   const formData = new FormData();
+//   formData.append('progressData', JSON.stringify(progressData));
+
+//   // --- Логи для отладки ---
+//   console.log("➡️ PATCH url:", API_ENDPOINTS.PATCH_PROGRESS_WORKOUT_BY_ID(courseId, workoutId));
+//   console.log("➡️ PATCH payload (FormData):", progressData);
+//   console.log("➡️ FormData entries:");
+//   for (const pair of formData.entries()) {
+//     console.log(pair[0], pair[1]);
+//   }
+
+//   const response = await api.patch(
+//     API_ENDPOINTS.PATCH_PROGRESS_WORKOUT_BY_ID(courseId, workoutId),
+//     formData,
+//     {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//         'Content-Type': '', // оставляем пустым, axios сам подставит multipart/form-data
+//       },
+//     }
+//   );
+
+//   console.log("⬅️ Response:", response.data); // чтобы увидеть, что вернул сервер
+//   return response.data;
+// }
+
+
+
+export async function patchProgressWorkOut(params: { 
+  courseId: string; 
+  workoutId: string; 
+  progressData: number[];
+}): Promise<ProgressData> {
+  const { courseId, workoutId, progressData } = params;
+
+  // превращаем объект в JSON-строку вручную
+  const body = JSON.stringify({ progressData });
+
+  const response = await api.patch(
+    `/courses/${courseId}/workouts/${workoutId}`,
+    body, // строка, а не объект
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': '', // важно оставить пустым, чтобы сервер не ругался
+      },
+    }
+  );
+
+  return response.data;
+}
+
+export interface CourseProgress {
+  courseId: string;
+  courseCompleted: boolean;
+  workoutsProgress: {
+    workoutId: string;
+    workoutCompleted: boolean;
+    progressData: number[];
+  }[];
+}
+
+// --- Получить прогресс по всему курсу ---
+export async function fetchCourseProgress(courseId: string): Promise<CourseProgress> {
+  const response = await api.get(API_ENDPOINTS.GET_COURSE_PROGRESS(), {
+    params: { courseId },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data;
+}
+

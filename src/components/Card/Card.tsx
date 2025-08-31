@@ -3,15 +3,30 @@ import type { Course } from '../../data.tsx';
 import { getCourseImage } from '../../utils/getCourseImage/getCourseImage.ts';
 import { Link } from 'react-router-dom';
 import Progress from '../Progress/Progress.tsx';
+import { Button } from '../../ui/Button.styled.tsx';
+import { CourseContext } from '../../context/CourseContext';
+import { useContext } from 'react';
 
 type CardProps = {
   course: Course;
   isUserCourse: boolean;
+    onClick?: () => void;
+    selectedCourseId?: string | null;
 };
 
-function Card({ course, isUserCourse }: CardProps) {
+function Card({ course, isUserCourse, onClick, selectedCourseId }: CardProps) {
   // const srcMinusIcon = '/removeIcon.svg';
   // const srcPlusIcon = '/addIcon.svg';
+
+    const context = useContext(CourseContext);
+  
+    if (!context) {
+      // Можно отрендерить заглушку, если контекста нет
+      return null;
+    }
+  
+
+    const { addCourseToFavorites} = context;
 
   const {
     nameEN,
@@ -22,6 +37,16 @@ function Card({ course, isUserCourse }: CardProps) {
     _id,
   } = course;
   const srcPath = getCourseImage(nameEN);
+
+  console.log({selectedCourseId})
+
+  function handleAddToFavorites(){
+ 
+if (selectedCourseId) {
+  addCourseToFavorites(selectedCourseId);
+}
+  
+}
 
   return (
     <S.CourseCard>
@@ -35,7 +60,7 @@ function Card({ course, isUserCourse }: CardProps) {
         </S.ImageWrapper>
       </Link>
 
-      <S.CourseDiscription>
+      <S.CourseDiscription onClick={onClick}>
         <S.Title>{nameRU}</S.Title>
         <S.Duration>
           <S.Badge>
@@ -55,6 +80,7 @@ function Card({ course, isUserCourse }: CardProps) {
             {difficulty}
           </S.Badge>
         </S.Difficulty>
+        <Button onClick={handleAddToFavorites}>Добавить курс</Button>
         {isUserCourse && (
           <>
             <Progress />

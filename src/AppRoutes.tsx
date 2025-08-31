@@ -7,32 +7,39 @@ import CoursePage from './pages/CoursePage/CoursePage';
 import SignInPage from './pages/SignInPage/SignInPage';
 import SignUpPage from './pages/SignUpPage/SignUpPage';
 import ProfilPage from './pages/ProfilPage/ProfilPage';
-import WorkOutPage from './pages/WorkOutPage/WorkOutPage';
+import WorkOutFormPage from './pages/WorkOutsFormPage';
+import WorkOutCoursePage from './pages/WorkOutCoursePage/WorkOutCoursePage';
 import PrivateRoute from './PrivateRoute';
 
 function AppRoutes() {
   return (
-   <Routes>
-  {/* Публичные страницы в MainLayout */}
-  <Route element={<MainLayout />}>
-    <Route path={RoutesApp.MAIN} element={<MainPage />} />
-    <Route path="/course/:_id" element={<CoursePage />} />
+    <Routes>
+      {/* Публичные страницы в MainLayout */}
+      <Route element={<MainLayout />}>
+        <Route path={RoutesApp.MAIN} element={<MainPage />} />
+        <Route path="/course/:courseId" element={<CoursePage />} />
 
-    {/* Приватные страницы внутри PrivateRoute */}
-    <Route element={<PrivateRoute />}>
-      <Route path="/workouts/:_id" element={<WorkOutPage />} />
-      <Route path={RoutesApp.PROFILE} element={<ProfilPage />} />
-    </Route>
-  </Route>
+        {/* Приватные страницы внутри PrivateRoute */}
+        <Route element={<PrivateRoute />}>
+          <Route
+            path="/course/:courseId/workouts/:workoutId"
+            element={<WorkOutCoursePage />}
+          />
 
-  {/* Авторизация */}
-  <Route path={RoutesApp.SIGN_IN} element={<SignInPage />} />
-  <Route path={RoutesApp.SIGN_UP} element={<SignUpPage />} />
+          <Route path={RoutesApp.PROFILE} element={<ProfilPage />} />
+        </Route>
+      </Route>
 
-  {/* 404 */}
-  <Route path={RoutesApp.NOT_FOUND} element={<NotFoundPage />} />
-</Routes>
+      {/* Авторизация */}
+      <Route path={RoutesApp.SIGN_IN} element={<SignInPage />} />
+      <Route path={RoutesApp.SIGN_UP} element={<SignUpPage />} />
 
+      {/* Форма выбора урока */}
+      <Route path="/course/:courseId/workouts" element={<WorkOutFormPage />} />
+
+      {/* 404 */}
+      <Route path={RoutesApp.NOT_FOUND} element={<NotFoundPage />} />
+    </Routes>
   );
 }
 

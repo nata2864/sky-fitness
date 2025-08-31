@@ -10,6 +10,8 @@ function Main() {
 
 const [courses, setCourses] = useState<Course[]>([]);
 
+
+
    const getAllCourses = useCallback(async () => {
 
     try {
@@ -30,6 +32,8 @@ const [courses, setCourses] = useState<Course[]>([]);
   }, [getAllCourses]);
 
       console.log(courses)
+
+
   return (
     <Container>
       <section >

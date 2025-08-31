@@ -2,82 +2,115 @@ import Container from '../../ui/Container.styled';
 // import Progress from '../Progress/Progress';
 // import ProgressForm from '../ProgressForm/ProgressForm';
 import * as S from './WorkOut.styled';
-import { useParams } from "react-router-dom";
-import { useCallback, useState, useEffect } from 'react';
-import { fetchWorkOutsById} from '../../services/api';
-import type { WorkOutLesson } from '../../sharesTypes/sharesTypes';
-import { handleAxiosError } from '../../utils/handleAxiosError/handleAxiosError';
-import { useContext } from 'react';
+import { useParams } from 'react-router-dom';
+import { useEffect, useContext } from 'react';
 import { CourseContext } from '../../context/CourseContext';
-import PopMyProgress from '../../popUps/PopMyProgress/PopMyProgress';
+// import PopMyProgress from '../../popUps/PopMyProgress/PopMyProgress';
+import {getTotalProgressNumber} from '../../utils/getTotalProgressNumber/getTotalProgressNumber';
+import {calculateProgress} from '../../utils/calculateProgress/calculateProgress'
+
+// import { useContext, useEffect } from "react";
+// import { CourseContext, CourseContextValue } from "../../context/CourseContext";
 
 function WorkOut() {
+  const context = useContext(CourseContext);
 
-  const [workoutsLes, setWorkoutsLes] = useState<WorkOutLesson| null>(null);
-  
-  
+  if (!context) {
+    // Можно отрендерить заглушку, если контекста нет
+    return null;
+  }
 
-     const {_id } = useParams();
-     console.log({_id})
-const { course } = useContext(CourseContext)!;
-       console.log({course})
+  const { workOut, getWorkoutById, course, getProgress, progress, updateProgress,   courseProgress,
 
-       const getListWorkOuts = useCallback(async () => {
-   if (!_id) return null;
-    try {  
-      const data = await fetchWorkOutsById(_id);
-    if (data) setWorkoutsLes(data);
-    }
-    
-     catch (error) {
-      handleAxiosError(error);
-    }},
-    
-  [_id]);
+    getCourseProgressById, } = context;
+
+  const { workoutId, courseId } = useParams();
 
   useEffect(() => {
-    getListWorkOuts();
-  }, [ getListWorkOuts]);
+    if (workoutId) getWorkoutById(workoutId);
+  }, [workoutId, getWorkoutById]);
 
+  useEffect(() => {
+    if ( workoutId && courseId) {
+      getProgress(courseId, workoutId);
+    }
+  }, [course, workoutId, getProgress]);
+
+   // --- загружаем прогресс при монтировании ---
+  useEffect(() => {
+    if (courseId) {
+      getCourseProgressById(courseId);
+    }
+  }, [courseId, getCourseProgressById]);
+
+  if (!workOut) return null;
+    if (!progress) return null;
+
+    const progresDataWorkOut = progress.progressData
+
+  const workoutTasks = workOut.exercises;
+  const hasTasks = workoutTasks && workoutTasks.length > 0;
+
+ 
+console.log({progresDataWorkOut})
+console.log({courseProgress})
+  return (
+    <Container>
+      <S.Title>{course?.nameRU}</S.Title>
    
-  console.log({workoutsLes});
-    if (!workoutsLes) return null;
-     const workoutTasks = workoutsLes.exercises;
-         const hasTasks = workoutTasks && workoutTasks.length > 0;
 
- return (
-    <>
-      <Container>
-        <S.Title>{course?.nameRU}</S.Title>
+      <S.VideoCourse src={workOut.video} allowFullScreen />
+  {/* <pre>{JSON.stringify(progress, null, 2)}</pre> */}
 
-        <S.VideoCourse 
-          src={workoutsLes.video}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
+    <button
+  onClick={() => {
+    if (courseId && workoutId) {
+      updateProgress(courseId, workoutId, [10,10,10,3]);
+    }
+  }}
+>
+  Обновить прогресс
+</button>
 
-        <S.CourseProgressBlock>
-          <S.CourseProgressTitle>{workoutsLes.name}</S.CourseProgressTitle>
-          <S.CourseProgressBox>
-            {hasTasks && workoutTasks.map((workOuttask, index) => (
-              <S.ProgressBlock key={index}>
-                <S.ProgressText>{workOuttask.name}</S.ProgressText>
-                <S.ProgressBar type="range" value={50} max={100}/>
+      {/* <S.CourseProgressBlock>
+        <S.CourseProgressTitle>{workOut.name}</S.CourseProgressTitle>
+        <S.CourseProgressBox>
+          {hasTasks &&
+            workoutTasks.map((workOuttask: { _id: string; name: string }, index: number) => (
+              
+              <S.ProgressBlock key={workOuttask._id || index}>
+                <S.ProgressText>{workOuttask.name} 50%</S.ProgressText>
+                <S.ProgressBar type="range" value={50} max={100}  />
               </S.ProgressBlock>
             ))}
-          </S.CourseProgressBox>
+        </S.CourseProgressBox>
+     
+      </S.CourseProgressBlock> */}
 
-          {hasTasks && (
-            <S.CourseProgressButton>
-              Заполнить свой прогресс
-            </S.CourseProgressButton>
-          )}
-        </S.CourseProgressBlock>
-      </Container>
+      {/* {hasTasks && <PopMyProgress workoutTasks={workoutTasks} />} */}
 
-      {hasTasks && <PopMyProgress workoutTasks={workoutTasks} />}
-    </>
-      );
+    <S.CourseProgressBox>
+        {hasTasks &&
+  workoutTasks.map((workOuttask, index) => {
+    const doneReps = progresDataWorkOut[index] || 0; // <-- вот так
+    const totalReps = getTotalProgressNumber(workOuttask.name);
+    const progressValue = calculateProgress(doneReps, totalReps);
+
+    return (
+      <S.ProgressBlock key={workOuttask._id || index}>
+        <S.ProgressText>
+          {workOuttask.name} — {progressValue}%
+        </S.ProgressText>
+        <S.ProgressBar type="range" value={progressValue} max={100} />
+      </S.ProgressBlock>
+    );
+  })}
+    </S.CourseProgressBox>
+   
+
+    </Container>
+  );
 }
 
 export default WorkOut;
+

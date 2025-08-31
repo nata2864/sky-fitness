@@ -17,6 +17,7 @@ export type Course = {
 };
 
 export type Exercise = {
+  [x: string]: number;
   _id: string;
   name: string;
   quantity: number;
@@ -33,3 +34,9 @@ export type WorkOutLesson =
     exercises: Exercise[];
   }
 
+export type ProgressData = {
+   "workoutId": string,
+    "workoutCompleted": boolean,
+    "progressData": number []   
+ 
+}

@@ -5,34 +5,42 @@ import {
   IconImage,
   IconText,
 } from '../../ui/IconTextBlock.styled';
-import { useParams } from 'react-router-dom';
-// import courses from '../../data';
-import {  useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { getCourseImage } from '../../utils/getCourseImage/getCourseImage';
 import FooterContent from '../FooterContent/FooterContent';
 import { useContext } from 'react';
-import PopUpWorkOut from '../../popUps/PopUpWorkOut/PopUpWorkOut';
-import { useWorkoutsList } from '../../hooks/useWorkoutsList';
+
 import { CourseContext } from '../../context/CourseContext';
 
 function CourseDescription() {
-  const [isOpenWorkOut, setIsOpenPopWorkOut] = useState(false);
-  const { _id } = useParams();
-  const { workouts } = useWorkoutsList(_id);
- const { course, getCourseById } = useContext(CourseContext)!;
+  // const [isOpenWorkOut, setIsOpenPopWorkOut] = useState(false);
+  const { courseId } = useParams();
+  const navigate = useNavigate();
 
- console.log({course})
-  const srcIcon = '/Sparcle.svg';
-  // const course = courses.find((course) => course._id === _id);
+      const context = useContext(CourseContext);
+  
+    if (!context) {
+      // Можно отрендерить заглушку, если контекста нет
+      return null;
+    }
+  
 
-  if (!_id) {
-  return null; // или можно редирект сделать
-}
+    const { addCourseToFavorites} = context;
+
+
+  const { course, getCourseById } = useContext(CourseContext)!;
+
   useEffect(() => {
-  getCourseById(_id); 
-}, []);
+    if (courseId) getCourseById(courseId);
+  }, [courseId, getCourseById]);
+
 
   if (!course) {
+    return null;
+  }
+
+  if (!courseId) {
     return null;
   }
 
@@ -43,10 +51,16 @@ function CourseDescription() {
     mobile: `/${basePath}.png`,
   };
 
-
-
   function handleClickPopUpWorkOut() {
-    setIsOpenPopWorkOut((prev) => !prev);
+
+    if (courseId){
+        addCourseToFavorites(courseId);
+    }
+
+ 
+
+
+    navigate(`/course/${courseId}/workouts`);
   }
   return (
     <>
@@ -69,7 +83,7 @@ function CourseDescription() {
           <S.Directions>
             {directions.map((direction: string, index: number) => (
               <IconTextBlock key={index}>
-                <IconImage src={srcIcon}></IconImage>
+                <IconImage src="/Sparcle.svg"></IconImage>
                 <IconText> {direction}</IconText>
               </IconTextBlock>
             ))}
@@ -93,7 +107,7 @@ function CourseDescription() {
           </S.MobileCard>
         </Container>
       </S.MobileFooter>
-      <PopUpWorkOut workouts={workouts} isOpenWorkOut={isOpenWorkOut} />
+      {/* <PopUpWorkOut workouts={workouts} isOpenWorkOut={isOpenWorkOut} /> */}
     </>
   );
 }
