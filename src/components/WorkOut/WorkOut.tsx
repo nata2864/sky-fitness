@@ -8,12 +8,19 @@ import { CourseContext } from '../../context/CourseContext';
 import PopMyProgress from '../../popUps/PopMyProgress/PopMyProgress';
 import {getTotalProgressNumber} from '../../utils/getTotalProgressNumber/getTotalProgressNumber';
 import {calculateProgress} from '../../utils/calculateProgress/calculateProgress'
+import { useState } from 'react';
 
 // import { useContext, useEffect } from "react";
 // import { CourseContext, CourseContextValue } from "../../context/CourseContext";
 
 function WorkOut() {
   const context = useContext(CourseContext);
+   const [isOpenPopMyProgress, setIsOpenPopMyProgress] = useState(false);
+
+   
+  function handleClickPopMyProgress() {
+    setIsOpenPopMyProgress((prev) => !prev);
+  }
 
   if (!context) {
     // Можно отрендерить заглушку, если контекста нет
@@ -101,23 +108,31 @@ console.log({courseProgress})
     const progressValue = calculateProgress(doneReps, totalReps);
 
     return (
-      <S.ProgressBlock key={workOuttask._id || index}>
+    <S.ProgressBlock key={workOuttask._id || index}>
         <S.ProgressText>
           {workOuttask.name} — {progressValue}%
         </S.ProgressText>
         <S.ProgressBar type="range" value={progressValue} max={100} />
       </S.ProgressBlock>
+     
+    
     );
   })}
     </S.CourseProgressBox>
-   {/* {hasTasks && (
+
+     <S.WorkOutsButton  onClick={handleClickPopMyProgress}>Заполнить свой прогресс</S.WorkOutsButton>
+   {hasTasks && (
   <PopMyProgress
     workoutTasks={workoutTasks}
     courseId={courseId!}
     workoutId={workoutId!}
     updateProgress={updateProgress}
+    //  setIsOpenPopMyProgress={setIsOpenPopMyProgress}
+
+                isOpenPopMyProgress={isOpenPopMyProgress}
   />
-)} */}
+)}
+
 
 
     </Container>

@@ -110,4 +110,13 @@ export const ProgressBar = styled.input.attrs({ type: "range" })<ProgressProps>`
   }
 `;
 
+export const WorkOutsButton= styled(Button)`
+  max-width: 320px;
+    @media (max-width: 768px) {
+  max-width: 283px;
+  }
+ 
+`;
+
+
 
