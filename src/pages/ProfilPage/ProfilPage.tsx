@@ -6,6 +6,9 @@ import { getUsernameFromEmail } from "../../utils/getUsernameFromEmail/getUserna
 import { AuthContext } from "../../context/AuthContext";
 import { useContext } from "react";
 
+// import { useState } from 'react';
+// import type { Course } from '../../sharesTypes/sharesTypes.ts';
+// import { handleAxiosError } from '../../utils/handleAxiosError/handleAxiosError';
 
 
 function ProfilPage() {
@@ -13,6 +16,34 @@ function ProfilPage() {
    const parsedMail = getUsernameFromEmail(user?.login || '');
 
   const mockData = courses;
+
+
+  //  const getAllUsersCourses = useCallback(async () => {
+
+  //   try {
+  //     const data = await fetchAllUsersCourses();
+  //     if (data) setUsersCourses(data);
+  
+  //   } catch (error) {
+  //     handleAxiosError(error);
+  //   } 
+  //   //  finally {
+  //   //      setLoading(false);
+  //   //   }
+  //   // Доделать загрузку
+  //  }, []);
+
+  // useEffect(() => {
+  //   getAllUsersCourses();
+  // }, [getAllUsersCourses]);
+
+  //     console.log({usersCourses})
+
+
+
+
+
+
 
   
   return (

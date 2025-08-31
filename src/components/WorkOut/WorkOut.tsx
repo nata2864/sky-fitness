@@ -5,7 +5,7 @@ import * as S from './WorkOut.styled';
 import { useParams } from 'react-router-dom';
 import { useEffect, useContext } from 'react';
 import { CourseContext } from '../../context/CourseContext';
-// import PopMyProgress from '../../popUps/PopMyProgress/PopMyProgress';
+import PopMyProgress from '../../popUps/PopMyProgress/PopMyProgress';
 import {getTotalProgressNumber} from '../../utils/getTotalProgressNumber/getTotalProgressNumber';
 import {calculateProgress} from '../../utils/calculateProgress/calculateProgress'
 
@@ -25,6 +25,8 @@ function WorkOut() {
     getCourseProgressById, } = context;
 
   const { workoutId, courseId } = useParams();
+
+  
 
   useEffect(() => {
     if (workoutId) getWorkoutById(workoutId);
@@ -51,7 +53,8 @@ function WorkOut() {
   const workoutTasks = workOut.exercises;
   const hasTasks = workoutTasks && workoutTasks.length > 0;
 
- 
+ console.log({workoutTasks})
+console.log({progress}) 
 console.log({progresDataWorkOut})
 console.log({courseProgress})
   return (
@@ -65,7 +68,7 @@ console.log({courseProgress})
     <button
   onClick={() => {
     if (courseId && workoutId) {
-      updateProgress(courseId, workoutId, [10,10,10,3]);
+      updateProgress(courseId, workoutId, [10,10,10,10,5]);
     }
   }}
 >
@@ -90,9 +93,10 @@ console.log({courseProgress})
       {/* {hasTasks && <PopMyProgress workoutTasks={workoutTasks} />} */}
 
     <S.CourseProgressBox>
-        {hasTasks &&
+        {hasTasks && 
   workoutTasks.map((workOuttask, index) => {
-    const doneReps = progresDataWorkOut[index] || 0; // <-- вот так
+    // const doneReps = progresDataWorkOut[index] 
+    const doneReps = progresDataWorkOut?.[index] ?? 0;
     const totalReps = getTotalProgressNumber(workOuttask.name);
     const progressValue = calculateProgress(doneReps, totalReps);
 
@@ -106,7 +110,15 @@ console.log({courseProgress})
     );
   })}
     </S.CourseProgressBox>
-   
+   {/* {hasTasks && (
+  <PopMyProgress
+    workoutTasks={workoutTasks}
+    courseId={courseId!}
+    workoutId={workoutId!}
+    updateProgress={updateProgress}
+  />
+)} */}
+
 
     </Container>
   );

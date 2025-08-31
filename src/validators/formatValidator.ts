@@ -1,6 +1,6 @@
 type FormatValidationResult = {
   hasErrors: boolean;
-  errors: Record<string, string | null>; // теперь храним текст ошибки
+  errors: Record<string, string | null>; 
 };
 
 export const formatValidator = (values: Record<string, string>): FormatValidationResult => {

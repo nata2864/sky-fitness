@@ -1,8 +1,12 @@
 export const API_ENDPOINTS = {
   GET_ALL_COURSES: '/courses',
+    GET_ALL_USERS_COURSES: '/users/me/courses',
+
+
+    
   SIGN_IN: '/auth/login',
   SIGN_UP: '/auth/register',
-  //   GET_SELECTION_BY_ID: (id:  string | number) => `/catalog/selection/${id}/`,
+  
   GET_TOKEN: '/user/token/',
   GET_USER_DATA: '/users/me',
   ADD_TO_FAVORITES: () => '/users/me/courses/',
