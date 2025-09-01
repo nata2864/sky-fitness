@@ -23,6 +23,20 @@ export type Exercise = {
   quantity: number;
 }
 
+export type courseProgress = {
+
+}
+
+export type workOutsProgress = {
+
+}
+
+
+export type progressWorkOutsData = {
+
+}
+
+
 
 
 
@@ -34,9 +48,25 @@ export type WorkOutLesson =
     exercises: Exercise[];
   }
 
-export type ProgressData = {
+// export type ProgressData = {
+//    "workoutId": string,
+//     "workoutCompleted": boolean,
+//     "progressData": number []   
+ 
+// }
+
+export type ProgressData = number[]
+
+
+export type WorkOutsProgress = {
    "workoutId": string,
     "workoutCompleted": boolean,
-    "progressData": number []   
+    "progressData":ProgressData 
+
+}
+
+export type UsersData = {
  
+  "email": string,
+  "selectedCourses": string[]
 }

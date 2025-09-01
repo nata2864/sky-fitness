@@ -1,5 +1,5 @@
 
-import type { ProgressData, WorkOutLesson } from '../sharesTypes/sharesTypes';
+import type { WorkOutsProgress, WorkOutLesson,ProgressData } from '../sharesTypes/sharesTypes';
 import { createContext } from 'react';
 import type { Course } from '../sharesTypes/sharesTypes';
 
@@ -9,7 +9,7 @@ export interface CourseProgress {
   workoutsProgress: {
     workoutId: string;
     workoutCompleted: boolean;
-    progressData: number[];
+    progressData: ProgressData;
   }[];
 }
 
@@ -17,9 +17,8 @@ export interface CourseProgress {
 export type CourseContextValue = {
   course: Course | null;
   workOut: WorkOutLesson | null;
-  progress: ProgressData | null;
-  courseProgress: CourseProgress | null; // <-- новый стейт прогресса по всему курсу
-
+  progress: WorkOutsProgress | null;
+  courseProgress: CourseProgress | null; 
   loadingCourse: boolean;
   loadingWorkout: boolean;
   loadingProgress: boolean;

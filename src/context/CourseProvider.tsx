@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { CourseContext } from './CourseContext';
-import type { Course, WorkOutLesson, ProgressData } from '../sharesTypes/sharesTypes';
+import type { Course, WorkOutLesson, WorkOutsProgress,ProgressData } from '../sharesTypes/sharesTypes';
 import { fetchCoursesById, fetchWorkOutsById, fetchProgressWorkOutById, addFavoriteCourse, patchProgressWorkOut, fetchCourseProgress } from '../services/api';
 
 import { handleAxiosError } from '../utils/handleAxiosError/handleAxiosError';
@@ -12,7 +12,7 @@ type CourseProviderProps = {
 const CourseProvider = ({ children }: CourseProviderProps) => {
   const [course, setCourse] = useState<Course | null>(null);
   const [workOut, setWorkOut] = useState<WorkOutLesson | null>(null);
-  const [progress, setProgress] = useState<ProgressData | null>(null);
+  const [progress, setProgress] = useState<WorkOutsProgress | null>(null);
     const [courseProgress, setCourseProgress] = useState<CourseProgress | null>(null);
 
   const [loadingCourse, setLoadingCourse] = useState(false);
@@ -91,14 +91,15 @@ const getProgress = useCallback(
 
 // --- Обновить прогресс тренировки ---
   const updateProgress = useCallback(
-    async (courseId: string, workoutId: string, progressData: number[]) => {
+    async (courseId: string, workoutId: string, progressData: ProgressData) => {
       if (!courseId || !workoutId) return;
       setLoadingProgress(true);
 
       try {
         const data = await patchProgressWorkOut({ courseId, workoutId, progressData });
         console.log("✅ updateProgress данные:", data);
-        setProgress(data ?? null); // обновляем локальный стейт
+        setProgress(data ?? null); // 
+        
       } catch (err) {
         console.error("❌ Ошибка updateProgress:", err);
         handleAxiosError(err);

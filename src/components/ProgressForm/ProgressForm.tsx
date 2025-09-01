@@ -6,7 +6,7 @@ import {
 import { Button } from '../../ui/Button.styled';
 import { Overlay } from '../../ui/Overlay.styled';
 import * as S from "./ProgressForm.styled";
-import type { Exercise } from '../../sharesTypes/sharesTypes';
+import type { Exercise , ProgressData} from '../../sharesTypes/sharesTypes';
 import { getExerciseQuestion } from '../../utils/getExerciseQuestion/getExerciseQuestion';
 import { useState } from 'react';
 
@@ -15,12 +15,13 @@ type ProgressFormProps = {
   workoutTasks: Exercise[];
   courseId: string;
   workoutId: string;
-  updateProgress: (courseId: string, workoutId: string, progressData: number[]) => Promise<void>;
+  updateProgress: (courseId: string, workoutId: string, progressData: ProgressData) => Promise<void>;
+  setIsOpenPopMyProgress:(open: boolean) => void;
 };
 
 
 
-function ProgressForm({ workoutTasks, courseId, workoutId, updateProgress }: ProgressFormProps) {
+function ProgressForm({ workoutTasks, courseId, workoutId, updateProgress, setIsOpenPopMyProgress}: ProgressFormProps) {
 
     const [formValues, setFormValues] = useState<{ [key: string]: string }>({});
 
@@ -32,15 +33,16 @@ function ProgressForm({ workoutTasks, courseId, workoutId, updateProgress }: Pro
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-   
-
     const progressData = workoutTasks.map((_, index) =>
       Number(formValues[`exercise-${index}`] || 0)
+  
     );
 
     if (courseId && workoutId) {
       await updateProgress(courseId, workoutId, progressData);
     }
+
+    setIsOpenPopMyProgress(false)
   };
 
    console.log({workoutTasks})

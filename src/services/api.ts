@@ -1,7 +1,7 @@
 import type {
   Course,
   WorkOutLesson,
-  ProgressData,
+  WorkOutsProgress,UsersData, ProgressData
 } from '../sharesTypes/sharesTypes';
 import api from './axios';
 import { API_ENDPOINTS } from './eindpoints';
@@ -26,6 +26,19 @@ export async function fetchAllCourses(): Promise<Course[]> {
 
 //   return response.data;
 // }
+
+export async function fetchAllUsersCourses(): Promise<UsersData[]> {
+  const response = await api.get(
+    (API_ENDPOINTS.GET_ALL_USERS_COURSES),
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  return response.data;
+}
 
 export async function fetchListWorkOuts(
   id: string | number
@@ -61,7 +74,7 @@ export async function fetchCoursesById(id: string | number): Promise<Course> {
 export async function fetchProgressWorkOutById(params: {
   courseId: string;
   workoutId: string;
-}): Promise<ProgressData> {
+}): Promise<WorkOutsProgress> {
   const { courseId, workoutId } = params;
 
   const response = await api.get(API_ENDPOINTS.GET_PROGRESS_WORKOUT_BY_ID(), {
@@ -161,8 +174,8 @@ export async function addFavoriteCourse(courseId: string): Promise<any> {
 export async function patchProgressWorkOut(params: {
   courseId: string;
   workoutId: string;
-  progressData: number[];
-}): Promise<ProgressData> {
+  progressData: ProgressData;
+}): Promise<WorkOutsProgress> {
   const { courseId, workoutId, progressData } = params;
 
   // превращаем объект в JSON-строку вручную
@@ -188,7 +201,7 @@ export interface CourseProgress {
   workoutsProgress: {
     workoutId: string;
     workoutCompleted: boolean;
-    progressData: number[];
+    progressData: ProgressData;
   }[];
 }
 
