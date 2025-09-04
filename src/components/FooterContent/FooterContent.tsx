@@ -25,6 +25,13 @@ function FooterContent ({ onClick }: FooterContentProps) {
                     
                     
                   </S.FooterButton>
+                  <S.FooterButton >
+                    
+                    
+          Удалить курс
+                    
+                    
+                  </S.FooterButton>
            </S.ContentBlock>
     )
 }

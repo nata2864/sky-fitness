@@ -1,6 +1,6 @@
 export const API_ENDPOINTS = {
   GET_ALL_COURSES: '/courses',
-    GET_ALL_USERS_COURSES: '/users/me',
+    GET_ALL_USERS_DATA: '/users/me',
 
 
     

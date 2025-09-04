@@ -3,15 +3,15 @@ export function checkLocalStorage() {
     const data = window.localStorage.getItem("userInfo");
     if (!data) return null;
 
-    const parsed = JSON.parse(data);
+    const parsedData = JSON.parse(data);
 
     if (
-      typeof parsed === "object" &&
-      parsed !== null &&
-      typeof parsed.name === "string" &&
-      typeof parsed.token === "string"
+      typeof parsedData === "object" &&
+      parsedData !== null &&
+      typeof parsedData.name === "string" &&
+      typeof parsedData.token === "string"
     ) {
-      return parsed;
+      return parsedData;
     } else {
       console.warn("Некорректная структура данных в localStorage");
       return null;

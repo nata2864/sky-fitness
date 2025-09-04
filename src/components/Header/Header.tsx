@@ -10,8 +10,11 @@ import { getUsernameFromEmail } from '../../utils/getUsernameFromEmail/getUserna
 function Header() {
   const [isOpenPopUser, setIsOpenPopUser] = useState(false);
 
-  const { user } = useContext(AuthContext);
-  console.log({ user });
+  const { user, login, logout, updateUserInfo } = useContext(AuthContext);
+   console.log({user});
+  console.log({  login });
+   console.log({  logout});
+    console.log({ updateUserInfo });
   const parsedMail = getUsernameFromEmail(user?.login || '');
 
   function handleClickPopupUser() {

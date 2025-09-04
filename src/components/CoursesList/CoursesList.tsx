@@ -1,32 +1,62 @@
 import Container from '../../ui/Container.styled';
-import * as S from "./CoursesList.styled"
+import * as S from './CoursesList.styled';
 import Card from '../Card/Card';
-// import {courses} from '../../data';
+import { useEffect, useContext } from 'react';
+import { CourseContext } from '../../context/CourseContext';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import type { Course } from '../../sharesTypes/sharesTypes';
-import { useState } from 'react';
 
-type CoursesListProps ={
-courses: Course[],
-isUserCourse: boolean;
-}
 
-function CoursesList({courses, isUserCourse}:CoursesListProps) {
+type CoursesListProps = {
+  isUserCourse: boolean;
+  courses: Course[] | null;
+};
 
-  const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
+function CoursesList({ isUserCourse, courses }: CoursesListProps) {
+
+  const navigate = useNavigate();
+  const context = useContext(CourseContext);
+
+  if (!context) {
+    return null;
+  }
+
+   
+   if (!courses) {
+     return null;
+   }
+
+   const {  usersData, getAllUsersData } = context;
+
+
+  useEffect(() => {
+    getAllUsersData();
+  }, [getAllUsersData]);
+
+  const usersCourses = usersData?.user?.selectedCourses ?? [];
+
+
+
+  const handleAddToFavorites = (courseId: string) => {
+    if (usersCourses.includes(courseId)) {
+      toast.info('Этот курс уже есть в избранном');
+       navigate(`/course/${courseId}`);
+    } else {
+      // navigate(`/courses/${courseId}`);
+    }
+  };
+
   return (
     <Container>
       <section>
         <S.Courses>
           {courses.map((course) => (
-            <Card isUserCourse={isUserCourse} 
+            <Card
+              isUserCourse={isUserCourse}
               key={course._id}
               course={course}
-              onClick={() => {
-                setSelectedCourseId(course._id);
-                console.log("Выбран курс:", course._id);
-              }}
-              selectedCourseId={selectedCourseId}
-              
+              onIconClick={(courseId) => handleAddToFavorites(courseId)} 
             />
           ))}
         </S.Courses>

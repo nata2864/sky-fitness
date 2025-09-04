@@ -1,13 +1,18 @@
 import type {
   Course,
   WorkOutLesson,
-  WorkOutsProgress,UsersData, ProgressData
+  WorkOutsProgress,
+  UserData,
+  ProgressData,
+  CourseProgress,
 } from '../sharesTypes/sharesTypes';
 import api from './axios';
 import { API_ENDPOINTS } from './eindpoints';
 
+// const token ='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YWNjZGRmNWYzYjJkMDQ2NDk3NTY2OCIsImlhdCI6MTc1NjE1NTc3NywiZXhwIjoxNzU2NzYwNTc3fQ.5x-U49y09nn_JRw_k5LvAFgHHSp4Obyxx8SJ2dAuxI4';
+
 const token =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YWNjZGRmNWYzYjJkMDQ2NDk3NTY2OCIsImlhdCI6MTc1NjE1NTc3NywiZXhwIjoxNzU2NzYwNTc3fQ.5x-U49y09nn_JRw_k5LvAFgHHSp4Obyxx8SJ2dAuxI4';
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YWNjZDc1NWYzYjJkMDQ2NDk3NTY2NSIsImlhdCI6MTc1NjgyMDEzMCwiZXhwIjoxNzU3NDI0OTMwfQ.JInj7a4RXXAFLBR-m-RzGN3Lo1CvF6tId49a8_rSKXg';
 
 export async function fetchAllCourses(): Promise<Course[]> {
   const response = await api.get(API_ENDPOINTS.GET_ALL_COURSES);
@@ -27,15 +32,12 @@ export async function fetchAllCourses(): Promise<Course[]> {
 //   return response.data;
 // }
 
-export async function fetchAllUsersCourses(): Promise<UsersData[]> {
-  const response = await api.get(
-    (API_ENDPOINTS.GET_ALL_USERS_COURSES),
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+export async function fetchAllUsersData(): Promise<UserData> {
+  const response = await api.get(API_ENDPOINTS.GET_ALL_USERS_DATA, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   return response.data;
 }
@@ -98,10 +100,10 @@ export async function fetchProgressWorkOutById(params: {
 //   return response.data;
 // }
 
-export async function addFavoriteCourse(courseId: string): Promise<any> {
-  const response = await api.post(
-    API_ENDPOINTS.ADD_TO_FAVORITES(), // /api/fitness/users/me/courses
-    JSON.stringify({ courseId }), // тело запроса в виде строки
+export async function addFavoriteCourse(courseId: string): Promise<string> {
+  const response = await api.post<{ message: string }>(
+    API_ENDPOINTS.ADD_TO_FAVORITES(),
+    { courseId },
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -110,7 +112,7 @@ export async function addFavoriteCourse(courseId: string): Promise<any> {
     }
   );
 
-  return response.data;
+  return response.data.message; // вернём именно строку
 }
 
 // export async function patchProgressWorkOut(params: {
@@ -187,22 +189,12 @@ export async function patchProgressWorkOut(params: {
     {
       headers: {
         Authorization: `Bearer ${token}`,
-        'Content-Type': '', 
+        'Content-Type': '',
       },
     }
   );
 
   return response.data;
-}
-
-export interface CourseProgress {
-  courseId: string;
-  courseCompleted: boolean;
-  workoutsProgress: {
-    workoutId: string;
-    workoutCompleted: boolean;
-    progressData: ProgressData;
-  }[];
 }
 
 // --- Получить прогресс по всему курсу ---

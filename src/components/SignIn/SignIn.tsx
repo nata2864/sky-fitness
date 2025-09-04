@@ -12,40 +12,49 @@ import { useFormValidation } from '../../hooks/useFormValidation';
 import { RoutesApp } from '../../const';
 import { signInUser } from '../../services/auth';
 import { handleAxiosError } from '../../utils/handleAxiosError/handleAxiosError';
+import { useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
 
 
 function SignIn() {
     const navigate = useNavigate();
+ const { login } = useContext(AuthContext);
+
+
   const { formData, errors, handleChange, validateForm, validateField } = useFormValidation({
     email: '',
     password: '',
   });
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
 
-    if (!validateForm(['email', 'password'])) {
-      console.log('Валидация не прошла');
-      console.log(errors);
-      return;
-    } 
+  if (!validateForm(['email', 'password'])) {
+    console.log('Валидация не прошла');
+    console.log(errors);
+    return;
+  } 
 
-    const dataToSend = {
-      email: formData.email,
-      password: formData.password,
-    };
-
-     try {
-         signInUser(dataToSend);
-          navigate(RoutesApp.MAIN);
-        }
-          catch(error)  {
-            handleAxiosError(error);
-          };
-
-    console.log('Отправляем:', dataToSend);
-    //  navigate(RoutesApp.MAIN);
+  const loginData = {
+    email: formData.email,
+    password: formData.password,
   };
+
+  try {
+    // 1. Отправляем данные на сервер
+    const response = await signInUser(loginData); // ожидаем ответ с данными пользователя
+
+    // 2. Обновляем локальное состояние через login
+    const success = login(response); // или login(response.data), если сервер возвращает объект в data
+    if (success) {
+      // 3. Переходим на главную страницу
+      navigate(RoutesApp.MAIN);
+    }
+  } catch (error) {
+    handleAxiosError(error); // обработка ошибок сервера
+  }
+};
+
 
   return (
     <AuthContainer>

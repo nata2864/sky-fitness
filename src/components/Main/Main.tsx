@@ -1,39 +1,22 @@
 import CoursesList from '../CoursesList/CoursesList';
 import Container from '../../ui/Container.styled';
 import * as S from './Main.styled';
-import { useCallback, useState, useEffect } from 'react';
-import { fetchAllCourses } from '../../services/api';
-import { handleAxiosError } from '../../utils/handleAxiosError/handleAxiosError';
-import type { Course } from '../../sharesTypes/sharesTypes';
+import { useEffect, useContext } from 'react';
+import { CourseContext } from '../../context/CourseContext';
+
 
 function Main() {
 
-const [courses, setCourses] = useState<Course[]>([]);
+  const context = useContext(CourseContext);
+    if (!context) {
+    return null;
+  }
 
+  const { getAllCourses, courses} = context;
 
-
-   const getAllCourses = useCallback(async () => {
-
-    try {
-      const data = await fetchAllCourses();
-      if (data) setCourses(data);
-  
-    } catch (error) {
-      handleAxiosError(error);
-    } 
-    //  finally {
-    //      setLoading(false);
-    //   }
-    // Доделать загрузку
-   }, []);
-
-  useEffect(() => {
+    useEffect(() => {
     getAllCourses();
   }, [getAllCourses]);
-
-      console.log(courses)
-
-
   return (
     <Container>
       <section >
@@ -42,11 +25,12 @@ const [courses, setCourses] = useState<Course[]>([]);
             Начните заниматься спортом и улучшите качество жизни
           </S.Title>
           <S.TitleImg
-            src="../../../../../../public/titleLogo.svg"
+            src="./titleLogo.svg"
             alt="Логотип к названию сайта"
           />
         </S.TitleBlock>
-       <CoursesList courses={courses} isUserCourse={false}/>
+    
+       <CoursesList courses={courses }  isUserCourse={false}/>
       </section>
       <S.Footer>
         <S.FooterButton>Наверх ↑</S.FooterButton>

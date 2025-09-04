@@ -15,7 +15,7 @@ import PopUpResultMessage from '../../popUps/PopUpResultMessage/PopUpResultMessa
 function WorkOut() {
   const context = useContext(CourseContext);
   const [isOpenPopMyProgress, setIsOpenPopMyProgress] = useState(false);
-   const [isOpenPopUpResultMessage, setIsPopUpResultMessage] = useState(true);
+   const [isOpenPopUpResultMessage, setIsPopUpResultMessage] = useState(false);
 
 
   function handleClickPopMyProgress() {
@@ -30,9 +30,7 @@ function WorkOut() {
     setIsPopUpResultMessage((prev) => !prev);
   }
 
-  if (!context) {
-    return null;
-  }
+ 
 
 
 
@@ -78,6 +76,7 @@ function WorkOut() {
   console.log({ progress });
   console.log({ progresDataWorkOut });
   console.log({ courseProgress });
+    console.log({course });
   return (
     <Container>
       <S.Title>{course?.nameRU}</S.Title>

@@ -1,74 +1,60 @@
 import CoursesList from '../../components/CoursesList/CoursesList.tsx';
 import Container from '../../ui/Container.styled';
 import * as S from './ProfilPage.styled.tsx';
-import courses from "../../data.tsx";
-import { getUsernameFromEmail } from "../../utils/getUsernameFromEmail/getUsernameFromEmail.ts";
-import { AuthContext } from "../../context/AuthContext";
-import { useContext } from "react";
-import { fetchAllUsersCourses } from '../../services/api.ts';
-import { useState, useCallback, useEffect } from 'react';
-// import type { Course } from '../../sharesTypes/sharesTypes.ts';
-import { handleAxiosError } from '../../utils/handleAxiosError/handleAxiosError';
-import type { UsersData } from '../../sharesTypes/sharesTypes.ts';
-
+import { getUsernameFromEmail } from '../../utils/getUsernameFromEmail/getUsernameFromEmail.ts';
+import { AuthContext } from '../../context/AuthContext';
+import { useEffect, useContext } from 'react';
+import { CourseContext } from '../../context/CourseContext';
 
 function ProfilPage() {
-  const [usersCourses, setUsersCourses] = useState<UsersData[]>([]);
-    const { user } = useContext(AuthContext);
-   const parsedMail = getUsernameFromEmail(user?.login || '');
+  const context = useContext(CourseContext);
+  const { user } = useContext(AuthContext);
+  const parsedMail = getUsernameFromEmail(user?.login || '');
 
-  const mockData = courses;
+  if (!context) {
+    return null;
+  }
 
-
-   const getAllUsersCourses = useCallback(async () => {
-
-    try {
-      const data = await fetchAllUsersCourses();
-      if (data) setUsersCourses(data);
-  
-    } catch (error) {
-      handleAxiosError(error);
-    } 
-    //  finally {
-    //      setLoading(false);
-    //   }
-    // Доделать загрузку
-   }, []);
+  const { getAllCourses, courses, usersData, getAllUsersData } = context;
 
   useEffect(() => {
-    getAllUsersCourses();
-  }, [getAllUsersCourses]);
+    getAllCourses();
+  }, [getAllCourses]);
 
-      console.log({usersCourses})
+  useEffect(() => {
+    getAllUsersData();
+  }, [getAllUsersData]);
 
+  const usersCourses = usersData?.user?.selectedCourses ?? [];
 
-const usersListCourses = usersCourses.selectedCourses
+  if (!courses) {
+    return null;
+  }
 
+  const userCoursesList = courses.filter((course) =>
+    usersCourses.includes(course._id)
+  );
 
-
-
-  
   return (
- <Container>
-    <section>
-<S.Title>Профиль</S.Title>
-<S.ProfilCard>
-    <S.ImageTextBlock>
-  <S.ProfilIeImg src="/profil.jpg" alt="" />
-< S.ProfilInfoBox>
-<S.UserName>{parsedMail}</S.UserName>
-<S.UserLogin>Логин: { user?.login }</S.UserLogin>
-<S.UserButton type="button">Выйти</S.UserButton>
-</S.ProfilInfoBox>
-    </S.ImageTextBlock>
-  
-</S.ProfilCard>
-    </section>
-    <section>
-       <S.Title>Мои курсы</S.Title> 
-       <CoursesList courses ={mockData} isUserCourse={true}/>
-    </section>
- </Container>
+    <Container>
+      <section>
+        <S.Title>Профиль</S.Title>
+        <S.ProfilCard>
+          <S.ImageTextBlock>
+            <S.ProfilIeImg src="/profil.jpg" alt="" />
+            <S.ProfilInfoBox>
+              <S.UserName>{parsedMail}</S.UserName>
+              <S.UserLogin>Логин: {user?.login}</S.UserLogin>
+              <S.UserButton type="button">Выйти</S.UserButton>
+            </S.ProfilInfoBox>
+          </S.ImageTextBlock>
+        </S.ProfilCard>
+      </section>
+      <section>
+        <S.Title>Мои курсы</S.Title>
+        <CoursesList courses={userCoursesList} isUserCourse={true} />
+      </section>
+    </Container>
   );
 }
 

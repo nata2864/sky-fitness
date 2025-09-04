@@ -9,12 +9,17 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { getCourseImage } from '../../utils/getCourseImage/getCourseImage';
 import FooterContent from '../FooterContent/FooterContent';
-import { useContext } from 'react';
-
+import { useContext, useCallback } from 'react';
+import type { AllUsersData } from '../../sharesTypes/sharesTypes';
+import { toast } from 'react-toastify';
 import { CourseContext } from '../../context/CourseContext';
+import { addFavoriteCourse } from '../../services/api';
+import { handleAxiosError } from '../../utils/handleAxiosError/handleAxiosError';
+import { RoutesApp } from '../../const';
 
 function CourseDescription() {
   // const [isOpenWorkOut, setIsOpenPopWorkOut] = useState(false);
+  
   const { courseId } = useParams();
   const navigate = useNavigate();
 
@@ -26,10 +31,30 @@ function CourseDescription() {
     }
   
 
-    const { addCourseToFavorites} = context;
+    const { course, getCourseById} = context;
+
+  const addCourseToFavorites = useCallback(
+    async (courseId: string) => {
+      try {
+        const message = await addFavoriteCourse(courseId);
+      console.log('Сервер вернул:', message);
+// setUsersCourses(prev => [...prev, courseId]);
+
+   toast.success(message);
+      } catch (err) {
+        console.error('Ошибка при добавлении в избранное:', err);
+        handleAxiosError(err);
+      }
+    },
+   []
+  );
 
 
-  const { course, getCourseById } = useContext(CourseContext)!;
+
+//   const addCourse = (course: AllUsersData) => {
+//   setUsersCourses(prev => [...prev, course]);
+// };
+
 
   useEffect(() => {
     if (courseId) getCourseById(courseId);
@@ -57,10 +82,9 @@ function CourseDescription() {
         addCourseToFavorites(courseId);
     }
 
- 
+     navigate(RoutesApp.PROFILE);
 
-
-    navigate(`/course/${courseId}/workouts`);
+    // navigate(`/course/${courseId}/workouts`);
   }
   return (
     <>

@@ -1,3 +1,4 @@
+
 export type Course = {
   dailyDurationInMinutes: {
     from: number;
@@ -17,56 +18,59 @@ export type Course = {
 };
 
 export type Exercise = {
-  [x: string]: number;
+  // [x: string]: number;
   _id: string;
   name: string;
   quantity: number;
-}
+};
 
-export type courseProgress = {
-
-}
-
-export type workOutsProgress = {
-
-}
-
-
-export type progressWorkOutsData = {
-
-}
-
-
-
-
-
-export type WorkOutLesson = 
-  {
-    _id: string,
-    name: string,
-    video: string,
-    exercises: Exercise[];
-  }
+export type WorkOutLesson = {
+  _id: string;
+  name: string;
+  video: string;
+  exercises: Exercise[];
+};
 
 // export type ProgressData = {
 //    "workoutId": string,
 //     "workoutCompleted": boolean,
-//     "progressData": number []   
- 
+//     "progressData": number []
+
 // }
 
-export type ProgressData = number[]
-
+export type ProgressData = number[];
 
 export type WorkOutsProgress = {
-   "workoutId": string,
-    "workoutCompleted": boolean,
-    "progressData":ProgressData 
+  workoutId: string;
+  workoutCompleted: boolean;
+  progressData: ProgressData;
+  _id: string;
+};
 
-}
+export type NormalizedProgressData = {
+  progressWorkOtsData: number[];
+};
 
-export type UsersData = {
- 
-  "email": string,
-  "selectedCourses": string[]
-}
+export type SelectedCourses = string[];
+
+export type AllUsersData = {
+  courseProgress: CourseProgress[];
+  email: string;
+  selectedCourses: SelectedCourses;
+  createdAt: string;
+  password: string;
+  updatedAt: string;
+  __v: number;
+  _id: string;
+};
+
+export type UserData = {
+  user: AllUsersData;
+};
+
+export type CourseProgress = {
+  courseId: string;
+  courseCompleted: boolean;
+  workoutsProgress: WorkOutsProgress;
+  _id: string;
+};
