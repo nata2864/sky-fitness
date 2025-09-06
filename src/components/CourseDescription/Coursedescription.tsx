@@ -16,12 +16,14 @@ import { CourseContext } from '../../context/CourseContext';
 import { addFavoriteCourse } from '../../services/api';
 import { handleAxiosError } from '../../utils/handleAxiosError/handleAxiosError';
 import { RoutesApp } from '../../const';
+import { AuthContext } from '../../context/AuthContext';
 
 function CourseDescription() {
   // const [isOpenWorkOut, setIsOpenPopWorkOut] = useState(false);
   
   const { courseId } = useParams();
   const navigate = useNavigate();
+  const { token } = useContext(AuthContext);
 
       const context = useContext(CourseContext);
   
@@ -36,7 +38,7 @@ function CourseDescription() {
   const addCourseToFavorites = useCallback(
     async (courseId: string) => {
       try {
-        const message = await addFavoriteCourse(courseId);
+        const message = await addFavoriteCourse(token,courseId);
       console.log('Сервер вернул:', message);
 // setUsersCourses(prev => [...prev, courseId]);
 
@@ -82,9 +84,6 @@ function CourseDescription() {
         addCourseToFavorites(courseId);
     }
 
-     navigate(RoutesApp.PROFILE);
-
-    // navigate(`/course/${courseId}/workouts`);
   }
   return (
     <>

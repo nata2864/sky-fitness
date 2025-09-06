@@ -14,3 +14,5 @@ export const RoutesApp = {
 //удалить ненужное
 
 export const getCoursePath = (id: string | number) => `/course/${id}`;
+
+

@@ -14,15 +14,15 @@ import {
   fetchCoursesById,
   fetchWorkOutsById,
   fetchProgressWorkOutById,
-  // addFavoriteCourse,
   patchProgressWorkOut,
   fetchCourseProgress,
   fetchAllCourses,
- 
   fetchAllUsersData,
 } from '../services/api';
 
 import { handleAxiosError } from '../utils/handleAxiosError/handleAxiosError';
+import { AuthContext } from '../context/AuthContext';
+import { useContext } from 'react';
 
 type CourseProviderProps = {
   children: React.ReactNode;
@@ -38,8 +38,7 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
   // --- Стейт всех курсов ---
   const [courses, setCourses] = useState<Course[]>([]);
   // --- Стейт всех курсов пользователя---
-const [usersData, setUsersData] = useState<UserData | null>(null);
-
+  const [usersData, setUsersData] = useState<UserData | null>(null);
 
   const [loadingCourse, setLoadingCourse] = useState(false);
   // const [loadingUsersCourses, setLoadingUsersCourses] = useState(false);
@@ -52,6 +51,8 @@ const [usersData, setUsersData] = useState<UserData | null>(null);
 
   // const [errorCourse, setErrorCourse] = useState<string | null>(null);
   // const [errorWorkout, setErrorWorkout] = useState<string | null>(null);
+
+  const { token } = useContext(AuthContext);
 
   // --- Загрузка всех курсов ---
 
@@ -74,7 +75,7 @@ const [usersData, setUsersData] = useState<UserData | null>(null);
 
   const getAllUsersData = useCallback(async (): Promise<UserData | null> => {
     try {
-      const data = await fetchAllUsersData();
+      const data = await fetchAllUsersData(token);
 
       if (data) {
         setUsersData(data);
@@ -93,7 +94,7 @@ const [usersData, setUsersData] = useState<UserData | null>(null);
     setLoadingCourse(true);
 
     try {
-      const data = await fetchCoursesById(id);
+      const data = await fetchCoursesById(token, id);
       setCourse(data ?? null);
     } catch (err) {
       handleAxiosError(err);
@@ -102,29 +103,13 @@ const [usersData, setUsersData] = useState<UserData | null>(null);
     }
   }, []);
 
-  // --- Добавить курс в избранные ---
-  // const addCourseToFavorites = useCallback(
-  //   async (courseId: string) => {
-  //     try {
-  //       const data = await addFavoriteCourse(courseId);
-  //       console.log('Сервер вернул:', data);
-
-  //       setFavorites(data);
-  //     } catch (err) {
-  //       console.error('Ошибка при добавлении в избранное:', err);
-  //       handleAxiosError(err);
-  //     }
-  //   },
-  //   [setFavorites]
-  // );
-
   // --- Загрузка тренировки ---
   const getWorkoutById = useCallback(
     async (id: string): Promise<WorkOutLesson | null> => {
       if (!id) return null;
       setLoadingWorkout(true);
       try {
-        const data = await fetchWorkOutsById(id);
+        const data = await fetchWorkOutsById(token, id);
         setWorkOut(data ?? null);
         return data ?? null;
       } catch (err) {
@@ -137,25 +122,6 @@ const [usersData, setUsersData] = useState<UserData | null>(null);
     []
   );
 
-  // const getProgress = useCallback(
-  //   async (courseId: string, workoutId: string) => {
-  //     if (!courseId || !workoutId) return;
-  //     setLoadingProgress(true);
-
-  //     try {
-  //       const data = await fetchProgressWorkOutById({ courseId, workoutId });
-  //        console.log("✅ getProgress данные:", data);
-  //       setProgress(data ?? null);
-  //     } catch (err) {
-  //        console.error("❌ Ошибка getProgress:", err);
-  //       handleAxiosError(err);
-  //     } finally {
-  //       setLoadingProgress(false);
-  //     }
-  //   },
-  //   []
-  // );
-
   const getProgress = useCallback(
     async (courseId: string, workoutId: string) => {
       if (!courseId || !workoutId) return;
@@ -163,10 +129,13 @@ const [usersData, setUsersData] = useState<UserData | null>(null);
 
       try {
         // получаем прогресс с сервера
-        const data: WorkOutsProgress | null = await fetchProgressWorkOutById({
-          courseId,
-          workoutId,
-        });
+        const data: WorkOutsProgress | null = await fetchProgressWorkOutById(
+          token,
+          {
+            courseId,
+            workoutId,
+          }
+        );
         console.log('✅ getProgress данные:', data);
 
         // получаем упражнения, чтобы знать длину массива
@@ -203,7 +172,7 @@ const [usersData, setUsersData] = useState<UserData | null>(null);
       setLoadingProgress(true);
 
       try {
-        const data = await patchProgressWorkOut({
+        const data = await patchProgressWorkOut(token, {
           courseId,
           workoutId,
           progressData,
@@ -226,7 +195,7 @@ const [usersData, setUsersData] = useState<UserData | null>(null);
     setLoadingCourseProgress(true);
 
     try {
-      const data = await fetchCourseProgress(courseId);
+      const data = await fetchCourseProgress(token, courseId);
       setCourseProgress(data ?? null);
     } catch (err) {
       handleAxiosError(err);
@@ -256,8 +225,7 @@ const [usersData, setUsersData] = useState<UserData | null>(null);
         getAllCourses,
         courses,
         usersData,
-   getAllUsersData
-   
+        getAllUsersData,
       }}
     >
       {children}

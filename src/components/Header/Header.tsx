@@ -4,18 +4,32 @@ import Container from '../../ui/Container.styled.tsx';
 import PopUserSet from '../../popUps/PopUserSet/PopUserSet.tsx';
 import { AuthContext } from '../../context/AuthContext';
 import { useContext } from 'react';
-import { Button } from '../../ui/Button.styled.tsx';
+
 import { getUsernameFromEmail } from '../../utils/getUsernameFromEmail/getUsernameFromEmail.ts';
+import { Link, useNavigate } from 'react-router-dom';
+import { RoutesApp } from '../../const.tsx';
+
+
+
 
 function Header() {
   const [isOpenPopUser, setIsOpenPopUser] = useState(false);
+    const navigate = useNavigate();
 
-  const { user, login, logout, updateUserInfo } = useContext(AuthContext);
-   console.log({user});
-  console.log({  login });
+  const { token,  logout, userName } = useContext(AuthContext);
+  //  console.log({user});
+  console.log({  token });
    console.log({  logout});
-    console.log({ updateUserInfo });
-  const parsedMail = getUsernameFromEmail(user?.login || '');
+  //   console.log({ updateUserInfo });
+  const parsedMail = getUsernameFromEmail(userName || '');
+
+
+
+  function handleLogout(e: { preventDefault: () => void; }) {
+    e.preventDefault();
+    logout();
+    navigate(RoutesApp.SIGN_IN);
+  }
 
   function handleClickPopupUser() {
     setIsOpenPopUser((prev) => !prev);
@@ -26,16 +40,17 @@ function Header() {
       <S.Header>
         <S.Block>
           <S.LogoBlock>
-            <a href="#">
+             <Link to= {"/"}>
               <img
                 className=""
                 src="/logo.svg"
                 alt="Логотип "
               />
-            </a>
+    </Link> 
             <S.LogoText>Онлайн-тренировки для занятий дома</S.LogoText>
           </S.LogoBlock>
-          {user ? (
+                <S.HeaderButton onClick={handleLogout}>Exit</S.HeaderButton>
+          {token ? (
             <S.ProfileBlock>
               <img src="/profile.svg" alt="Иконка профиля" />
               <S.ProfileButton
@@ -53,7 +68,7 @@ function Header() {
               />
             </S.ProfileBlock>
           ) : (
-            <Button>Войти</Button>
+            <S.HeaderButton>Войти</S.HeaderButton>
           )}
         </S.Block>
       </S.Header>

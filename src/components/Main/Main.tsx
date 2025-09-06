@@ -4,33 +4,37 @@ import * as S from './Main.styled';
 import { useEffect, useContext } from 'react';
 import { CourseContext } from '../../context/CourseContext';
 
-
 function Main() {
-
   const context = useContext(CourseContext);
-    if (!context) {
+  if (!context) {
     return null;
   }
 
-  const { getAllCourses, courses} = context;
 
-    useEffect(() => {
+
+  const { getAllCourses, courses } = context;
+
+  useEffect(() => {
     getAllCourses();
   }, [getAllCourses]);
+
+  useEffect(() => {
+  
+  console.log("token:", localStorage.getItem("token"));
+
+}, []);
+
   return (
     <Container>
-      <section >
+      <section>
         <S.TitleBlock>
           <S.Title>
             Начните заниматься спортом и улучшите качество жизни
           </S.Title>
-          <S.TitleImg
-            src="./titleLogo.svg"
-            alt="Логотип к названию сайта"
-          />
+          <S.TitleImg src="./titleLogo.svg" alt="Логотип к названию сайта" />
         </S.TitleBlock>
-    
-       <CoursesList courses={courses }  isUserCourse={false}/>
+
+        <CoursesList courses={courses} isUserCourse={false} />
       </section>
       <S.Footer>
         <S.FooterButton>Наверх ↑</S.FooterButton>
@@ -40,6 +44,5 @@ function Main() {
 }
 
 //доделать кнопку
-
 
 export default Main;

@@ -1,35 +1,34 @@
 import styled from 'styled-components';
+import { Button } from '../../ui/Button.styled';
 
 export const Header = styled.header`
   width: 100%;
   padding-top: 50px;
   padding-bottom: 50px;
 
-    @media (max-width: 768px){
-   padding-top: 40px;
-  padding-bottom: 40px;
+  @media (max-width: 768px) {
+    padding-top: 40px;
+    padding-bottom: 40px;
   }
 `;
 
 export const Block = styled.div`
   display: flex;
- 
+
   align-items: center;
   justify-content: space-between;
-   
 `;
 
 export const LogoText = styled.p`
-
   font-weight: 400;
 
   font-size: 18px;
   letter-spacing: 0px;
-      @media (max-width: 900px){
-   display:none;
+  @media (max-width: 900px) {
+    display: none;
   }
-     @media (max-width: 768px){
-   display:none;
+  @media (max-width: 768px) {
+    display: none;
   }
 `;
 
@@ -39,16 +38,14 @@ export const LogoBlock = styled.div`
 `;
 
 export const ProfileBlock = styled.div`
-position: relative;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 16px;
 `;
 
-
 export const ProfileButton = styled.button`
-
   font-weight: 400;
 
   font-size: 24px;
@@ -56,7 +53,6 @@ export const ProfileButton = styled.button`
   color: rgba(0, 0, 0, 1);
 
   letter-spacing: 0px;
-
 
   &::after {
     content: '';
@@ -71,12 +67,19 @@ export const ProfileButton = styled.button`
     padding: 0;
   }
 
-    @media (max-width: 1024px){
-   display:none;
+  @media (max-width: 1024px) {
+    display: none;
   }
 
-     @media (max-width: 768px){
-   display:none;
+  @media (max-width: 768px) {
+    display: none;
   }
 `;
 
+export const HeaderButton = styled(Button)`
+  max-width: 103px;
+
+  @media (max-width: 768px) {
+    max-width: 83px;
+  }
+`;

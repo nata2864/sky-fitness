@@ -1,13 +1,13 @@
 import * as S from './Card.styled.tsx';
 import type { Course } from '../../data.tsx';
 import { getCourseImage } from '../../utils/getCourseImage/getCourseImage.ts';
-import { Link } from 'react-router-dom';
+
 import Progress from '../Progress/Progress.tsx';
-import { Button } from '../../ui/Button.styled.tsx';
+
 import { CourseContext } from '../../context/CourseContext';
 import { useContext } from 'react';
-import { RoutesApp } from '../../const';
-import { useParams, useNavigate } from 'react-router-dom';
+
+
 
 type CardProps = {
   course: Course;

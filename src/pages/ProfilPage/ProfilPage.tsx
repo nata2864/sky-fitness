@@ -5,11 +5,16 @@ import { getUsernameFromEmail } from '../../utils/getUsernameFromEmail/getUserna
 import { AuthContext } from '../../context/AuthContext';
 import { useEffect, useContext } from 'react';
 import { CourseContext } from '../../context/CourseContext';
+import { useNavigate } from 'react-router-dom';
+import { RoutesApp } from '../../const.tsx';
 
 function ProfilPage() {
   const context = useContext(CourseContext);
-  const { user } = useContext(AuthContext);
-  const parsedMail = getUsernameFromEmail(user?.login || '');
+  const { logout, userName } = useContext(AuthContext);
+  const parsedMail = getUsernameFromEmail(userName || '');
+  const navigate = useNavigate();
+
+
 
   if (!context) {
     return null;
@@ -25,6 +30,8 @@ function ProfilPage() {
     getAllUsersData();
   }, [getAllUsersData]);
 
+  
+
   const usersCourses = usersData?.user?.selectedCourses ?? [];
 
   if (!courses) {
@@ -35,6 +42,12 @@ function ProfilPage() {
     usersCourses.includes(course._id)
   );
 
+  function handleLogout(e: { preventDefault: () => void }) {
+    e.preventDefault();
+    logout();
+    navigate(RoutesApp.SIGN_IN);
+  }
+
   return (
     <Container>
       <section>
@@ -44,8 +57,8 @@ function ProfilPage() {
             <S.ProfilIeImg src="/profil.jpg" alt="" />
             <S.ProfilInfoBox>
               <S.UserName>{parsedMail}</S.UserName>
-              <S.UserLogin>Логин: {user?.login}</S.UserLogin>
-              <S.UserButton type="button">Выйти</S.UserButton>
+              <S.UserLogin>Логин: {userName}</S.UserLogin>
+              <S.UserButton type="button" onClick={handleLogout}>Выйти</S.UserButton>
             </S.ProfilInfoBox>
           </S.ImageTextBlock>
         </S.ProfilCard>

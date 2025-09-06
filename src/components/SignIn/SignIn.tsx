@@ -4,10 +4,10 @@ import {
   FormFields,
   InputItem,
   AuthContainer,
-  InputWrapper
+  InputWrapper,
 } from '../../ui/Form.styled';
-import { Link, useNavigate } from 'react-router-dom';
-import { Button, Secondarybutton } from '../../ui/Button.styled';
+import {  useNavigate } from 'react-router-dom';
+import { Button, SecondaryButton } from '../../ui/Button.styled';
 import { useFormValidation } from '../../hooks/useFormValidation';
 import { RoutesApp } from '../../const';
 import { signInUser } from '../../services/auth';
@@ -15,46 +15,41 @@ import { handleAxiosError } from '../../utils/handleAxiosError/handleAxiosError'
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 
-
 function SignIn() {
-    const navigate = useNavigate();
- const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
-
-  const { formData, errors, handleChange, validateForm, validateField } = useFormValidation({
-    email: '',
-    password: '',
-  });
+  const { formData, errors, handleChange, validateForm, validateField } =
+    useFormValidation({
+      email: '',
+      password: '',
+    });
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (!validateForm(['email', 'password'])) {
-    console.log('Валидация не прошла');
-    console.log(errors);
-    return;
-  } 
-
-  const loginData = {
-    email: formData.email,
-    password: formData.password,
-  };
-
-  try {
-    // 1. Отправляем данные на сервер
-    const response = await signInUser(loginData); // ожидаем ответ с данными пользователя
-
-    // 2. Обновляем локальное состояние через login
-    const success = login(response); // или login(response.data), если сервер возвращает объект в data
-    if (success) {
-      // 3. Переходим на главную страницу
-      navigate(RoutesApp.MAIN);
+    if (!validateForm(['email', 'password'])) {
+      console.log('Валидация не прошла');
+      console.log(errors);
+      return;
     }
-  } catch (error) {
-    handleAxiosError(error); // обработка ошибок сервера
-  }
-};
 
+    const loginData = {
+      email: formData.email,
+      password: formData.password,
+    };
+
+    try {
+      const response = await signInUser(loginData);
+
+      if (response) {
+        login(response.token, loginData.email);
+        navigate(RoutesApp.MAIN);
+      }
+    } catch (error) {
+      handleAxiosError(error); // обработка ошибок сервера
+    }
+  };
 
   return (
     <AuthContainer>
@@ -71,7 +66,9 @@ function SignIn() {
                 onBlur={() => validateField('email', ['email', 'password'])}
                 value={formData.email}
               />
-              {errors.email && <p style={{ color: 'red', marginTop: '4px' }}>{errors.email}</p>}
+              {errors.email && (
+                <p style={{ color: 'red', marginTop: '4px' }}>{errors.email}</p>
+              )}
             </InputWrapper>
 
             <InputWrapper>
@@ -83,17 +80,22 @@ function SignIn() {
                 onBlur={() => validateField('password', ['email', 'password'])}
                 value={formData.password}
               />
-              {errors.password && <p style={{ color: 'red', marginTop: '4px' }}>{errors.password}</p>}
+              {errors.password && (
+                <p style={{ color: 'red', marginTop: '4px' }}>
+                  {errors.password}
+                </p>
+              )}
             </InputWrapper>
           </FormFields>
 
-          <Button type="submit" >
-            Войти
-          </Button>
+          <Button type="submit">Войти</Button>
 
-          <Link to={RoutesApp.SIGN_UP}>
-            <Secondarybutton type="button">Зарегистрироваться</Secondarybutton>
-          </Link>
+          <SecondaryButton
+            type="button"
+            onClick={() => navigate(RoutesApp.SIGN_UP)}
+          >
+            Зарегистрироваться
+          </SecondaryButton>
         </form>
       </AuthWrapper>
     </AuthContainer>

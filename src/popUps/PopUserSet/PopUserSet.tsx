@@ -12,15 +12,15 @@ type PopUserSetProps = {
 };
 
 function PopUserSet({ setIsOpenPopUser, isOpenPopUser }: PopUserSetProps) {
-  const { user } = useContext(AuthContext);
-  const parsedMail = getUsernameFromEmail(user?.login || '');
+  const { userName } = useContext(AuthContext);
+  const parsedMail = getUsernameFromEmail(userName || '');
   const navigate = useNavigate();
 
   return (
     <S.PopUserSet $isOpen={isOpenPopUser}>
       <div>
         <S.UserName>{parsedMail}</S.UserName>
-        <S.UserMail>{user?.login}</S.UserMail>
+        <S.UserMail>{userName}</S.UserMail>
         <S.PopUserButton
           type="button"
           onClick={() => {
@@ -34,7 +34,7 @@ function PopUserSet({ setIsOpenPopUser, isOpenPopUser }: PopUserSetProps) {
           type="button"
           onClick={() => {
             setIsOpenPopUser(false);
-            navigate(RoutesApp.EXIT);
+            navigate(RoutesApp.SIGN_IN);
           }}
         >
           Выйти

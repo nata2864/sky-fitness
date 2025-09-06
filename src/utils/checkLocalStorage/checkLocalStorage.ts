@@ -1,23 +1,19 @@
-export function checkLocalStorage() {
+
+import { getToken } from "../../services/token";
+
+export function checkLocalStorage(): string | null {
   try {
-    const data = window.localStorage.getItem("userInfo");
-    if (!data) return null;
+    const token = getToken();
+    if (!token) return null;
 
-    const parsedData = JSON.parse(data);
-
-    if (
-      typeof parsedData === "object" &&
-      parsedData !== null &&
-      typeof parsedData.name === "string" &&
-      typeof parsedData.token === "string"
-    ) {
-      return parsedData;
+    if (typeof token === "string" && token.trim().length > 0) {
+      return token;
     } else {
-      console.warn("Некорректная структура данных в localStorage");
+      console.warn("Некорректный токен в localStorage");
       return null;
     }
   } catch (error) {
-    console.error("Ошибка при парсинге localStorage userInfo:", error);
+    console.error("Ошибка при чтении localStorage token:", error);
     return null;
   }
 }

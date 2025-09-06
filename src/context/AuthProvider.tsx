@@ -1,85 +1,52 @@
-import { useState, useEffect } from "react";
-import type { ReactNode } from "react";
-import { AuthContext } from "./AuthContext";
-import { checkLocalStorage } from "../utils/checkLocalStorage/checkLocalStorage";
+import { useState, useEffect } from 'react';
+import { saveToken, dropToken } from '../services/token';
+import { AuthContext } from './AuthContext';
+import { checkLocalStorage } from '../utils/checkLocalStorage/checkLocalStorage';
 
-// Тип данных пользователя
-export type User ={
-  _id: string;
-  login: string;
-}
-
-// Тип пропсов провайдера
-interface AuthProviderProps {
-  children: ReactNode;
-}
-
-const AuthProvider = ({ children }: AuthProviderProps) => {
-  // checkLocalStorage может вернуть либо User, либо null
-  const [user, setUser] = useState<User | null>(checkLocalStorage());
+function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [token, setToken] = useState<string | null>(null);
+  const [userName, setUserName] = useState<string | null>(null);
 
   useEffect(() => {
-    try {
-      const storedUser = localStorage.getItem("userInfo");
-      if (storedUser) {
-        console.log(storedUser)
-        setUser(JSON.parse(storedUser) );
-      }
-    } catch (error) {
-      console.error("Ошибка при загрузке данных из localStorage:", error);
+    const savedToken = checkLocalStorage();
+    const savedUser = localStorage.getItem('userEmail');
+
+    if (savedToken) {
+      setToken(savedToken);
+    }
+    if (savedUser) {
+      setUserName(savedUser);
     }
   }, []);
 
-  // Обновляем данные о пользователе и сохраняем в лс
-  // const updateUserInfo = (userData: User | null) => {
-  //   setUser(userData);
-  //   if (userData) {
-  //     localStorage.setItem("userInfo", JSON.stringify(userData));
-  //   } else {
-  //     localStorage.removeItem("userInfo");
-  //   }
-  // };
+  const updateUserInfo = (token: string | null, userName: string | null) => {
+    setToken(token);
+    setUserName(userName);
 
-   const updateUserInfo = (userData: User | null) => {
-  console.log("Updating user info:", userData);
-  setUser(userData);
-  try {
-    if (userData) {
-      console.log("Saving to localStorage:", JSON.stringify(userData));
-      localStorage.setItem("userInfo", JSON.stringify(userData));
+    if (token && userName) {
+      saveToken(token);
+      localStorage.setItem('userEmail', userName);
     } else {
-      console.log("Removing from localStorage");
-      localStorage.removeItem("userInfo");
+      dropToken();
+      localStorage.removeItem('userEmail');
     }
-  } catch (error) {
-    console.error("LocalStorage error:", error);
-  }
-};
+  };
 
-
-//АПИ возвращает токен, а не мейл и логин. Нужно переделать
-
-
-  const login = (loginData: User): boolean => {
-    console.log("loginData:", loginData);
-
-    updateUserInfo(loginData);
+  const login = (newToken: string, userName: string) => {
+    updateUserInfo(newToken, userName);
     return true;
   };
 
-
-  const logout = (): boolean => {
-    updateUserInfo(null);
+  const logout = () => {
+    updateUserInfo(null, null);
     return true;
   };
-
-  console.log("updateUserInfo function loaded");
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, updateUserInfo }}>
+    <AuthContext.Provider value={{ token, userName, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
-};
+}
 
 export default AuthProvider;
