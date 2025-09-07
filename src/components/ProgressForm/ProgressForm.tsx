@@ -9,6 +9,7 @@ import * as S from "./ProgressForm.styled";
 import type { Exercise , ProgressData} from '../../sharesTypes/sharesTypes';
 import { getExerciseQuestion } from '../../utils/getExerciseQuestion/getExerciseQuestion';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 
 type ProgressFormProps = {
@@ -39,7 +40,8 @@ function ProgressForm({ workoutTasks, courseId, workoutId, updateProgress, setIs
     );
 
     if (courseId && workoutId) {
-      await updateProgress(courseId, workoutId, progressData);
+      await updateProgress( courseId, workoutId, progressData);
+      toast.success('Прогресс по данной тренировке отмечен!')
     }
 
     setIsOpenPopMyProgress(false)

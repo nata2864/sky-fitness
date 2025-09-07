@@ -3,7 +3,7 @@ import type { Course } from '../../data.tsx';
 import { getCourseImage } from '../../utils/getCourseImage/getCourseImage.ts';
 
 import Progress from '../Progress/Progress.tsx';
-
+import { useNavigate } from 'react-router-dom';
 import { CourseContext } from '../../context/CourseContext';
 import { useContext } from 'react';
 
@@ -19,6 +19,7 @@ type CardProps = {
 
 function Card({ course, isUserCourse, onClick,onIconClick }: CardProps) {
   const context = useContext(CourseContext);
+  const navigate = useNavigate();
 
   if (!context) {
     return null;
@@ -68,14 +69,18 @@ function Card({ course, isUserCourse, onClick,onIconClick }: CardProps) {
 
         {isUserCourse && (
           <>
-            <Progress />
-            <S.CourseButton>Начать тренировки</S.CourseButton>
+                <Progress />
+            <S.CourseButton onClick={() => navigate(`/course/${_id}/workouts`)}>
+              Начать тренировки
+            </S.CourseButton>
+          
           </>
         )}
       </S.CourseDiscription>
     </S.CourseCard>
   );
 }
+
 
 export default Card;
 

@@ -33,7 +33,7 @@ max-height: 320px;
   }
 `;
 
-export const WorkOutItem = styled.div`
+export const WorkOutItem = styled.div<{ $isActive?: boolean }>`
   display: flex;
   /* align-items: center; */
   /* justify-content: space-between; */
@@ -42,6 +42,12 @@ export const WorkOutItem = styled.div`
   border-bottom: 1px solid rgba(196, 196, 196, 1);
   width:354px;
   margin-top: 10px;
+   background-color: ${({ $isActive }) => ($isActive ? "#d0f0fd" : "#fff")};
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: ${({ $isActive }) => ($isActive ? "#d0f0fd" : "#f0f0f0")};
+  }
      @media (max-width: 768px){
    width:257px;
   }
@@ -75,7 +81,8 @@ export const WorkOutSubTitle = styled.span`
   }
 `;
 
-export const CheckMark = styled.div`
+
+export const CheckMark = styled.div<{ $active?: boolean }>`
   width: 24px;
   height: 24px;
   border: 1px solid rgba(0, 0, 0, 1);
@@ -85,6 +92,10 @@ export const CheckMark = styled.div`
   align-items: center;
   /* font-size: 12px;
       color: #6c3; */
+       ${({ $active }) => $active && `
+    background-color: #0077ff;
+    color: #fff;
+  `}
 `;
 
 export const CheckMarkActive = styled.div`

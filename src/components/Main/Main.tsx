@@ -20,7 +20,7 @@ function Main() {
 
   useEffect(() => {
   
-  console.log("token:", localStorage.getItem("token"));
+
 
 }, []);
 

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { IconTextBlock } from '../../ui/IconTextBlock.styled';
-import { Secondarybutton } from '../../ui/Button.styled';
+import { SecondaryButton } from '../../ui/Button.styled';
 
 export const Title = styled.h3`
   font-weight: 600;
@@ -83,7 +83,7 @@ export const UserLogin = styled.p`
   }
 `;
 
-export const UserButton = styled(Secondarybutton)`
+export const UserButton = styled(SecondaryButton)`
   max-width: 192px;
   height: 52px;
   @media (max-width: 768px) {

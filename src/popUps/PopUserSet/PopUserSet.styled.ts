@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Button, Secondarybutton } from '../../ui/Button.styled';
+import { Button, SecondaryButton } from '../../ui/Button.styled';
 
 type PopUserProps = {
   $isOpen: boolean;
@@ -50,7 +50,7 @@ export const PopUserButton = styled(Button)`
   padding-bottom: 16px;
   padding-left: 26px;
 `;
-export const PopUserSecondaryButton = styled(Secondarybutton)`
+export const PopUserSecondaryButton = styled(SecondaryButton)`
   width: 206px;
   height: 52px;
 

@@ -1,76 +1,56 @@
-
-
-
 import * as S from "./WorkOutForm.styled";
-// import { useState } from 'react';
-import type {  WorkOutLesson } from "../../sharesTypes/sharesTypes";
+import { useState } from "react";
+import type { WorkOutLesson } from "../../sharesTypes/sharesTypes";
+// import { parseCourseName } from "../../utils/parseCourseName/parseCourseName/parseCourseName";
+import { useNavigate } from "react-router-dom";
 import { parseCourseName } from "../../utils/parseCourseName/parseCourseName";
-import { Link } from "react-router-dom";
 
-
-type WorkOutFormtProps = {
- workouts: WorkOutLesson[];
- courseId:string|undefined
-
+type WorkOutFormProps = {
+  workouts: WorkOutLesson[];
+  courseId: string | undefined;
 };
 
-//временно
+function WorkOutForm({ workouts, courseId }: WorkOutFormProps) {
+  const [selectedWorkout, setSelectedWorkout] = useState<WorkOutLesson | null>(null);
+  const navigate = useNavigate();
 
-
-// type WorkOutFormtProps = {
-//  workouts: string[];
-
-// };
-
-
-function WorkOutForm ({workouts,courseId}:WorkOutFormtProps) {
-
-// const [isActiveCheckMark, setIsActiveCheckMark] = useState(true)
-
-// const handleCheckMark (){
-//    setIsActiveCheckMark((prev) => !prev);
-// }
-  console.log({workouts})
-  // if(!courseId)return
+  const handleStart = () => {
+    if (selectedWorkout && courseId) {
+      navigate(`/course/${courseId}/workouts/${selectedWorkout._id}`);
+    }
+  };
 
   return (
-    <>
-      <S.WorkOutWrapper>
+    <S.WorkOutWrapper>
       <S.WorkOutFormTitle>Выберите тренировку</S.WorkOutFormTitle>
-     <S.WorkOutList>
-      {/* <S.WorkOutItem>
-         <S.CheckMarkActive >✔</S.CheckMarkActive>
-        <S.WorkOutText>  
-          <S.WorkOutTitle>Утренняя практика</S.WorkOutTitle>
-        <S.WorkOutSubTitle>Йога на каждый день / 1 день</S.WorkOutSubTitle>
-        </S.WorkOutText>   
-      </S.WorkOutItem> */}
-     
-
-   {workouts.map((workout, index) => {
+      <S.WorkOutList>
+        {workouts.map((workout, index) => {
           const parsed = parseCourseName(workout.name);
+          const isActive = selectedWorkout?._id === workout._id;
 
           return (
-                  <Link to= {`/course/${courseId}/workouts/${workout._id}`}>
-                
-            <S.WorkOutItem key={index}>
-              <S.CheckMark />
-              <S.WorkOutText>
-                <S.WorkOutTitle>{parsed.title}</S.WorkOutTitle>
-                <S.WorkOutSubTitle>
-                  {[parsed.subtitle, parsed.day].filter(Boolean).join(" / ")}
-          </S.WorkOutSubTitle></S.WorkOutText>   
-   </S.WorkOutItem>
-        </Link> 
-   );
-      
+           <S.WorkOutItem
+  key={index}
+  onClick={() => setSelectedWorkout(workout)}
+  $isActive={isActive} // фон изменится
+>
+  <S.CheckMark $active={isActive} />
+  <S.WorkOutText>
+    <S.WorkOutTitle>{parsed.title}</S.WorkOutTitle>
+    <S.WorkOutSubTitle>
+      {[parsed.subtitle, parsed.day].filter(Boolean).join(" / ")}
+    </S.WorkOutSubTitle>
+  </S.WorkOutText>
+</S.WorkOutItem>
+
+          );
         })}
-      
-     </S.WorkOutList>
-       <S.WorkOutButton>Начать</S.WorkOutButton>
-      </S.WorkOutWrapper>
-    </>
+      </S.WorkOutList>
+      <S.WorkOutButton onClick={handleStart} disabled={!selectedWorkout}>
+        Начать
+      </S.WorkOutButton>
+    </S.WorkOutWrapper>
   );
 }
 
-export default WorkOutForm ;
+export default WorkOutForm;

@@ -44,18 +44,13 @@ function CourseDescription() {
 
    toast.success(message);
       } catch (err) {
-        console.error('Ошибка при добавлении в избранное:', err);
-        handleAxiosError(err);
+       
+        toast.error('Курс уже был добавлен!')
       }
     },
    []
   );
 
-
-
-//   const addCourse = (course: AllUsersData) => {
-//   setUsersCourses(prev => [...prev, course]);
-// };
 
 
   useEffect(() => {

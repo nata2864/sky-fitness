@@ -10,14 +10,6 @@ function WorkOutFormPage() {
       const { courseId } = useParams();
 
 
-//  const workouts= [
-//   {
-//     "_id": "a1rqtt",
-//     "name": "Урок 2. Основные движения",
-//     "video": "https://www.youtube.com/embed/gJPs7b8SpVw",
-//     "exercises": [],
-//   },
-// ]
 
   const { workouts } = useWorkoutsList(courseId);
     // const workouts = {courses.workouts}

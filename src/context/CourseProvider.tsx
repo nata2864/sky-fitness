@@ -166,28 +166,60 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
   );
 
   // --- Обновить прогресс тренировки ---
-  const updateProgress = useCallback(
-    async (courseId: string, workoutId: string, progressData: ProgressData) => {
-      if (!courseId || !workoutId) return;
-      setLoadingProgress(true);
+  // const updateProgress = useCallback(
+  //   async (courseId: string, workoutId: string, progressData: ProgressData) => {
+  //     if (!courseId || !workoutId) return;
+  //     setLoadingProgress(true);
 
-      try {
-        const data = await patchProgressWorkOut(token, {
-          courseId,
-          workoutId,
-          progressData,
-        });
-        console.log('✅ updateProgress данные:', data);
-        setProgress(data ?? null); //
-      } catch (err) {
-        console.error('❌ Ошибка updateProgress:', err);
-        handleAxiosError(err);
-      } finally {
-        setLoadingProgress(false);
-      }
-    },
-    []
-  );
+  //     try {
+  //       const data = await patchProgressWorkOut(token, {
+  //         courseId,
+  //         workoutId,
+  //         progressData,
+  //       });
+  //       console.log('✅ updateProgress данные:', data);
+  //       setProgress(data ?? null); //
+        
+  //     } catch (err) {
+  //       console.error('❌ Ошибка updateProgress:', err);
+  //       handleAxiosError(err);
+  //     } finally {
+  //       setLoadingProgress(false);
+  //     }
+  //   },
+  //   []
+  // );
+const updateProgress = useCallback(
+  async (courseId: string, workoutId: string, progressData: ProgressData) => {
+    if (!courseId || !workoutId) return;
+    setLoadingProgress(true);
+
+    // ✅ сразу обновляем локально
+ setProgress(prev => {
+  if (!prev) return prev; // если прогресса ещё нет, ничего не делаем
+  return { ...prev, progressData };
+});
+
+    try {
+      const data = await patchProgressWorkOut(token, {
+        courseId,
+        workoutId,
+        progressData,
+      });
+
+      console.log('✅ updateProgress данные:', data);
+    
+    } catch (err) {
+      console.error('❌ Ошибка updateProgress:', err);
+      handleAxiosError(err);
+    } finally {
+      setLoadingProgress(false);
+    }
+  },
+  [token]
+);
+
+
 
   // --- Новый метод: прогресс всего курса ---
   const getCourseProgressById = useCallback(async (courseId: string) => {
