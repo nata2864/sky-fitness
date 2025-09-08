@@ -5,9 +5,8 @@ import styled from 'styled-components';
 
 export const AuthContainer = styled.div`
   width: 100%;
-  height: 100%;
   min-width: 320px;
-  min-height: 100vh;
+  min-height: 100dvh; /* вместо 100vh */
   display: flex;
   flex-direction: column;
   align-items: center;

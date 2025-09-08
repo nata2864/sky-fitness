@@ -3,7 +3,7 @@ import {
   Logo,
   FormFields,
   InputItem,
-  AuthContainer,
+
   InputWrapper,
 } from '../../ui/Form.styled';
 import {  useNavigate } from 'react-router-dom';
@@ -52,7 +52,7 @@ function SignIn() {
   };
 
   return (
-    <AuthContainer>
+    // <AuthContainer>
       <AuthWrapper>
         <Logo src="./logo.svg" alt="Logo" />
         <form onSubmit={onSubmit}>
@@ -98,7 +98,7 @@ function SignIn() {
           </SecondaryButton>
         </form>
       </AuthWrapper>
-    </AuthContainer>
+    // </AuthContainer>
   );
 }
 

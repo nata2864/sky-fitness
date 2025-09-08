@@ -1,26 +1,15 @@
-
-import WorkOutForm from "../components/WorkOutForm/WorkOutForm ";
-import Container from "../ui/Container.styled";
-//    Временно. Сделать общий врапер для страниц с формами 
-import { AuthContainer } from "../ui/Form.styled";
+import WorkOutForm from '../components/WorkOutForm/WorkOutForm ';
 import { useParams } from 'react-router-dom';
-import { useWorkoutsList } from "../hooks/useWorkoutsList";
+import { useWorkoutsList } from '../hooks/useWorkoutsList';
+import { PopUpWrapper } from '../ui/PopUpWrapper.styled ';
 function WorkOutFormPage() {
-
-      const { courseId } = useParams();
-
-
-
+  const { courseId } = useParams();
   const { workouts } = useWorkoutsList(courseId);
-    // const workouts = {courses.workouts}
-    // console.log({courses})
 
   return (
-    // <Container>
-        <AuthContainer>
-    <WorkOutForm workouts={workouts} courseId={ courseId }/>
-    </AuthContainer>
-    // </Container>
+    <PopUpWrapper>
+      <WorkOutForm workouts={workouts} courseId={courseId} />
+    </PopUpWrapper>
   );
 }
 

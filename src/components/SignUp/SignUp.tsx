@@ -3,7 +3,7 @@ import {
   Logo,
   FormFields,
   InputItem,
-  AuthContainer,
+
   InputWrapper,
 } from '../../ui/Form.styled';
 import { RoutesApp } from '../../const';
@@ -13,6 +13,7 @@ import { useFormValidation } from '../../hooks/useFormValidation';
 import { signUpUser } from '../../services/auth';
 import { handleAxiosError } from '../../utils/handleAxiosError/handleAxiosError';
 import { useState } from 'react';
+
 
 function SignUp() {
   const navigate = useNavigate();
@@ -49,7 +50,7 @@ function SignUp() {
   };
 
   return (
-    <AuthContainer>
+   
       <AuthWrapper>
         <Logo src="./logo.svg" alt="Logo" />
         <form onSubmit={onSubmit} noValidate>
@@ -137,7 +138,7 @@ function SignUp() {
           </SecondaryButton>
         </form>
       </AuthWrapper>
-    </AuthContainer>
+ 
   );
 }
 

@@ -25,7 +25,10 @@ function AppRoutes() {
             path="/course/:courseId/workouts/:workoutId"
             element={<WorkOutCoursePage />}
           />
-             <Route path="/course/:courseId/workouts" element={<WorkOutFormPage />} />
+          <Route
+            path="/course/:courseId/workouts"
+            element={<WorkOutFormPage />}
+          />
 
           <Route path={RoutesApp.PROFILE} element={<ProfilPage />} />
         </Route>
@@ -35,9 +38,6 @@ function AppRoutes() {
       <Route path={RoutesApp.SIGN_IN} element={<SignInPage />} />
       <Route path={RoutesApp.SIGN_UP} element={<SignUpPage />} />
 
-      {/* Форма выбора урока */}
-   
-
       {/* 404 */}
       <Route path={RoutesApp.NOT_FOUND} element={<NotFoundPage />} />
     </Routes>
@@ -45,5 +45,3 @@ function AppRoutes() {
 }
 
 export default AppRoutes;
-
-// есть путь на выход в константах

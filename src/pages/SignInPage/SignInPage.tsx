@@ -1,11 +1,11 @@
-
 import SignIn from '../../components/SignIn/SignIn';
+import { PopUpWrapper } from '../../ui/PopUpWrapper.styled ';
 
 function SignInPage() {
   return (
-<>
-<SignIn/>
-</>
+    <PopUpWrapper>
+      <SignIn />
+    </PopUpWrapper>
   );
 }
 
