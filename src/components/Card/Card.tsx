@@ -1,38 +1,18 @@
-import * as S from './Card.styled.tsx';
-import type { Course } from '../../data.tsx';
-import { getCourseImage } from '../../utils/getCourseImage/getCourseImage.ts';
-
-import Progress from '../Progress/Progress.tsx';
+import * as S from './Card.styled';
+import type { Course } from '../../sharesTypes/sharesTypes';
+import { getCourseImage } from '../../utils/getCourseImage/getCourseImage';
+import Progress from '../Progress/Progress';
 import { useNavigate } from 'react-router-dom';
-import { CourseContext } from '../../context/CourseContext';
-import { useContext } from 'react';
-
-
 
 type CardProps = {
   course: Course;
   isUserCourse: boolean;
-  onClick?: () => void;
- 
-  onIconClick?: (courseId: string) => void; // 👉 новый проп
+  onIconClick?: (courseId: string) => void;
 };
 
-function Card({ course, isUserCourse, onClick,onIconClick }: CardProps) {
-  const context = useContext(CourseContext);
+const Card: React.FC<CardProps> = ({ course, isUserCourse, onIconClick }) => {
   const navigate = useNavigate();
-
-  if (!context) {
-    return null;
-  }
-
-  const {
-    nameEN,
-    nameRU,
-    durationInDays,
-    dailyDurationInMinutes,
-    difficulty,
-    _id,
-  } = course;
+  const { _id, nameEN, nameRU, durationInDays, dailyDurationInMinutes, difficulty } = course;
 
   const srcPath = getCourseImage(nameEN);
 
@@ -43,12 +23,13 @@ function Card({ course, isUserCourse, onClick,onIconClick }: CardProps) {
         <S.Icon
           src={isUserCourse ? '/removeIcon.svg' : '/addIcon.svg'}
           alt={isUserCourse ? 'Remove from favorites' : 'Add to favorites'}
-          onClick={() => onIconClick?.(_id)} 
+          onClick={() => onIconClick?.(_id)}
         />
       </S.ImageWrapper>
 
-      <S.CourseDiscription onClick={onClick}>
+      <S.CourseDiscription>
         <S.Title>{nameRU}</S.Title>
+
         <S.Duration>
           <S.Badge>
             <img src="/time.svg" alt="time icon" />
@@ -69,19 +50,15 @@ function Card({ course, isUserCourse, onClick,onIconClick }: CardProps) {
 
         {isUserCourse && (
           <>
-                <Progress />
+            <Progress />
             <S.CourseButton onClick={() => navigate(`/course/${_id}/workouts`)}>
               Начать тренировки
             </S.CourseButton>
-          
           </>
         )}
       </S.CourseDiscription>
     </S.CourseCard>
   );
-}
-
+};
 
 export default Card;
-
-  

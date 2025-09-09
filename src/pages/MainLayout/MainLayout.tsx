@@ -1,16 +1,13 @@
-import { Outlet } from "react-router-dom";
-import Header from "../../components/Header/Header";
-import { Wrapper } from "./MainLayout.styled";
-import CourseProvider from "../../context/CourseProvider";
+import { Outlet } from 'react-router-dom';
+import Header from '../../components/Header/Header';
+import { Wrapper } from './MainLayout.styled';
 
 function MainLayout() {
   return (
     <Wrapper>
-      <Header />
-      <CourseProvider>
-         <Outlet />
-      </CourseProvider>
-     
+      <Header showMoto />
+
+      <Outlet />
     </Wrapper>
   );
 }

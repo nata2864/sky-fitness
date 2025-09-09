@@ -1,97 +1,73 @@
 import Container from '../../ui/Container.styled';
 import * as S from './CoursesList.styled';
 import Card from '../Card/Card';
-import { useEffect, useContext, useCallback } from 'react';
-import { CourseContext } from '../../context/CourseContext';
+import { useContext, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import type { Course } from '../../sharesTypes/sharesTypes';
-import { removeFavoriteCourse } from "../../services/api";
-import { handleAxiosError } from "../../utils/handleAxiosError/handleAxiosError";
 import { AuthContext } from '../../context/AuthContext';
-
+import { MainCourseContext } from '../../context/MainCourseContext ';
 
 type CoursesListProps = {
+  courses: Course[];
   isUserCourse: boolean;
-  courses: Course[] | null;
 };
 
-function CoursesList({ isUserCourse, courses }: CoursesListProps) {
-
+const CoursesList: React.FC<CoursesListProps> = ({ courses, isUserCourse }) => {
   const navigate = useNavigate();
-  const context = useContext(CourseContext);
+  const { token } = useContext(AuthContext);
+  const mainContext = useContext(MainCourseContext);
 
-  if (!context) {
-    return null;
-  }
+  if (!mainContext) return null;
 
-   
-   if (!courses) {
-     return null;
-   }
-const { token } = useContext(AuthContext);
-   const {  usersData, getAllUsersData} = context;
-
-
-  useEffect(() => {
-    getAllUsersData();
-  }, [getAllUsersData]);
+  const { usersData, getAllUsersData } = mainContext;
 
   const usersCourses = usersData?.user?.selectedCourses ?? [];
 
-
-
-
-  const removeCourse = useCallback(
+  const handleIconClick = useCallback(
     async (courseId: string) => {
-      try {
-        const message = await removeFavoriteCourse(token,courseId);
-        toast.success(message);
+      if (!token) {
+        navigate('/sign-in');
+        return;
+      }
 
-        // После удаления обновляем данные пользователя
-        getAllUsersData();
-      } catch (err) {
-        handleAxiosError(err);
+      if (isUserCourse) {
+        // Удаление курса
+        try {
+          const { removeFavoriteCourse } = await import('../../services/api');
+          const message = await removeFavoriteCourse(token, courseId);
+          toast.success(message);
+          getAllUsersData();
+        } catch (err) {
+          const { handleAxiosError } = await import('../../utils/handleAxiosError/handleAxiosError');
+          handleAxiosError(err);
+        }
+      } else {
+        // Добавление курса
+        if (usersCourses.includes(courseId)) {
+          toast.info('Этот курс уже есть у вас');
+        } else {
+          navigate(`/course/${courseId}`);
+        }
       }
     },
-    [getAllUsersData]
+    [token, isUserCourse, usersCourses, getAllUsersData, navigate]
   );
-
-
-const handleIconClick = (courseId: string) => {
-  if (isUserCourse) {
-    // Минус → удаляем курс
-    removeCourse(courseId); // removeCourse уже показывает тоаст
-  } else {
-    // Плюс → проверяем наличие курса
-    if (usersCourses.includes(courseId)) {
-      // Курс уже есть
-      toast.info('Этот курс уже есть у вас');
-    } else {
-      // Курс отсутствует → навигация на страницу курса
-      navigate(`/course/${courseId}`);
-    }
-  }
-};
-
-
 
   return (
     <Container>
-      <section>
-        <S.Courses>
-          {courses.map((course) => (
-            <Card
-              isUserCourse={isUserCourse}
-              key={course._id}
-              course={course}
-              onIconClick={(courseId) => handleIconClick (courseId)} 
-            />
-          ))}
-        </S.Courses>
-      </section>
+      <S.Courses>
+        {courses.map((course) => (
+          <Card
+            key={course._id}
+            course={course}
+            isUserCourse={isUserCourse}
+            onIconClick={handleIconClick}
+          />
+        ))}
+      </S.Courses>
     </Container>
   );
-}
+};
 
 export default CoursesList;

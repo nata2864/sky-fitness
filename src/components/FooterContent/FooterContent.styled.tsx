@@ -53,5 +53,11 @@ export const FooterButton = styled(Button)`
   @media (max-width: 768px) {
     width: 283px;
     height: 50px;
+
+font-weight: 400;
+
+font-size: 16px;
+
+
   }
 `;

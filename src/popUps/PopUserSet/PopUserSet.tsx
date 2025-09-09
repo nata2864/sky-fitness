@@ -11,10 +11,18 @@ type PopUserSetProps = {
   isOpenPopUser: boolean;
 };
 
+
+
 function PopUserSet({ setIsOpenPopUser, isOpenPopUser }: PopUserSetProps) {
-  const { userName } = useContext(AuthContext);
+  const { logout, userName  } = useContext(AuthContext);
   const parsedMail = getUsernameFromEmail(userName || '');
   const navigate = useNavigate();
+
+    function handleLogout(e: { preventDefault: () => void }) {
+    e.preventDefault();
+    logout();
+    navigate(RoutesApp.SIGN_IN);
+  }
 
   return (
     <S.PopUserSet $isOpen={isOpenPopUser}>
@@ -32,10 +40,7 @@ function PopUserSet({ setIsOpenPopUser, isOpenPopUser }: PopUserSetProps) {
         </S.PopUserButton>
         <S.PopUserSecondaryButton
           type="button"
-          onClick={() => {
-            setIsOpenPopUser(false);
-            navigate(RoutesApp.SIGN_IN);
-          }}
+          onClick={handleLogout}
         >
           Выйти
         </S.PopUserSecondaryButton>

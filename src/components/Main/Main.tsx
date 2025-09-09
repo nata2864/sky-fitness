@@ -2,47 +2,42 @@ import CoursesList from '../CoursesList/CoursesList';
 import Container from '../../ui/Container.styled';
 import * as S from './Main.styled';
 import { useEffect, useContext } from 'react';
-import { CourseContext } from '../../context/CourseContext';
+import { MainCourseContext } from '../../context/MainCourseContext ';
+import Spinner from '../Spinner/Spinner';
 
-function Main() {
-  const context = useContext(CourseContext);
-  if (!context) {
-    return null;
-  }
+const Main: React.FC = () => {
+  const context = useContext(MainCourseContext);
+  if (!context) return null;
 
-
-
-  const { getAllCourses, courses } = context;
+  const { getAllCourses, courses, loadingCourses } = context;
 
   useEffect(() => {
     getAllCourses();
   }, [getAllCourses]);
 
-  useEffect(() => {
-  
+  const handleScrollTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth', // плавная прокрутка
+    });
+  };
 
-
-}, []);
-
-  return (
+  return loadingCourses ? (
+    <Spinner />
+  ) : (
     <Container>
-      <section>
-        <S.TitleBlock>
-          <S.Title>
-            Начните заниматься спортом и улучшите качество жизни
-          </S.Title>
-          <S.TitleImg src="./titleLogo.svg" alt="Логотип к названию сайта" />
-        </S.TitleBlock>
+      <S.TitleBlock>
+        <S.Title>Начните заниматься спортом и улучшите качество жизни</S.Title>
+        <S.TitleImg src="./titleLogo.svg" alt="Логотип к названию сайта" />
+      </S.TitleBlock>
 
-        <CoursesList courses={courses} isUserCourse={false} />
-      </section>
+      <CoursesList courses={courses} isUserCourse={false} />
+
       <S.Footer>
-        <S.FooterButton>Наверх ↑</S.FooterButton>
+        <S.FooterButton onClick={handleScrollTop}>Наверх ↑</S.FooterButton>
       </S.Footer>
     </Container>
   );
-}
-
-//доделать кнопку
+};
 
 export default Main;

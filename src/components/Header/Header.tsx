@@ -9,27 +9,13 @@ import { getUsernameFromEmail } from '../../utils/getUsernameFromEmail/getUserna
 import { Link, useNavigate } from 'react-router-dom';
 import { RoutesApp } from '../../const.tsx';
 
-
-
-
-function Header() {
+function Header({ showMoto = false }) {
   const [isOpenPopUser, setIsOpenPopUser] = useState(false);
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  const { token,  logout, userName } = useContext(AuthContext);
-  //  console.log({user});
-  console.log({  token });
-   console.log({  logout});
-  //   console.log({ updateUserInfo });
+  const { token, userName } = useContext(AuthContext);
+
   const parsedMail = getUsernameFromEmail(userName || '');
-
-
-
-  function handleLogout(e: { preventDefault: () => void; }) {
-    e.preventDefault();
-    logout();
-    navigate(RoutesApp.SIGN_IN);
-  }
 
   function handleClickPopupUser() {
     setIsOpenPopUser((prev) => !prev);
@@ -39,17 +25,15 @@ function Header() {
     <Container>
       <S.Header>
         <S.Block>
-          <S.LogoBlock>
-             <Link to= {"/"}>
-              <img
-                className=""
-                src="/logo.svg"
-                alt="Логотип "
-              />
-    </Link> 
-            <S.LogoText>Онлайн-тренировки для занятий дома</S.LogoText>
+         <S.LogoBlock>
+            <Link to={'/'}>
+              <img src="/logo.svg" alt="Логотип " />
+            </Link>
+            {showMoto && (
+              <S.LogoText>Онлайн-тренировки для занятий дома</S.LogoText>
+            )}
           </S.LogoBlock>
-                <S.HeaderButton onClick={handleLogout}>Exit</S.HeaderButton>
+
           {token ? (
             <S.ProfileBlock>
               <img src="/profile.svg" alt="Иконка профиля" />
@@ -63,12 +47,13 @@ function Header() {
 
               <PopUserSet
                 setIsOpenPopUser={setIsOpenPopUser}
-                // setIsOpenPopExit={setIsOpenPopExit}
                 isOpenPopUser={isOpenPopUser}
               />
             </S.ProfileBlock>
           ) : (
-            <S.HeaderButton>Войти</S.HeaderButton>
+            <S.HeaderButton onClick={() => navigate(RoutesApp.SIGN_IN)}>
+              Войти
+            </S.HeaderButton>
           )}
         </S.Block>
       </S.Header>

@@ -1,30 +1,31 @@
-import {
-  FormFields,
-  InputItem,
-  InputWrapper
-} from '../../ui/Form.styled';
+import { FormFields, InputItem, InputWrapper } from '../../ui/Form.styled';
 import { Button } from '../../ui/Button.styled';
 import { Overlay } from '../../ui/Overlay.styled';
-import * as S from "./ProgressForm.styled";
-import type { Exercise , ProgressData} from '../../sharesTypes/sharesTypes';
+import * as S from './ProgressForm.styled';
+import type { Exercise, ProgressData } from '../../sharesTypes/sharesTypes';
 import { getExerciseQuestion } from '../../utils/getExerciseQuestion/getExerciseQuestion';
 import { useState } from 'react';
-import { toast } from 'react-toastify';
-
 
 type ProgressFormProps = {
   workoutTasks: Exercise[];
   courseId: string;
   workoutId: string;
-  updateProgress: (courseId: string, workoutId: string, progressData: ProgressData) => Promise<void>;
-  setIsOpenPopMyProgress:(open: boolean) => void;
+  updateProgress: (
+    courseId: string,
+    workoutId: string,
+    progressData: ProgressData
+  ) => Promise<void>;
+  setIsOpenPopMyProgress: (open: boolean) => void;
 };
 
-
-
-function ProgressForm({ workoutTasks, courseId, workoutId, updateProgress, setIsOpenPopMyProgress}: ProgressFormProps) {
-
-    const [formValues, setFormValues] = useState<{ [key: string]: string }>({});
+function ProgressForm({
+  workoutTasks,
+  courseId,
+  workoutId,
+  updateProgress,
+  setIsOpenPopMyProgress,
+}: ProgressFormProps) {
+  const [formValues, setFormValues] = useState<{ [key: string]: string }>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -36,24 +37,22 @@ function ProgressForm({ workoutTasks, courseId, workoutId, updateProgress, setIs
 
     const progressData = workoutTasks.map((_, index) =>
       Number(formValues[`exercise-${index}`] || 0)
-  
     );
 
     if (courseId && workoutId) {
-      await updateProgress( courseId, workoutId, progressData);
-      toast.success('Прогресс по данной тренировке отмечен!')
+      await updateProgress(courseId, workoutId, progressData);
     }
 
-    setIsOpenPopMyProgress(false)
+    setIsOpenPopMyProgress(false);
   };
 
-   console.log({workoutTasks})
+  console.log({ workoutTasks });
 
   return (
     <Overlay>
       <S.ProgressWrapper>
         <S.ProgressFormTitle>Мой прогресс</S.ProgressFormTitle>
-      <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit}>
           <FormFields>
             {workoutTasks.map((task, index) => (
               <InputWrapper key={task._id || index}>
@@ -62,7 +61,7 @@ function ProgressForm({ workoutTasks, courseId, workoutId, updateProgress, setIs
                   name={`exercise-${index}`}
                   type="number"
                   placeholder="0"
-                  value={formValues[`exercise-${index}`] || ""}
+                  value={formValues[`exercise-${index}`] || ''}
                   onChange={handleChange}
                 />
               </InputWrapper>

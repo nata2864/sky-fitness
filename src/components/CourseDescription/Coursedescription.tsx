@@ -10,60 +10,54 @@ import { useEffect } from 'react';
 import { getCourseImage } from '../../utils/getCourseImage/getCourseImage';
 import FooterContent from '../FooterContent/FooterContent';
 import { useContext, useCallback } from 'react';
-import type { AllUsersData } from '../../sharesTypes/sharesTypes';
+
 import { toast } from 'react-toastify';
-import { CourseContext } from '../../context/CourseContext';
+// import { CourseContext } from '../../context/CourseContext';
 import { addFavoriteCourse } from '../../services/api';
-import { handleAxiosError } from '../../utils/handleAxiosError/handleAxiosError';
+
 import { RoutesApp } from '../../const';
 import { AuthContext } from '../../context/AuthContext';
+import { MainCourseContext } from '../../context/MainCourseContext ';
+import Spinner from '../Spinner/Spinner';
 
 function CourseDescription() {
-  // const [isOpenWorkOut, setIsOpenPopWorkOut] = useState(false);
-  
   const { courseId } = useParams();
   const navigate = useNavigate();
   const { token } = useContext(AuthContext);
 
-      const context = useContext(CourseContext);
-  
-    if (!context) {
-      // Можно отрендерить заглушку, если контекста нет
-      return null;
+  const context = useContext(MainCourseContext);
+
+  if (!context) {
+    // Можно отрендерить заглушку, если контекста нет
+    return null;
+  }
+
+  const { course, getCourseById, loadingCourse } = context;
+
+  const addCourseToFavorites = useCallback(async (courseId: string) => {
+    try {
+      const message = await addFavoriteCourse(token, courseId);
+
+      toast.success(message);
+    } catch (err) {
+      toast.error('Курс уже был добавлен!');
     }
-  
-
-    const { course, getCourseById} = context;
-
-  const addCourseToFavorites = useCallback(
-    async (courseId: string) => {
-      try {
-        const message = await addFavoriteCourse(token,courseId);
-      console.log('Сервер вернул:', message);
-// setUsersCourses(prev => [...prev, courseId]);
-
-   toast.success(message);
-      } catch (err) {
-       
-        toast.error('Курс уже был добавлен!')
-      }
-    },
-   []
-  );
-
-
+  }, []);
 
   useEffect(() => {
     if (courseId) getCourseById(courseId);
   }, [courseId, getCourseById]);
 
+  if (loadingCourse) {
+    return <Spinner />; 
+  }
 
   if (!course) {
     return null;
   }
 
-  if (!courseId) {
-    return null;
+  if (!course) {
+    return <div>Курс не найден</div>;
   }
 
   const { nameEN, fitting, directions } = course;
@@ -73,14 +67,17 @@ function CourseDescription() {
     mobile: `/${basePath}.png`,
   };
 
-  function handleClickPopUpWorkOut() {
-
-    if (courseId){
-        addCourseToFavorites(courseId);
+  function handleFooterButtonClick() {
+    if (!token) {
+      navigate(RoutesApp.SIGN_IN);
+      return;
     }
 
+    if (courseId) {
+      addCourseToFavorites(courseId);
+    }
   }
-  return (
+ return (
     <>
       <Container>
         <S.DescriptionBlock>
@@ -108,7 +105,7 @@ function CourseDescription() {
           </S.Directions>
         </S.DirectionsBlock>
         <S.FooterCourseDiscription>
-          <FooterContent onClick={handleClickPopUpWorkOut} />
+          <FooterContent onClick={handleFooterButtonClick} />
 
           <S.FooterImage src="/footerImg.png" />
 
@@ -117,15 +114,14 @@ function CourseDescription() {
       </Container>
 
       <S.MobileFooter>
-        {/* упрощённая верстка для мобилы */}
         <S.MobileImage src="/footerImg.png" />
         <Container>
           <S.MobileCard>
-            <FooterContent onClick={handleClickPopUpWorkOut} />
+            <FooterContent onClick={handleFooterButtonClick} />
           </S.MobileCard>
         </Container>
       </S.MobileFooter>
-      {/* <PopUpWorkOut workouts={workouts} isOpenWorkOut={isOpenWorkOut} /> */}
+  
     </>
   );
 }

@@ -25,11 +25,11 @@ export const LogoText = styled.p`
   font-size: 18px;
   letter-spacing: 0px;
   @media (max-width: 900px) {
-    display: none;
-  }
+    display: none; 
+   } 
   @media (max-width: 768px) {
     display: none;
-  }
+  } 
 `;
 
 export const LogoBlock = styled.div`
@@ -43,38 +43,53 @@ export const ProfileBlock = styled.div`
   align-items: center;
   justify-content: center;
   gap: 16px;
+   @media (max-width: 768px) {
+      gap: 0px;
+  }
 `;
 
 export const ProfileButton = styled.button`
   font-weight: 400;
-
   font-size: 24px;
-
   color: rgba(0, 0, 0, 1);
-
   letter-spacing: 0px;
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
 
   &::after {
     content: '';
     display: block;
     width: 6px;
     height: 6px;
-    border-radius: 1px;
     border-left: 1.9px solid rgba(0, 0, 0, 1);
     border-bottom: 1.9px solid rgba(0, 0, 0, 1);
     transform: rotate(-45deg);
-    margin: -6px 0 0 5px;
-    padding: 0;
-  }
-
-  @media (max-width: 1024px) {
-    display: none;
+    margin-left: 4px; /* расстояние между текстом/иконкой и стрелкой */
   }
 
   @media (max-width: 768px) {
-    display: none;
+    font-size: 0; // скрываем текст
+    width: 24px;
+    height: 24px;
+    margin-left: 0;
+    padding: 0;
+
+    &::after {
+      width: 6px;
+      height: 6px;
+      border-left: 1.9px solid rgba(0, 0, 0, 1);
+      border-bottom: 1.9px solid rgba(0, 0, 0, 1);
+      transform: rotate(-45deg);
+      /* margin-left: 4px;  */
+    }
   }
 `;
+
+
 
 export const HeaderButton = styled(Button)`
   max-width: 103px;
