@@ -99,11 +99,12 @@ function WorkOut() {
               </S.ProgressBlock>
             );
           })}
-      </S.CourseProgressBox>
-
-      <S.WorkOutsButton onClick={handleClickPopMyProgress}>
+                <S.WorkOutsButton onClick={handleClickPopMyProgress}>
         Заполнить свой прогресс
       </S.WorkOutsButton>
+      </S.CourseProgressBox>
+
+
       {hasTasks && (
         <PopMyProgress
           workoutTasks={workoutTasks}
@@ -112,6 +113,7 @@ function WorkOut() {
           updateProgress={updateProgress}
           isOpenPopMyProgress={isOpenPopMyProgress}
           setIsOpenPopMyProgress={setIsOpenPopMyProgress}
+           currentProgress={progresDataWorkOut}
         />
       )}
    <PopUpResultMessage 

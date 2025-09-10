@@ -7,6 +7,8 @@ import { toast } from 'react-toastify';
 import type { Course } from '../../sharesTypes/sharesTypes';
 import { AuthContext } from '../../context/AuthContext';
 import { MainCourseContext } from '../../context/MainCourseContext ';
+import { handleAxiosError } from '../../utils/handleAxiosError/handleAxiosError';
+import { getCourseCardData } from '../../utils/getCourseCardData';
 
 type CoursesListProps = {
   courses: Course[];
@@ -24,6 +26,9 @@ const CoursesList: React.FC<CoursesListProps> = ({ courses, isUserCourse }) => {
 
   const usersCourses = usersData?.user?.selectedCourses ?? [];
 
+  console.log(usersData)
+  console.log(courses)
+
   const handleIconClick = useCallback(
     async (courseId: string) => {
       if (!token) {
@@ -39,7 +44,7 @@ const CoursesList: React.FC<CoursesListProps> = ({ courses, isUserCourse }) => {
           toast.success(message);
           getAllUsersData();
         } catch (err) {
-          const { handleAxiosError } = await import('../../utils/handleAxiosError/handleAxiosError');
+         
           handleAxiosError(err);
         }
       } else {
@@ -54,17 +59,27 @@ const CoursesList: React.FC<CoursesListProps> = ({ courses, isUserCourse }) => {
     [token, isUserCourse, usersCourses, getAllUsersData, navigate]
   );
 
+
   return (
     <Container>
       <S.Courses>
-        {courses.map((course) => (
-          <Card
-            key={course._id}
-            course={course}
-            isUserCourse={isUserCourse}
-            onIconClick={handleIconClick}
-          />
-        ))}
+ {courses.map((course) => {
+  const { percent, buttonText } = getCourseCardData(course._id, usersData?.user, course);
+
+  return (
+    <Card
+      key={course._id}
+      course={course}
+      isUserCourse={isUserCourse}
+      onIconClick={handleIconClick}
+      percent={percent}
+      buttonText={buttonText}
+    />
+  );
+})}
+
+
+
       </S.Courses>
     </Container>
   );

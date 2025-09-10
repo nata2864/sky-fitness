@@ -8,23 +8,29 @@ type PopMyProgressProps = {
   workoutTasks: Exercise[];
   courseId: string;
   workoutId: string;
-  isOpenPopMyProgress:boolean;
- setIsOpenPopMyProgress: (open: boolean) => void;
-  updateProgress: (courseId: string, workoutId: string, progressData: ProgressData) => Promise<void>;
+  updateProgress: (
+    courseId: string,
+    workoutId: string,
+    progressData: ProgressData
+  ) => Promise<void>;
+  isOpenPopMyProgress: boolean;
+  setIsOpenPopMyProgress: (open: boolean) => void;
+  currentProgress: ProgressData; // ✅ добавляем сюда
 };
 
 
-
- function PopMyProgress({ workoutTasks, courseId, workoutId, updateProgress ,isOpenPopMyProgress,setIsOpenPopMyProgress}: PopMyProgressProps) {
+ function PopMyProgress({ workoutTasks, courseId, workoutId, updateProgress ,isOpenPopMyProgress,setIsOpenPopMyProgress,currentProgress}: PopMyProgressProps) {
   return (
     <S.PopUpWorkOut $isOpen={isOpenPopMyProgress}>
     <Overlay>
-      <ProgressForm      
-      setIsOpenPopMyProgress={setIsOpenPopMyProgress}
-      workoutTasks={workoutTasks}
-        courseId={courseId}
-        workoutId={workoutId}
-        updateProgress={updateProgress}/>
+    <ProgressForm
+  workoutTasks={workoutTasks}
+  courseId={courseId}
+  workoutId={workoutId}
+  updateProgress={updateProgress}
+  setIsOpenPopMyProgress={setIsOpenPopMyProgress}
+  currentProgress={currentProgress} // ✅ передаём
+/>
     </Overlay>
      </S.PopUpWorkOut>
   );

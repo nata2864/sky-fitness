@@ -1,9 +1,5 @@
-
 export type Course = {
-  dailyDurationInMinutes: {
-    from: number;
-    to: number;
-  };
+  dailyDurationInMinutes: { from: number; to: number };
   _id: string;
   description: string;
   directions: string[];
@@ -18,7 +14,6 @@ export type Course = {
 };
 
 export type Exercise = {
-  // [x: string]: number;
   _id: string;
   name: string;
   quantity: number;
@@ -31,13 +26,6 @@ export type WorkOutLesson = {
   exercises: Exercise[];
 };
 
-// export type ProgressData = {
-//    "workoutId": string,
-//     "workoutCompleted": boolean,
-//     "progressData": number []
-
-// }
-
 export type ProgressData = number[];
 
 export type WorkOutsProgress = {
@@ -47,8 +35,11 @@ export type WorkOutsProgress = {
   _id: string;
 };
 
-export type NormalizedProgressData = {
-  progressWorkOtsData: number[];
+export type CourseProgress = {
+  courseId: string;
+  courseCompleted: boolean;
+  workoutsProgress: WorkOutsProgress[];
+  _id: string;
 };
 
 export type SelectedCourses = string[];
@@ -66,11 +57,4 @@ export type AllUsersData = {
 
 export type UserData = {
   user: AllUsersData;
-};
-
-export type CourseProgress = {
-  courseId: string;
-  courseCompleted: boolean;
-  workoutsProgress: WorkOutsProgress;
-  _id: string;
 };

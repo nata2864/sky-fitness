@@ -68,7 +68,7 @@ export const ProfileButton = styled.button`
     border-left: 1.9px solid rgba(0, 0, 0, 1);
     border-bottom: 1.9px solid rgba(0, 0, 0, 1);
     transform: rotate(-45deg);
-    margin-left: 4px; /* расстояние между текстом/иконкой и стрелкой */
+    margin-left: 4px; 
   }
 
   @media (max-width: 768px) {

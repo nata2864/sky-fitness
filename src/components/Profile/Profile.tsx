@@ -8,17 +8,24 @@ import { useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RoutesApp } from '../../const.tsx';
 import { MainCourseContext } from '../../context/MainCourseContext .ts';
+import { CourseContext } from '../../context/CourseContext.ts';
+
 import Spinner from '../Spinner/Spinner.tsx';
 
 function Profile() {
-  const context = useContext(MainCourseContext);
+  
+  const mainContext = useContext(MainCourseContext);
+    const courseContext = useContext(CourseContext);
+
+  // const { courseId } = useParams();
   const { logout, userName } = useContext(AuthContext);
   const parsedMail = getUsernameFromEmail(userName || '');
   const navigate = useNavigate();
 
-  if (!context) {
+  if (!mainContext) {
     return null;
   }
+
 
   const {
     getAllCourses,
@@ -26,7 +33,11 @@ function Profile() {
     usersData,
     getAllUsersData,
     loadingUsersCourses,
-  } = context;
+  } = mainContext;
+
+    if (!courseContext) {
+    return null;
+  }
 
   useEffect(() => {
     getAllCourses();
@@ -37,6 +48,11 @@ function Profile() {
   }, [getAllUsersData]);
 
   const usersCourses = usersData?.user?.selectedCourses ?? [];
+
+  console.log(usersData);
+  // const courseProgressArray = usersData?.user.courseProgress ?? [];
+
+  // console.log(courseProgress);
 
   if (!courses) {
     return null;

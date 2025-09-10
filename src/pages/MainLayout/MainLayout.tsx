@@ -6,7 +6,6 @@ function MainLayout() {
   return (
     <Wrapper>
       <Header showMoto />
-
       <Outlet />
     </Wrapper>
   );

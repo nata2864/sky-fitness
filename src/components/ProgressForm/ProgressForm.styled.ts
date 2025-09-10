@@ -35,3 +35,10 @@ export const InputText = styled.p`
   margin-bottom: 10px;
 `;
 
+export const ErrorText = styled.span`
+  color: red;
+  font-size: 12px;
+  margin-top: 2px;
+  display: block;
+`;
+

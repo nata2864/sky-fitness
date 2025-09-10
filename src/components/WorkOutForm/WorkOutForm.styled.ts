@@ -42,12 +42,10 @@ export const WorkOutItem = styled.div<{ $isActive?: boolean }>`
   border-bottom: 1px solid rgba(196, 196, 196, 1);
   width:354px;
   margin-top: 10px;
-   background-color: ${({ $isActive }) => ($isActive ? "#d0f0fd" : "#fff")};
+   color: ${({ $isActive }) => ($isActive ?"black" : "rgba(168, 165, 165, 1)")};
   transition: background-color 0.2s;
 
-  &:hover {
-    background-color: ${({ $isActive }) => ($isActive ? "#d0f0fd" : "#f0f0f0")};
-  }
+ 
      @media (max-width: 768px){
    width:257px;
   }
@@ -82,34 +80,24 @@ export const WorkOutSubTitle = styled.span`
 `;
 
 
-export const CheckMark = styled.div<{ $active?: boolean }>`
-  width: 24px;
-  height: 24px;
-  border: 1px solid rgba(0, 0, 0, 1);
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* font-size: 12px;
-      color: #6c3; */
-       ${({ $active }) => $active && `
-    background-color: #0077ff;
-    color: #fff;
-  `}
+export const CheckMark = styled.img<{ $isDone?: boolean }>`
+width: 20px;
+height: 20px;
+
 `;
 
-export const CheckMarkActive = styled.div`
-  width: 24px;
-  height: 24px;
+// export const CheckMarkActive = styled.div`
+//   width: 24px;
+//   height: 24px;
 
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* border-color: #6c3; */
-  background: rgba(188, 236, 48, 1);
-  color: #fff;
-  border: none;
-`;
+//   border-radius: 50%;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   /* border-color: #6c3; */
+//   background: rgba(188, 236, 48, 1);
+//   color: #fff;
+//   border: none;
+// `;
 
 export const WorkOutButton = styled(Button)``;

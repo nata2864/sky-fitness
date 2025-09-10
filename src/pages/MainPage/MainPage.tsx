@@ -1,19 +1,10 @@
-
-import Main from "../../components/Main/Main";
-import { useContext
-
- } from "react";
-import MainCourseProvider from "../../context/MainCourseProvider";
-import { MainCourseContext } from "../../context/MainCourseContext ";
+import Main from '../../components/Main/Main';
 
 function MainPage() {
-  const context = useContext(MainCourseContext);
-console.log('MainPage context:', context);
-
   return (
-<>
-<Main/>
-</>
+    <>
+      <Main />
+    </>
   );
 }
 

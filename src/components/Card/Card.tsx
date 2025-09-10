@@ -3,17 +3,34 @@ import type { Course } from '../../sharesTypes/sharesTypes';
 import { getCourseImage } from '../../utils/getCourseImage/getCourseImage';
 import Progress from '../Progress/Progress';
 import { useNavigate } from 'react-router-dom';
+// import { CourseContext } from '../../context/CourseContext';
+// import {  useEffect } from 'react';
+// import { useContext } from 'react';
 
 type CardProps = {
   course: Course;
   isUserCourse: boolean;
   onIconClick?: (courseId: string) => void;
+  percent?: number;
+  buttonText?: string;
 };
 
-const Card: React.FC<CardProps> = ({ course, isUserCourse, onIconClick }) => {
+const Card: React.FC<CardProps> = ({
+  course,
+  isUserCourse,
+  onIconClick,
+  percent = 0,
+  buttonText,
+}) => {
   const navigate = useNavigate();
-  const { _id, nameEN, nameRU, durationInDays, dailyDurationInMinutes, difficulty } = course;
-
+  const {
+    _id,
+    nameEN,
+    nameRU,
+    durationInDays,
+    dailyDurationInMinutes,
+    difficulty,
+  } = course;
   const srcPath = getCourseImage(nameEN);
 
   return (
@@ -37,7 +54,8 @@ const Card: React.FC<CardProps> = ({ course, isUserCourse, onIconClick }) => {
           </S.Badge>
           <S.Badge>
             <img src="/calendar.svg" alt="calendar icon" />
-            {`${dailyDurationInMinutes.from}-${dailyDurationInMinutes.to}`} мин/день
+            {`${dailyDurationInMinutes.from}-${dailyDurationInMinutes.to}`}{' '}
+            мин/день
           </S.Badge>
         </S.Duration>
 
@@ -50,9 +68,9 @@ const Card: React.FC<CardProps> = ({ course, isUserCourse, onIconClick }) => {
 
         {isUserCourse && (
           <>
-            <Progress />
+            <Progress percent={percent} />
             <S.CourseButton onClick={() => navigate(`/course/${_id}/workouts`)}>
-              Начать тренировки
+              {buttonText}
             </S.CourseButton>
           </>
         )}

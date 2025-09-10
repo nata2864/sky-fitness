@@ -12,7 +12,7 @@ export const DescriptionBlock = styled.div`
 export const CourseImage = styled.div<{ $desktop: string; $mobile: string }>`
   margin-bottom: 60px;
 
-   background-image: url(${(props) => props.$desktop});
+  background-image: url(${(props) => props.$desktop});
   /* background-size: cover; */
   background-repeat: no-repeat;
   background-position: center;
@@ -72,7 +72,6 @@ export const Suggestion = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 25px;
- 
 `;
 
 export const SuggestionNumber = styled.div`
@@ -97,17 +96,13 @@ export const SuggestionText = styled.div`
   width: 268px;
 
   color: white;
-     @media (max-width: 768px) {
-  
+  @media (max-width: 768px) {
+    font-weight: 400;
 
-font-weight: 400;
+    font-size: 18px;
 
-font-size: 18px;
-
-line-height: 110.00000000000001%;
-letter-spacing: 0px;
-
-
+    line-height: 110.00000000000001%;
+    letter-spacing: 0px;
   }
 `;
 
@@ -135,7 +130,7 @@ export const Directions = styled(Suggestion)`
 export const FooterCourseDiscription = styled.div`
   margin-top: 102px;
   margin-bottom: 50px;
-padding: 40px;
+  padding: 40px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -149,35 +144,39 @@ padding: 40px;
   }
 `;
 
+export const FooterImageBlock = styled.div`
+  position: relative;
+  display: inline-block;
+`;
+
 export const FooterImage = styled.img`
+  position: relative;
+  z-index: 2;
+  width: 487px;
 
-width: 487px;
-height: 542px;
+  height: auto;
   transform: rotate(-2.99deg);
+  opacity: 1;
+`;
 
-opacity: 1;
-top: 1065px;
-left: 755.19px;
-
-  /* @media (max-width: 768px) {
-    position: absolute;
-    width: 313px;
-    height: 348px;
-    angle: 2.99 deg;
-    opacity: 1;
-    top: 1368px;
-    left: 97.42px;
-  } */
+export const FooterImageLine = styled.img`
+  position: absolute;
+  bottom: 0;
+  left: -620px;
+  top: 98px;
+  z-index: 1;
+  height: auto;
+  transform: rotate(-0.3deg);
 `;
 
 export const MobileFooter = styled.div`
   display: none;
   @media (max-width: 768px) {
     display: block;
-     
-     /* max-width: 343px; */
-  /* width: 100%; */
-  /* margin: 0 auto; 
+
+    /* max-width: 343px; */
+    /* width: 100%; */
+    /* margin: 0 auto; 
     padding: 0 20px; */
   }
 `;
@@ -185,17 +184,15 @@ export const MobileFooter = styled.div`
 export const MobileImage = styled.img`
   width: 100%;
   margin-top: -80px; /* чтобы наехало на блок выше */
- margin-left: 97.42px; 
+  margin-left: 97.42px;
   position: relative;
   z-index: 2;
   transform: rotate(-2.99deg);
-     max-width: 343px; 
-     height:348px;
-  
+  max-width: 343px;
+  height: 348px;
 `;
 
 export const MobileCard = styled.div`
-
   background: rgba(255, 255, 255, 1);
   border-radius: 30px;
   box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);
@@ -203,8 +200,6 @@ export const MobileCard = styled.div`
   position: relative;
   z-index: 3;
   /* padding: 20px; */
-
-  
 `;
 
 export const MobileContent = styled.div`
@@ -212,5 +207,4 @@ export const MobileContent = styled.div`
   flex-direction: column;
   align-items: center;
   max-width: 283px;
- 
 `;

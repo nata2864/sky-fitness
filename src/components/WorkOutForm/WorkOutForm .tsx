@@ -25,16 +25,22 @@ function WorkOutForm({ workouts, courseId }: WorkOutFormProps) {
       <S.WorkOutFormTitle>Выберите тренировку</S.WorkOutFormTitle>
       <S.WorkOutList>
         {workouts.map((workout, index) => {
+   
           const parsed = parseCourseName(workout.name);
           const isActive = selectedWorkout?._id === workout._id;
-
+const isDone = selectedWorkout?._id === workout._id;
           return (
            <S.WorkOutItem
   key={index}
   onClick={() => setSelectedWorkout(workout)}
-  $isActive={isActive} // фон изменится
+  $isActive={isActive} 
 >
-  <S.CheckMark $active={isActive} />
+
+     <S.CheckMark
+            src={isDone ? '/сheck_in_сircle.svg' : '/ellipse.svg'}
+            alt={isDone? 'Done check' : 'Not done check'}
+          
+          />
   <S.WorkOutText>
     <S.WorkOutTitle>{parsed.title}</S.WorkOutTitle>
     <S.WorkOutSubTitle>

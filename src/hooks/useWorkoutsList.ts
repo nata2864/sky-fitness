@@ -10,7 +10,7 @@ export const useWorkoutsList = (courseId: string | undefined) => {
   const [loading, setLoading] = useState(false);
 
 const { token } = useContext(AuthContext);
-console.log(`Пришел:${token}`)
+
 useEffect(() => {
   if (!courseId || !token) return;
 

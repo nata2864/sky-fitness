@@ -106,9 +106,11 @@ function CourseDescription() {
         </S.DirectionsBlock>
         <S.FooterCourseDiscription>
           <FooterContent onClick={handleFooterButtonClick} />
-
-          <S.FooterImage src="/footerImg.png" />
-
+<S.FooterImageBlock>
+      <S.FooterImageLine src="/greenLine.svg" alt="curve"/>
+          <S.FooterImage src="/footerImg.png" alt="person" />
+      
+</S.FooterImageBlock>
           {/* </S.FooterImage> */}
         </S.FooterCourseDiscription>
       </Container>
