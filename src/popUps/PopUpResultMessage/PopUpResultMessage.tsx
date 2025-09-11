@@ -15,6 +15,8 @@ function PopUpResultMessage({ isOpenPopUp}:PopUpResultMessageProps) {
     <Overlay>
      <S.MessageBlock>
       <p>Ваш прогресс засчитан!</p>
+      <a href="http://">Остаться на странице урока</a>
+      <a href="http://">Прейти на главный экран</a>
      </S.MessageBlock>
     </Overlay>
     </S.PopUpWrapper>

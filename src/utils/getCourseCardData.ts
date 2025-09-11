@@ -26,7 +26,7 @@ export const getCourseCardData = (
   }
 
   // Логика кнопки
-  let buttonText = 'Начать тренировку';
+  let buttonText = 'Начать тренировки';
   if (percent > 0 && percent < 100) {
     buttonText = 'Продолжить';
   } else if (percent === 100) {

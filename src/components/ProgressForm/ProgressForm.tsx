@@ -6,6 +6,7 @@ import type { Exercise, ProgressData } from '../../sharesTypes/sharesTypes';
 import { getExerciseQuestion } from '../../utils/getExerciseQuestion/getExerciseQuestion';
 import { useState } from 'react';
 import { validateProgressForm } from '../../validators/validateProgressForm';
+import { toast } from 'react-toastify';
 
 type ProgressFormProps = {
   workoutTasks: Exercise[];
@@ -78,6 +79,7 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   }
 
   setIsOpenPopMyProgress(false);
+   toast.success('Ваш прогресс засчитан')
 };
 
 

@@ -5,7 +5,7 @@ import type {
   WorkOutsProgress,
   ProgressData,
   CourseProgress,
-  Exercise,
+  Exercise, ExtendedWorkOutsProgress
 } from '../sharesTypes/sharesTypes';
 import {
   fetchWorkOutsById,
@@ -23,7 +23,8 @@ type CourseProviderProps = {
 
 const CourseProvider = ({ children }: CourseProviderProps) => {
   const [workOut, setWorkOut] = useState<WorkOutLesson | null>(null);
-  const [progress, setProgress] = useState<WorkOutsProgress | null>(null);
+const [progress, setProgress] = useState<ExtendedWorkOutsProgress | null>(null);
+
   const [courseProgress, setCourseProgress] = useState<CourseProgress | null>(
     null
   );
@@ -64,26 +65,41 @@ const getProgress = useCallback(
         workoutId,
       });
 
-      const workout: WorkOutLesson | null = await getWorkoutById(workoutId); // getWorkoutById зависит от token
+      const workout: WorkOutLesson | null = await getWorkoutById(workoutId);
       const exercises: Exercise[] = workout?.exercises ?? [];
       const progresDataWorkOut: number[] = data?.progressData ?? [];
 
-      const normalizedProgress: number[] = exercises.map(
-        (_, index) => progresDataWorkOut[index] ?? 0
-      );
+     const normalizedProgress: number[] = exercises.map(
+  (_, index) => progresDataWorkOut[index] ?? 0
+);
 
-      setProgress({
-        ...data,
-        progressData: normalizedProgress,
-      });
+const noExercises = exercises.length === 0;
+
+      if (noExercises) {
+        // Вариант 1: когда данных нет
+        setProgress({
+          ...(data ?? { courseId, workoutId, progressData: [] }),
+          progressData: normalizedProgress,
+          IsNotProgressData: true,
+          IsNotProgressDataDone: false,
+        });
+      } else {
+        // Вариант 2: когда данные есть
+        setProgress({
+          ...(data ?? { courseId, workoutId, progressData: [] }),
+          progressData: normalizedProgress,
+          IsNotProgressData: false,
+        });
+      }
     } catch (err: unknown) {
       handleAxiosError(err);
     } finally {
       setLoadingProgress(false);
     }
   },
-  [getWorkoutById, token] // добавлен token
+  [getWorkoutById, token]
 );
+
 
 const updateProgress = useCallback(
   async (courseId: string, workoutId: string, progressData: ProgressData) => {

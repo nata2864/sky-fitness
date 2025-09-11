@@ -35,6 +35,15 @@ export type WorkOutsProgress = {
   _id: string;
 };
 
+export type ExtendedWorkOutsProgress =
+  | (WorkOutsProgress & {
+      IsNotProgressData: false;
+    })
+  | (WorkOutsProgress & {
+      IsNotProgressData: true;
+      IsNotProgressDataDone: boolean;
+    });
+
 export type CourseProgress = {
   courseId: string;
   courseCompleted: boolean;

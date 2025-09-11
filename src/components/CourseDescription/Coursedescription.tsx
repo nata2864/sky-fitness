@@ -12,7 +12,7 @@ import FooterContent from '../FooterContent/FooterContent';
 import { useContext, useCallback } from 'react';
 
 import { toast } from 'react-toastify';
-// import { CourseContext } from '../../context/CourseContext';
+import { CourseContext } from '../../context/CourseContext';
 import { addFavoriteCourse } from '../../services/api';
 
 import { RoutesApp } from '../../const';
@@ -66,6 +66,7 @@ function CourseDescription() {
     desktop: `/${basePath}_big.png`,
     mobile: `/${basePath}.png`,
   };
+
 
   function handleFooterButtonClick() {
     if (!token) {

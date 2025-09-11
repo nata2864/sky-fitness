@@ -1,13 +1,13 @@
 import type {
-  WorkOutsProgress,
+
   WorkOutLesson,
-  CourseProgress,
+  CourseProgress,ExtendedWorkOutsProgress 
 } from '../sharesTypes/sharesTypes';
 import { createContext } from 'react';
 
 export type CourseContextValue = {
   workOut: WorkOutLesson | null;
-  progress: WorkOutsProgress | null;
+  progress: ExtendedWorkOutsProgress  | null;
   courseProgress: CourseProgress | null;
   loadingWorkout: boolean;
   loadingProgress: boolean;

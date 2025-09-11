@@ -164,9 +164,10 @@ export const FooterImageLine = styled.img`
   bottom: 0;
   left: -620px;
   top: 98px;
-  z-index: 1;
+  z-index: 0; /* ниже всего */
   height: auto;
   transform: rotate(-0.3deg);
+  pointer-events: none; /* <--- ВАЖНО */
 `;
 
 export const MobileFooter = styled.div`
