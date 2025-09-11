@@ -10,11 +10,8 @@ import { useEffect } from 'react';
 import { getCourseImage } from '../../utils/getCourseImage/getCourseImage';
 import FooterContent from '../FooterContent/FooterContent';
 import { useContext, useCallback } from 'react';
-
 import { toast } from 'react-toastify';
-import { CourseContext } from '../../context/CourseContext';
 import { addFavoriteCourse } from '../../services/api';
-
 import { RoutesApp } from '../../const';
 import { AuthContext } from '../../context/AuthContext';
 import { MainCourseContext } from '../../context/MainCourseContext ';
@@ -28,7 +25,6 @@ function CourseDescription() {
   const context = useContext(MainCourseContext);
 
   if (!context) {
-    // Можно отрендерить заглушку, если контекста нет
     return null;
   }
 

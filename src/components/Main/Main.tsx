@@ -11,6 +11,9 @@ const Main: React.FC = () => {
 
   const { getAllCourses, courses, loadingCourses } = context;
 
+
+console.log(courses)
+
   useEffect(() => {
     getAllCourses();
   }, [getAllCourses]);

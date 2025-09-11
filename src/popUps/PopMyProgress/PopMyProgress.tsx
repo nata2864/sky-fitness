@@ -15,7 +15,7 @@ type PopMyProgressProps = {
   ) => Promise<void>;
   isOpenPopMyProgress: boolean;
   setIsOpenPopMyProgress: (open: boolean) => void;
-  currentProgress: ProgressData; // ✅ добавляем сюда
+  currentProgress: ProgressData; 
 };
 
 
@@ -29,7 +29,7 @@ type PopMyProgressProps = {
   workoutId={workoutId}
   updateProgress={updateProgress}
   setIsOpenPopMyProgress={setIsOpenPopMyProgress}
-  currentProgress={currentProgress} // ✅ передаём
+  currentProgress={currentProgress} 
 />
     </Overlay>
      </S.PopUpWorkOut>

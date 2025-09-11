@@ -7,28 +7,37 @@ import PopMyProgress from '../../popUps/PopMyProgress/PopMyProgress';
 import { getTotalProgressNumber } from '../../utils/getTotalProgressNumber/getTotalProgressNumber';
 import { calculateProgress } from '../../utils/calculateProgress/calculateProgress';
 import PopUpResultMessage from '../../popUps/PopUpResultMessage/PopUpResultMessage';
+import { MainCourseContext } from '../../context/MainCourseContext .ts';
 // import { markProgressDataDone } from '../../utils/markProgressDataDone';
 
 function WorkOut() {
-  const context = useContext(CourseContext);
+  const courseContext = useContext(CourseContext);
+  const mainContext = useContext(MainCourseContext);
   const [isOpenPopMyProgress, setIsOpenPopMyProgress] = useState(false);
   const [isOpenPopUpResultMessage, setIsPopUpResultMessage] = useState(false);
 
-  if (!context) return null;
+  if (!courseContext) return null;
+  if (!mainContext) {
+    return null;
+  }
 
+  const { course, getCourseById } = mainContext;
+  console.log(course);
   const {
     workOut,
     getWorkoutById,
-    course,
     getProgress,
     progress,
     updateProgress,
-    courseProgress,
     markProgressDataDone,
     getCourseProgressById,
-  } = context;
+  } = courseContext;
 
   const { workoutId, courseId } = useParams();
+
+  useEffect(() => {
+    if (courseId) getCourseById(courseId);
+  }, [courseId, getCourseById]);
 
   useEffect(() => {
     if (workoutId) getWorkoutById(workoutId);
@@ -59,6 +68,10 @@ function WorkOut() {
   const handleClickMarkDone = () => {
     markProgressDataDone();
     setIsPopUpResultMessage(true);
+  };
+
+  const handleClosePopUpResultMessage = () => {
+    setIsPopUpResultMessage(false);
   };
 
   console.log(progress);
@@ -108,7 +121,10 @@ function WorkOut() {
         />
       )}
 
-      <PopUpResultMessage isOpenPopUp={isOpenPopUpResultMessage} />
+      <PopUpResultMessage
+        isOpenPopUp={isOpenPopUpResultMessage}
+        onClose={handleClosePopUpResultMessage}
+      />
     </Container>
   );
 }
