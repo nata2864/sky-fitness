@@ -139,6 +139,18 @@ const getCourseProgressById = useCallback(
   [token]
 );
 
+  const markProgressDataDone = useCallback(() => {
+    setProgress((prev) => {
+      if (!prev) return prev;
+      if (!prev.IsNotProgressData) return prev;
+
+      return {
+        ...prev,
+        IsNotProgressDataDone: true,
+      };
+    });
+  }, [setProgress]);
+
 
   return (
     <CourseContext.Provider
@@ -153,6 +165,7 @@ const getCourseProgressById = useCallback(
         getCourseProgressById,
         courseProgress,
         loadingCourseProgress,
+         setProgress,   markProgressDataDone,
       }}
     >
       {children}

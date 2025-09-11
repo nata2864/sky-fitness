@@ -7,7 +7,7 @@ import PopMyProgress from '../../popUps/PopMyProgress/PopMyProgress';
 import { getTotalProgressNumber } from '../../utils/getTotalProgressNumber/getTotalProgressNumber';
 import { calculateProgress } from '../../utils/calculateProgress/calculateProgress';
 import PopUpResultMessage from '../../popUps/PopUpResultMessage/PopUpResultMessage';
-
+// import { markProgressDataDone } from '../../utils/markProgressDataDone';
 
 function WorkOut() {
   const context = useContext(CourseContext);
@@ -24,6 +24,7 @@ function WorkOut() {
     progress,
     updateProgress,
     courseProgress,
+    markProgressDataDone,
     getCourseProgressById,
   } = context;
 
@@ -53,12 +54,14 @@ function WorkOut() {
 
   const handleClickPopMyProgress = () => {
     setIsOpenPopMyProgress((prev) => !prev);
-   
   };
 
-  const handleClickPopUpResultMessage = () => {
-    setIsPopUpResultMessage((prev) => !prev);
+  const handleClickMarkDone = () => {
+    markProgressDataDone();
+    setIsPopUpResultMessage(true);
   };
+
+  console.log(progress);
 
   return (
     <Container>
@@ -67,7 +70,7 @@ function WorkOut() {
       <S.CourseProgressTitle>{workOut.name}</S.CourseProgressTitle>
       <S.CourseProgressBox>
         {hasNoTasks ? (
-          <S.WorkOutsButton onClick={handleClickPopUpResultMessage}>
+          <S.WorkOutsButton onClick={handleClickMarkDone}>
             Урок пройден
           </S.WorkOutsButton>
         ) : (

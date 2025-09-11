@@ -8,6 +8,7 @@ import { createContext } from 'react';
 export type CourseContextValue = {
   workOut: WorkOutLesson | null;
   progress: ExtendedWorkOutsProgress  | null;
+  setProgress: React.Dispatch<React.SetStateAction<ExtendedWorkOutsProgress | null>>;
   courseProgress: CourseProgress | null;
   loadingWorkout: boolean;
   loadingProgress: boolean;
@@ -22,6 +23,7 @@ export type CourseContextValue = {
     workoutId: string,
     progressData: number[]
   ) => Promise<void>;
+   markProgressDataDone: () => void;
 };
 export const CourseContext = createContext<CourseContextValue | undefined>(
   undefined
