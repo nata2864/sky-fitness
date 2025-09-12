@@ -13,6 +13,7 @@ type CardProps = {
   onIconClick?: (courseId: string) => void;
   percent?: number;
   buttonText?: string;
+  isHasNoExercises:boolean;
 };
 
 const Card: React.FC<CardProps> = ({
@@ -21,6 +22,7 @@ const Card: React.FC<CardProps> = ({
   onIconClick,
   percent = 0,
   buttonText,
+  isHasNoExercises
 }) => {
   const navigate = useNavigate();
   const {
@@ -68,10 +70,11 @@ const Card: React.FC<CardProps> = ({
 
         {isUserCourse && (
           <>
-            <Progress percent={percent} />
-            <S.CourseButton onClick={() => navigate(`/course/${_id}/workouts`)}>
-              {buttonText}
-            </S.CourseButton>
+            <Progress percent={percent} isHasNoExercises={isHasNoExercises}/>
+           <S.CourseButton onClick={() => navigate(`/course/${_id}/workouts`)}>
+  {isHasNoExercises ? 'Тренироваться' : buttonText}
+</S.CourseButton>
+
           </>
         )}
       </S.CourseDiscription>

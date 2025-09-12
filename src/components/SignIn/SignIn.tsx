@@ -29,8 +29,8 @@ function SignIn() {
     e.preventDefault();
 
     if (!validateForm(['email', 'password'])) {
-      console.log('Валидация не прошла');
-      console.log(errors);
+     
+  
       return;
     }
 

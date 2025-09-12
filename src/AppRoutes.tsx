@@ -24,7 +24,7 @@ function AppRoutes() {
           </MainCourseProvider>
         }
       >
-   <Route path={RoutesApp.MAIN} element={<MainPage />} />
+        <Route path={RoutesApp.MAIN} element={<MainPage />} />
 
         <Route path="/course/:courseId" element={<CoursePage />} />
       </Route>
@@ -39,19 +39,19 @@ function AppRoutes() {
           }
         >
           <Route path={RoutesApp.PROFILE} element={<ProfilPage />} />
-                  
-     
+
           <Route
             path="/course/:courseId/workouts/:workoutId"
             element={<WorkOutCoursePage />}
-            
-          />
-        </Route>
 
-        <Route
+          />
+           <Route
           path="/course/:courseId/workouts"
           element={<WorkOutFormPage />}
         />
+        </Route>
+
+       
       </Route>
 
       {/* Авторизация */}

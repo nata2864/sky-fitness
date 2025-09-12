@@ -22,13 +22,13 @@ function CourseDescription() {
   const navigate = useNavigate();
   const { token } = useContext(AuthContext);
 
-  const context = useContext(MainCourseContext);
+  const mainContext = useContext(MainCourseContext);
 
-  if (!context) {
+  if (!mainContext) {
     return null;
   }
 
-  const { course, getCourseById, loadingCourse } = context;
+  const { course, getCourseById, loadingCourse } = mainContext;
 
   const addCourseToFavorites = useCallback(async (courseId: string) => {
     try {

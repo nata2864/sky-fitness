@@ -10,7 +10,7 @@ import { RoutesApp } from '../../const.tsx';
 import { MainCourseContext } from '../../context/MainCourseContext .ts';
 import { CourseContext } from '../../context/CourseContext.ts';
 
-import Spinner from '../Spinner/Spinner.tsx';
+import Container from '../../ui/Container.styled.tsx';
 
 function Profile() {
   
@@ -32,7 +32,7 @@ function Profile() {
     courses,
     usersData,
     getAllUsersData,
-    loadingUsersCourses,
+  
   } = mainContext;
 
     if (!courseContext) {
@@ -49,18 +49,18 @@ function Profile() {
 
   const usersCourses = usersData?.user?.selectedCourses ?? [];
 
-  console.log(usersData);
-  // const courseProgressArray = usersData?.user.courseProgress ?? [];
 
-  // console.log(courseProgress);
 
   if (!courses) {
     return null;
   }
 
+
+
   const userCoursesList = courses.filter((course) =>
     usersCourses.includes(course._id)
   );
+
 
   function handleLogout(e: { preventDefault: () => void }) {
     e.preventDefault();
@@ -68,9 +68,8 @@ function Profile() {
     navigate(RoutesApp.SIGN_IN);
   }
 
-  return (
-    <>
-      {loadingUsersCourses && <Spinner />}
+   return  (
+    <Container>
       <section>
         <S.Title>Профиль</S.Title>
         <S.ProfilCard>
@@ -90,7 +89,8 @@ function Profile() {
         <S.Title>Мои курсы</S.Title>
         <CoursesList courses={userCoursesList} isUserCourse={true} />
       </section>
-    </>
+      </Container>
+  
   );
 }
 

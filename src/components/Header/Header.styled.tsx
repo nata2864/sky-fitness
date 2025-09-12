@@ -6,6 +6,14 @@ export const Header = styled.header`
   padding-top: 50px;
   padding-bottom: 50px;
 
+  @media (max-width: 1024px) {
+    padding: 40px 15px;
+  }
+
+  @media (max-width: 1025px) {
+    padding: 45px 20px;
+  }
+
   @media (max-width: 768px) {
     padding-top: 40px;
     padding-bottom: 40px;
@@ -25,11 +33,11 @@ export const LogoText = styled.p`
   font-size: 18px;
   letter-spacing: 0px;
   @media (max-width: 900px) {
-    display: none; 
-   } 
+    display: none;
+  }
   @media (max-width: 768px) {
     display: none;
-  } 
+  }
 `;
 
 export const LogoBlock = styled.div`
@@ -43,8 +51,8 @@ export const ProfileBlock = styled.div`
   align-items: center;
   justify-content: center;
   gap: 16px;
-   @media (max-width: 768px) {
-      gap: 0px;
+  @media (max-width: 768px) {
+    gap: 0px;
   }
 `;
 
@@ -68,7 +76,7 @@ export const ProfileButton = styled.button`
     border-left: 1.9px solid rgba(0, 0, 0, 1);
     border-bottom: 1.9px solid rgba(0, 0, 0, 1);
     transform: rotate(-45deg);
-    margin-left: 4px; 
+    margin-left: 4px;
   }
 
   @media (max-width: 768px) {
@@ -88,8 +96,6 @@ export const ProfileButton = styled.button`
     }
   }
 `;
-
-
 
 export const HeaderButton = styled(Button)`
   max-width: 103px;

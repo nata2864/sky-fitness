@@ -9,6 +9,7 @@ import { calculateProgress } from '../../utils/calculateProgress/calculateProgre
 import PopUpResultMessage from '../../popUps/PopUpResultMessage/PopUpResultMessage';
 import { MainCourseContext } from '../../context/MainCourseContext .ts';
 // import { markProgressDataDone } from '../../utils/markProgressDataDone';
+  import Spinner from '../Spinner/Spinner.tsx';
 
 function WorkOut() {
   const courseContext = useContext(CourseContext);
@@ -16,17 +17,19 @@ function WorkOut() {
   const [isOpenPopMyProgress, setIsOpenPopMyProgress] = useState(false);
   const [isOpenPopUpResultMessage, setIsPopUpResultMessage] = useState(false);
 
+
   if (!courseContext) return null;
   if (!mainContext) {
     return null;
   }
 
   const { course, getCourseById } = mainContext;
-  console.log(course);
+
   const {
     workOut,
     getWorkoutById,
     getProgress,
+    
     progress,
     updateProgress,
     markProgressDataDone,
@@ -67,6 +70,7 @@ function WorkOut() {
 
   const handleClickMarkDone = () => {
     markProgressDataDone();
+    console.log( progress)
     setIsPopUpResultMessage(true);
   };
 
@@ -74,7 +78,15 @@ function WorkOut() {
     setIsPopUpResultMessage(false);
   };
 
-  console.log(progress);
+
+if (!workOut || !progress) {
+  return (
+   <>
+      <Spinner />
+  </>
+  );
+}
+
 
   return (
     <Container>
@@ -84,7 +96,7 @@ function WorkOut() {
       <S.CourseProgressBox>
         {hasNoTasks ? (
           <S.WorkOutsButton onClick={handleClickMarkDone}>
-            Урок пройден
+           Отметить урок как пройденный
           </S.WorkOutsButton>
         ) : (
           <>

@@ -34,7 +34,7 @@ function ProgressForm({
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
 
-  console.log(currentProgress)
+
 
 
 const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,7 +83,7 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 };
 
 
-  console.log({ workoutTasks });
+
 
   return (
     <Overlay>

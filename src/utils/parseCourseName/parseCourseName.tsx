@@ -15,14 +15,3 @@ export function parseCourseName(name: string): CourseInfo {
   };
 }
 
-// Пример:
-const name = "Утренняя практика / Йога на каждый день / 1 день / Алексей Казубский";
-
-const course = parseCourseName(name);
-console.log(course);
-// {
-//   title: "Утренняя практика",
-//   subtitle: "Йога на каждый день",
-//   day: "1 день",
-//   author: "Алексей Казубский"
-// }
