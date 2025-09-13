@@ -66,7 +66,7 @@ export const WorkOutSubTitle = styled.span`
   }
 `;
 
-export const CheckMark = styled.img<{ $isDone?: boolean }>`
+export const CheckMark = styled.img`
   width: 20px;
   height: 20px;
 `;

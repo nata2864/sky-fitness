@@ -71,7 +71,7 @@ function WorkOutForm({ workouts, courseId }: WorkOutFormProps) {
                 $isActive={isActive}
               >
                 <S.CheckMark
-                  src={isDone ? '/check_in_circle.svg' : '/ellipse.svg'}
+                  src={isDone ? '/сheck_in_сircle.svg' : '/ellipse.svg'}
                   alt={isDone ? 'Done check' : 'Not done check'}
                 />
                 <S.WorkOutText>
