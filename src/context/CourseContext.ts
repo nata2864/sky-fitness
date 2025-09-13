@@ -32,6 +32,7 @@ export type CourseContextValue = {
   ) => Promise<void>;
   markProgressDataDone: () => void;
   addCourseToFavorites(courseId: string): Promise<void>;
+   deleteAllCourseProgress: (courseId: string) => Promise<void>;
 };
 export const CourseContext = createContext<CourseContextValue | undefined>(
   undefined

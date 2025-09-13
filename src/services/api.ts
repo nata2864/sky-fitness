@@ -112,6 +112,23 @@ export async function removeFavoriteCourse(
   return response.data.message;
 }
 
+
+export async function patchAllCourseProgress(
+  token: Token,
+  id: string 
+): Promise<string> {
+  const response = await api.patch<{ message: string }>(
+    API_ENDPOINTS.REMOVE_PROGRESS_COURSE(id),
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  return response.data.message;
+}
+
 export async function patchProgressWorkOut(
   token: Token,
   params: {

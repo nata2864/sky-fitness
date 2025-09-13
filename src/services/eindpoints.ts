@@ -5,6 +5,9 @@ export const API_ENDPOINTS = {
   SIGN_UP: '/auth/register',
   GET_TOKEN: '/user/token/',
   REMOVE_FROM_FAVORITES: (id: string | number) => `/users/me/courses/${id}`,
+   REMOVE_PROGRESS_COURSE: (
+    courseId: string | number,
+  ) => `/courses/${courseId}/reset`,
   ADD_TO_FAVORITES: () => '/users/me/courses/',
   GET_COURSE_BY_ID: (courseId: string | number) => `/courses/${courseId}/`,
   GET_LIST_WORKOUTS: (id: string | number) => `/courses/${id}/workouts/`,

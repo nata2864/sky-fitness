@@ -14,7 +14,7 @@ import {
   patchProgressWorkOut,
   fetchCourseProgress,
   fetchListWorkOuts,
-  addFavoriteCourse,
+  addFavoriteCourse,patchAllCourseProgress
 } from '../services/api';
 import { handleAxiosError } from '../utils/handleAxiosError/handleAxiosError';
 import { AuthContext } from '../context/AuthContext';
@@ -190,6 +190,25 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
     [token]
   );
 
+
+
+  const deleteAllCourseProgress = useCallback(
+    async (courseId: string) => {
+      setLoadingCourseProgress(true);
+      try {
+        const message = await patchAllCourseProgress(token, courseId);
+        toast.success(message); 
+      } catch (err) {
+        handleAxiosError(err);
+      } finally {
+        setLoadingCourseProgress(false);
+      }
+    },
+    [token]
+  );
+
+
+
   const markProgressDataDone = useCallback(() => {
     setProgress((prev) => {
       if (!prev) return prev;
@@ -222,6 +241,7 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
         markProgressDataDone,
         hasExercises,
         addCourseToFavorites,
+        deleteAllCourseProgress
       }}
     >
       {children}
