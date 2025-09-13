@@ -44,7 +44,7 @@ export const Footer = styled.div`
 `;
 
 export const FooterButton = styled(Button)`
-  margin-top: 34px;
+
   max-width: 172px;
   padding-top: 16px;
   padding-right: 26px;
