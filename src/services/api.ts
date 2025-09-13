@@ -10,29 +10,10 @@ import api from './axios';
 import type { Token } from './token';
 import { API_ENDPOINTS } from './eindpoints';
 
-
-// const token= getToken()
-
-// const token =
-// 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YWNjZDc1NWYzYjJkMDQ2NDk3NTY2NSIsImlhdCI6MTc1NjgyMDEzMCwiZXhwIjoxNzU3NDI0OTMwfQ.JInj7a4RXXAFLBR-m-RzGN3Lo1CvF6tId49a8_rSKXg';
-
 export async function fetchAllCourses(): Promise<Course[]> {
   const response = await api.get(API_ENDPOINTS.GET_ALL_COURSES);
   return response.data;
 }
-
-// export async function fetchAllUsersCourses(): Promise<Course[]> {
-//   const response = await api.get(
-//     'https://webdev-hw-api.herokuapp.com/api/fitness/users/me',
-//     {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     }
-//   );
-
-//   return response.data;
-// }
 
 export async function fetchAllUsersData(token: Token): Promise<UserData> {
   const response = await api.get(API_ENDPOINTS.GET_ALL_USERS_DATA, {
@@ -44,7 +25,8 @@ export async function fetchAllUsersData(token: Token): Promise<UserData> {
   return response.data;
 }
 
-export async function fetchListWorkOuts(token: Token,
+export async function fetchListWorkOuts(
+  token: Token,
   id: string | number
 ): Promise<WorkOutLesson[]> {
   const response = await api.get(API_ENDPOINTS.GET_LIST_WORKOUTS(id), {
@@ -55,7 +37,8 @@ export async function fetchListWorkOuts(token: Token,
   return response.data;
 }
 
-export async function fetchWorkOutsById(token: Token,
+export async function fetchWorkOutsById(
+  token: Token,
   id: string | number
 ): Promise<WorkOutLesson> {
   const response = await api.get(API_ENDPOINTS.GET_WORKOUT_BY_ID(id), {
@@ -66,7 +49,10 @@ export async function fetchWorkOutsById(token: Token,
   return response.data;
 }
 
-export async function fetchCoursesById(token: Token,id: string | number): Promise<Course> {
+export async function fetchCoursesById(
+  token: Token,
+  id: string | number
+): Promise<Course> {
   const response = await api.get(API_ENDPOINTS.GET_COURSE_BY_ID(id), {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -75,10 +61,13 @@ export async function fetchCoursesById(token: Token,id: string | number): Promis
   return response.data;
 }
 
-export async function fetchProgressWorkOutById(token: Token,params: {
-  courseId: string;
-  workoutId: string;
-}): Promise<WorkOutsProgress> {
+export async function fetchProgressWorkOutById(
+  token: Token,
+  params: {
+    courseId: string;
+    workoutId: string;
+  }
+): Promise<WorkOutsProgress> {
   const { courseId, workoutId } = params;
 
   const response = await api.get(API_ENDPOINTS.GET_PROGRESS_WORKOUT_BY_ID(), {
@@ -89,7 +78,10 @@ export async function fetchProgressWorkOutById(token: Token,params: {
   return response.data;
 }
 
-export async function addFavoriteCourse(token: Token,courseId: string): Promise<string> {
+export async function addFavoriteCourse(
+  token: Token,
+  courseId: string
+): Promise<string> {
   const response = await api.post<{ message: string }>(
     API_ENDPOINTS.ADD_TO_FAVORITES(),
     { courseId },
@@ -104,7 +96,8 @@ export async function addFavoriteCourse(token: Token,courseId: string): Promise<
   return response.data.message;
 }
 
-export async function removeFavoriteCourse(token: Token,
+export async function removeFavoriteCourse(
+  token: Token,
   id: string | number
 ): Promise<string> {
   const response = await api.delete<{ message: string }>(
@@ -119,19 +112,19 @@ export async function removeFavoriteCourse(token: Token,
   return response.data.message;
 }
 
-export async function patchProgressWorkOut(token: Token,params: {
-  courseId: string;
-  workoutId: string;
-  progressData: ProgressData;
-}): Promise<WorkOutsProgress> {
+export async function patchProgressWorkOut(
+  token: Token,
+  params: {
+    courseId: string;
+    workoutId: string;
+    progressData: ProgressData;
+  }
+): Promise<WorkOutsProgress> {
   const { courseId, workoutId, progressData } = params;
-
-  // превращаем объект в JSON-строку вручную
   const body = JSON.stringify({ progressData });
-
   const response = await api.patch(
     `/courses/${courseId}/workouts/${workoutId}`,
-    body, // строка, а не объект
+    body,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -143,8 +136,8 @@ export async function patchProgressWorkOut(token: Token,params: {
   return response.data;
 }
 
-// --- Получить прогресс по всему курсу ---
-export async function fetchCourseProgress(token: Token,
+export async function fetchCourseProgress(
+  token: Token,
   courseId: string
 ): Promise<CourseProgress> {
   const response = await api.get(API_ENDPOINTS.GET_COURSE_PROGRESS(), {

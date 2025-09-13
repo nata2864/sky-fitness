@@ -1,11 +1,9 @@
-
 import Profile from '../../components/Profile/Profile.tsx';
 
 function ProfilPage() {
- 
   return (
     <>
-<Profile/>
+      <Profile />
     </>
   );
 }

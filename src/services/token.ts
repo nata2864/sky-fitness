@@ -1,10 +1,8 @@
 const AUTH_TOKEN_KEY_NAME = 'sky-fitness-token';
 
-export type Token = string| null;
+export type Token = string | null;
 
 export const getToken = (): Token | null => {
-
-
   const token = localStorage.getItem(AUTH_TOKEN_KEY_NAME);
   return token ?? '';
 };

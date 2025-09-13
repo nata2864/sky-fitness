@@ -29,10 +29,9 @@ export const CardImg = styled.img<{ $src: string }>`
   background-repeat: no-repeat;
   background-position: center;
   width: 100%;
-border-radius:30px;
+  border-radius: 30px;
   height: 325px;
-  position:relative;
-
+  position: relative;
   @media (max-width: 768px) {
     max-width: 343px;
   }
@@ -80,17 +79,10 @@ export const Badge = styled.div`
   gap: 6px;
   padding: 10px;
   background: rgba(247, 247, 247, 1);
-
   border-radius: 50px;
-
   color: rgba(32, 32, 32, 1);
-
   font-weight: 400;
-
   font-size: 16px;
-
-  line-height: 110.00000000000001%;
-  letter-spacing: 0px;
   vertical-align: bottom;
 
   svg {
@@ -100,8 +92,6 @@ export const Badge = styled.div`
 `;
 
 export const CourseButton = styled(Button)`
-margin-bottom: 15px;
-margin-top:30px;
-`
-
-
+  margin-bottom: 15px;
+  margin-top: 30px;
+`;

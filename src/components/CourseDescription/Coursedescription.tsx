@@ -21,15 +21,11 @@ function CourseDescription() {
   const { courseId } = useParams();
   const navigate = useNavigate();
   const { token } = useContext(AuthContext);
-
   const mainContext = useContext(MainCourseContext);
-
   if (!mainContext) {
     return null;
   }
-
   const { course, getCourseById, loadingCourse } = mainContext;
-
   const addCourseToFavorites = useCallback(async (courseId: string) => {
     try {
       const message = await addFavoriteCourse(token, courseId);
@@ -45,11 +41,7 @@ function CourseDescription() {
   }, [courseId, getCourseById]);
 
   if (loadingCourse) {
-    return <Spinner />; 
-  }
-
-  if (!course) {
-    return null;
+    return <Spinner />;
   }
 
   if (!course) {
@@ -63,7 +55,6 @@ function CourseDescription() {
     mobile: `/${basePath}.png`,
   };
 
-
   function handleFooterButtonClick() {
     if (!token) {
       navigate(RoutesApp.SIGN_IN);
@@ -74,7 +65,7 @@ function CourseDescription() {
       addCourseToFavorites(courseId);
     }
   }
- return (
+  return (
     <>
       <Container>
         <S.DescriptionBlock>
@@ -103,15 +94,12 @@ function CourseDescription() {
         </S.DirectionsBlock>
         <S.FooterCourseDiscription>
           <FooterContent onClick={handleFooterButtonClick} />
-<S.FooterImageBlock>
-      <S.FooterImageLine src="/greenLine.svg" alt="curve"/>
-          <S.FooterImage src="/footerImg.png" alt="person" />
-      
-</S.FooterImageBlock>
-          {/* </S.FooterImage> */}
+          <S.FooterImageBlock>
+            <S.FooterImageLine src="/greenLine.svg" alt="curve" />
+            <S.FooterImage src="/footerImg.png" alt="person" />
+          </S.FooterImageBlock>
         </S.FooterCourseDiscription>
       </Container>
-
       <S.MobileFooter>
         <S.MobileImage src="/footerImg.png" />
         <Container>
@@ -120,7 +108,6 @@ function CourseDescription() {
           </S.MobileCard>
         </Container>
       </S.MobileFooter>
-  
     </>
   );
 }

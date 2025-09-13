@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 import axios from 'axios';
 
-const ignoredRoutes = ['/', '/course/:courseId']; 
+const ignoredRoutes = ['/', '/course/:courseId'];
 
 export const handleAxiosError = (error: unknown): void => {
   let message = 'Произошла неизвестная ошибка';
@@ -44,11 +44,9 @@ export const handleAxiosError = (error: unknown): void => {
     }
   }
 
-  // 🚫 если ошибка авторизации и мы на игнорируемой странице → не показываем тост
   if (status === 400 && ignoredRoutes.includes(window.location.pathname)) {
     return;
   }
 
-  // ✅ защита от дублей
   toast.error(message, { toastId: message });
 };

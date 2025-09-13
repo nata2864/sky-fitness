@@ -3,7 +3,6 @@ import {
   Logo,
   FormFields,
   InputItem,
-
   InputWrapper,
 } from '../../ui/Form.styled';
 import { RoutesApp } from '../../const';
@@ -13,7 +12,6 @@ import { useFormValidation } from '../../hooks/useFormValidation';
 import { signUpUser } from '../../services/auth';
 import { handleAxiosError } from '../../utils/handleAxiosError/handleAxiosError';
 import { useState } from 'react';
-
 
 function SignUp() {
   const navigate = useNavigate();
@@ -50,95 +48,88 @@ function SignUp() {
   };
 
   return (
-   
-      <AuthWrapper>
-        <Logo src="./logo.svg" alt="Logo" />
-        <form onSubmit={onSubmit} noValidate>
-          <FormFields>
-            <InputWrapper>
-              <InputItem
-                name="email"
-                type="email"
-                placeholder="Эл. почта"
-                autoComplete="email"
-                onChange={handleChange}
-                onBlur={() =>
-                  validateField('email', [
-                    'email',
-                    'password',
-                    'confirmPassword',
-                  ])
-                }
-                value={formData.email}
-                aria-invalid={Boolean(errors.email)}
-              />
-              {errors.email && (
-                <p style={{ color: 'red', marginTop: '4px' }}>{errors.email}</p>
-              )}
-            </InputWrapper>
+    <AuthWrapper>
+      <Logo src="./logo.svg" alt="Logo" />
+      <form onSubmit={onSubmit} noValidate>
+        <FormFields>
+          <InputWrapper>
+            <InputItem
+              name="email"
+              type="email"
+              placeholder="Эл. почта"
+              autoComplete="email"
+              onChange={handleChange}
+              onBlur={() =>
+                validateField('email', ['email', 'password', 'confirmPassword'])
+              }
+              value={formData.email}
+              aria-invalid={Boolean(errors.email)}
+            />
+            {errors.email && (
+              <p style={{ color: 'red', marginTop: '4px' }}>{errors.email}</p>
+            )}
+          </InputWrapper>
 
-            <InputWrapper>
-              <InputItem
-                name="password"
-                type="password"
-                placeholder="Пароль"
-                autoComplete="new-password"
-                onChange={handleChange}
-                onBlur={() =>
-                  validateField('password', [
-                    'email',
-                    'password',
-                    'confirmPassword',
-                  ])
-                }
-                value={formData.password}
-                aria-invalid={Boolean(errors.password)}
-              />
-              {errors.password && (
-                <p style={{ color: 'red', marginTop: '4px' }}>
-                  {errors.password}
-                </p>
-              )}
-            </InputWrapper>
+          <InputWrapper>
+            <InputItem
+              name="password"
+              type="password"
+              placeholder="Пароль"
+              autoComplete="new-password"
+              onChange={handleChange}
+              onBlur={() =>
+                validateField('password', [
+                  'email',
+                  'password',
+                  'confirmPassword',
+                ])
+              }
+              value={formData.password}
+              aria-invalid={Boolean(errors.password)}
+            />
+            {errors.password && (
+              <p style={{ color: 'red', marginTop: '4px' }}>
+                {errors.password}
+              </p>
+            )}
+          </InputWrapper>
 
-            <InputWrapper>
-              <InputItem
-                name="confirmPassword"
-                type="password"
-                placeholder="Повторите пароль"
-                autoComplete="new-password"
-                onChange={handleChange}
-                onBlur={() =>
-                  validateField('confirmPassword', [
-                    'email',
-                    'password',
-                    'confirmPassword',
-                  ])
-                }
-                value={formData.confirmPassword}
-                aria-invalid={Boolean(errors.confirmPassword)}
-              />
-              {errors.confirmPassword && (
-                <p style={{ color: 'red', marginTop: '4px' }}>
-                  {errors.confirmPassword}
-                </p>
-              )}
-            </InputWrapper>
-          </FormFields>
+          <InputWrapper>
+            <InputItem
+              name="confirmPassword"
+              type="password"
+              placeholder="Повторите пароль"
+              autoComplete="new-password"
+              onChange={handleChange}
+              onBlur={() =>
+                validateField('confirmPassword', [
+                  'email',
+                  'password',
+                  'confirmPassword',
+                ])
+              }
+              value={formData.confirmPassword}
+              aria-invalid={Boolean(errors.confirmPassword)}
+            />
+            {errors.confirmPassword && (
+              <p style={{ color: 'red', marginTop: '4px' }}>
+                {errors.confirmPassword}
+              </p>
+            )}
+          </InputWrapper>
+        </FormFields>
 
-          <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? 'Регистрируем...' : 'Зарегистрироваться'}
-          </Button>
-
-          <SecondaryButton
-            type="button"
-            onClick={() => navigate(RoutesApp.SIGN_IN)}
-          >
-            Войти
-          </SecondaryButton>
-        </form>
-      </AuthWrapper>
- 
+        <Button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? 'Регистрируем...' : 'Зарегистрироваться'}
+        </Button>
+        <SecondaryButton
+          type="button"
+          onClick={() => navigate(RoutesApp.SIGN_IN)}
+        >
+          Войти
+        </SecondaryButton>
+      </form>
+    </AuthWrapper>
   );
 }
 

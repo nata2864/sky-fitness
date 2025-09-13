@@ -3,10 +3,9 @@ import {
   Logo,
   FormFields,
   InputItem,
-
   InputWrapper,
 } from '../../ui/Form.styled';
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Button, SecondaryButton } from '../../ui/Button.styled';
 import { useFormValidation } from '../../hooks/useFormValidation';
 import { RoutesApp } from '../../const';
@@ -29,8 +28,6 @@ function SignIn() {
     e.preventDefault();
 
     if (!validateForm(['email', 'password'])) {
-     
-  
       return;
     }
 
@@ -47,58 +44,54 @@ function SignIn() {
         navigate(RoutesApp.MAIN);
       }
     } catch (error) {
-      handleAxiosError(error); // обработка ошибок сервера
+      handleAxiosError(error);
     }
   };
 
   return (
-    // <AuthContainer>
-      <AuthWrapper>
-        <Logo src="./logo.svg" alt="Logo" />
-        <form onSubmit={onSubmit}>
-          <FormFields>
-            <InputWrapper>
-              <InputItem
-                name="email"
-                type="email"
-                placeholder="Эл. почта"
-                onChange={handleChange}
-                onBlur={() => validateField('email', ['email', 'password'])}
-                value={formData.email}
-              />
-              {errors.email && (
-                <p style={{ color: 'red', marginTop: '4px' }}>{errors.email}</p>
-              )}
-            </InputWrapper>
+    <AuthWrapper>
+      <Logo src="./logo.svg" alt="Logo" />
+      <form onSubmit={onSubmit}>
+        <FormFields>
+          <InputWrapper>
+            <InputItem
+              name="email"
+              type="email"
+              placeholder="Эл. почта"
+              onChange={handleChange}
+              onBlur={() => validateField('email', ['email', 'password'])}
+              value={formData.email}
+            />
+            {errors.email && (
+              <p style={{ color: 'red', marginTop: '4px' }}>{errors.email}</p>
+            )}
+          </InputWrapper>
 
-            <InputWrapper>
-              <InputItem
-                name="password"
-                type="password"
-                placeholder="Пароль"
-                onChange={handleChange}
-                onBlur={() => validateField('password', ['email', 'password'])}
-                value={formData.password}
-              />
-              {errors.password && (
-                <p style={{ color: 'red', marginTop: '4px' }}>
-                  {errors.password}
-                </p>
-              )}
-            </InputWrapper>
-          </FormFields>
-
-          <Button type="submit">Войти</Button>
-
-          <SecondaryButton
-            type="button"
-            onClick={() => navigate(RoutesApp.SIGN_UP)}
-          >
-            Зарегистрироваться
-          </SecondaryButton>
-        </form>
-      </AuthWrapper>
-    // </AuthContainer>
+          <InputWrapper>
+            <InputItem
+              name="password"
+              type="password"
+              placeholder="Пароль"
+              onChange={handleChange}
+              onBlur={() => validateField('password', ['email', 'password'])}
+              value={formData.password}
+            />
+            {errors.password && (
+              <p style={{ color: 'red', marginTop: '4px' }}>
+                {errors.password}
+              </p>
+            )}
+          </InputWrapper>
+        </FormFields>
+        <Button type="submit">Войти</Button>
+        <SecondaryButton
+          type="button"
+          onClick={() => navigate(RoutesApp.SIGN_UP)}
+        >
+          Зарегистрироваться
+        </SecondaryButton>
+      </form>
+    </AuthWrapper>
   );
 }
 

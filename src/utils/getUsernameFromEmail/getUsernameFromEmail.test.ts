@@ -1,4 +1,4 @@
-import { getUsernameFromEmail } from "./getUsernameFromEmail";
+import { getUsernameFromEmail } from './getUsernameFromEmail';
 
 describe('getUsernameFromEmail', () => {
   it('должен возвращать часть до @ для стандартного email', () => {

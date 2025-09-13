@@ -1,4 +1,3 @@
-// utils/getCoursesExercisesStatus.ts
 import { fetchListWorkOuts } from '../services/api';
 import type { Course } from '../sharesTypes/sharesTypes';
 
@@ -9,12 +8,10 @@ export const getCoursesExercisesStatus = async (
   const status: Record<string, boolean> = {};
 
   for (const course of courses) {
-    const lessons = await fetchListWorkOuts(token, course._id); 
-
+    const lessons = await fetchListWorkOuts(token, course._id);
 
     const hasExercises = lessons.some((lesson) => lesson.exercises.length > 0);
 
-    // true, если упражнений нет
     status[course._id] = !hasExercises;
   }
 

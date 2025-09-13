@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-
 import * as S from './PopUserSet.styled.ts';
 import { RoutesApp } from '../../const';
 import { getUsernameFromEmail } from '../../utils/getUsernameFromEmail/getUsernameFromEmail.ts';
@@ -11,14 +10,12 @@ type PopUserSetProps = {
   isOpenPopUser: boolean;
 };
 
-
-
 function PopUserSet({ setIsOpenPopUser, isOpenPopUser }: PopUserSetProps) {
-  const { logout, userName  } = useContext(AuthContext);
+  const { logout, userName } = useContext(AuthContext);
   const parsedMail = getUsernameFromEmail(userName || '');
   const navigate = useNavigate();
 
-    function handleLogout(e: { preventDefault: () => void }) {
+  function handleLogout(e: { preventDefault: () => void }) {
     e.preventDefault();
     logout();
     navigate(RoutesApp.SIGN_IN);
@@ -38,10 +35,7 @@ function PopUserSet({ setIsOpenPopUser, isOpenPopUser }: PopUserSetProps) {
         >
           Мой профиль
         </S.PopUserButton>
-        <S.PopUserSecondaryButton
-          type="button"
-          onClick={handleLogout}
-        >
+        <S.PopUserSecondaryButton type="button" onClick={handleLogout}>
           Выйти
         </S.PopUserSecondaryButton>
       </div>

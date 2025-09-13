@@ -1,11 +1,7 @@
-import { useNavigate } from "react-router-dom";
-import * as S from "./NotFoundPage.styled";
-// import { Button } from "../../components/Button.styled";
-// import { RoutesApp } from "../../const";
-
-import {Button} from "../../ui/Button.styled";
-import { RoutesApp } from "../../const";
-
+import { useNavigate } from 'react-router-dom';
+import * as S from './NotFoundPage.styled';
+import { Button } from '../../ui/Button.styled';
+import { RoutesApp } from '../../const';
 
 function NotFoundPage() {
   const navigate = useNavigate();
@@ -15,11 +11,7 @@ function NotFoundPage() {
       <S.Block>
         <S.Title>404</S.Title>
         <S.SubTitle>Упс! Такой страницы не существует.</S.SubTitle>
-        <Button
-          // $primary
-          // $size="notFound"
-          onClick={() => navigate(RoutesApp.MAIN)}
-        >
+        <Button onClick={() => navigate(RoutesApp.MAIN)}>
           Вернуться на главную
         </Button>
       </S.Block>

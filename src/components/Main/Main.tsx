@@ -11,8 +11,6 @@ const Main: React.FC = () => {
 
   const { getAllCourses, courses, loadingCourses } = context;
 
-
-
   useEffect(() => {
     getAllCourses();
   }, [getAllCourses]);
@@ -20,7 +18,7 @@ const Main: React.FC = () => {
   const handleScrollTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth', // плавная прокрутка
+      behavior: 'smooth', 
     });
   };
 

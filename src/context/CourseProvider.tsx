@@ -1,70 +1,232 @@
-import * as S from './WorkOutForm.styled';
+import { useState, useCallback } from 'react';
+import { CourseContext } from './CourseContext';
+import type {
+  WorkOutLesson,
+  WorkOutsProgress,
+  ProgressData,
+  CourseProgress,
+  Exercise,
+  ExtendedWorkOutsProgress,
+} from '../sharesTypes/sharesTypes';
+import {
+  fetchWorkOutsById,
+  fetchProgressWorkOutById,
+  patchProgressWorkOut,
+  fetchCourseProgress,
+  fetchListWorkOuts,
+  addFavoriteCourse,
+} from '../services/api';
+import { handleAxiosError } from '../utils/handleAxiosError/handleAxiosError';
+import { AuthContext } from '../context/AuthContext';
+import { useContext } from 'react';
+import { toast } from 'react-toastify';
 
-import type { WorkOutLesson } from '../../sharesTypes/sharesTypes';
-// import { parseCourseName } from "../../utils/parseCourseName/parseCourseName/parseCourseName";
-import { useNavigate } from 'react-router-dom';
-import { parseCourseName } from '../../utils/parseCourseName/parseCourseName';
-import { PopUpWrapper } from '../../ui/PopUpWrapper.styled ';
-import { useState } from 'react';
-
-
-type WorkOutFormProps = {
-  workouts: WorkOutLesson[] | null;
-  courseId: string | undefined;
-  hasNoExercises:boolean | undefined;
+type CourseProviderProps = {
+  children: React.ReactNode;
 };
 
-function WorkOutForm({ workouts, courseId, hasNoExercises }: WorkOutFormProps) {
-  const [selectedWorkout, setSelectedWorkout] = useState<WorkOutLesson | null>(
+const CourseProvider = ({ children }: CourseProviderProps) => {
+  const [workOut, setWorkOut] = useState<WorkOutLesson | null>(null);
+  const [workouts, setWorkouts] = useState<WorkOutLesson[]>([]);
+  const [loadingWorkouts, setLoadingWorkouts] = useState(false);
+
+  const [progress, setProgress] = useState<ExtendedWorkOutsProgress | null>(
     null
   );
-  const navigate = useNavigate();
 
- 
-  const handleStart = () => {
-    if (selectedWorkout && courseId) {
-      navigate(`/course/${courseId}/workouts/${selectedWorkout._id}`);
-    }
-  };
- 
+  const [courseProgress, setCourseProgress] = useState<CourseProgress | null>(
+    null
+  );
+
+  const [loadingWorkout, setLoadingWorkout] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState(false);
+  const [loadingCourseProgress, setLoadingCourseProgress] = useState(false);
+
+  const [hasExercises, setHasExercises] = useState<boolean | null>(null);
+
+  const { token } = useContext(AuthContext);
+
+  const getWorkoutsList = useCallback(
+    async (courseId: string): Promise<WorkOutLesson[]> => {
+      if (!courseId || !token) return [];
+      setLoadingWorkouts(true);
+      try {
+        const data = await fetchListWorkOuts(token, courseId);
+        setWorkouts(data ?? []);
+        return data ?? [];
+      } catch (err) {
+        handleAxiosError(err);
+        return [];
+      } finally {
+        setLoadingWorkouts(false);
+      }
+    },
+    [token]
+  );
+
+  const addCourseToFavorites = useCallback(
+    async (courseId: string): Promise<void> => {
+      try {
+        const workouts = await getWorkoutsList(courseId);
+
+        const hasExercisesValue =
+          workouts?.some(
+            (lesson) => lesson.exercises && lesson.exercises.length > 0
+          ) ?? false;
+
+        setHasExercises(hasExercisesValue);
+        const message = await addFavoriteCourse(token, courseId);
+        toast.success(message);
+      } catch (err) {
+        toast.error('Курс уже был добавлен!');
+      }
+    },
+    [token, getWorkoutsList]
+  );
+
+  // --- Загрузка тренировки ---
+  const getWorkoutById = useCallback(
+    async (id: string): Promise<WorkOutLesson | null> => {
+      if (!id || !token) return null; // защита от отсутствия токена
+      setLoadingWorkout(true);
+      try {
+        const data = await fetchWorkOutsById(token, id);
+        setWorkOut(data ?? null);
+        return data ?? null;
+      } catch (err) {
+        handleAxiosError(err);
+        return null;
+      } finally {
+        setLoadingWorkout(false);
+      }
+    },
+    [token]
+  );
+
+  const getProgress = useCallback(
+    async (courseId: string, workoutId: string) => {
+      if (!courseId || !workoutId || !token) return;
+      setLoadingProgress(true);
+
+      try {
+        const data: WorkOutsProgress | null = await fetchProgressWorkOutById(
+          token,
+          {
+            courseId,
+            workoutId,
+          }
+        );
+
+        const workout: WorkOutLesson | null = await getWorkoutById(workoutId);
+        const exercises: Exercise[] = workout?.exercises ?? [];
+        const progresDataWorkOut: number[] = data?.progressData ?? [];
+
+        const normalizedProgress: number[] = exercises.map(
+          (_, index) => progresDataWorkOut[index] ?? 0
+        );
+        const noExercises = exercises.length === 0;
+        if (noExercises) {
+          setProgress({
+            ...(data ?? { courseId, workoutId, progressData: [] }),
+            progressData: normalizedProgress,
+            IsNotProgressData: true,
+            IsNotProgressDataDone: false,
+          });
+        } else {
+          setProgress({
+            ...(data ?? { courseId, workoutId, progressData: [] }),
+            progressData: normalizedProgress,
+            IsNotProgressData: false,
+          });
+        }
+      } catch (err: unknown) {
+        handleAxiosError(err);
+      } finally {
+        setLoadingProgress(false);
+      }
+    },
+    [getWorkoutById, token]
+  );
+
+  const updateProgress = useCallback(
+    async (courseId: string, workoutId: string, progressData: ProgressData) => {
+      if (!courseId || !workoutId || !token) return;
+      setLoadingProgress(true);
+
+      setProgress((prev) => {
+        if (!prev) return prev;
+        return { ...prev, progressData };
+      });
+
+      try {
+        await patchProgressWorkOut(token, {
+          courseId,
+          workoutId,
+          progressData,
+        });
+      } catch (err) {
+        handleAxiosError(err);
+      } finally {
+        setLoadingProgress(false);
+      }
+    },
+    [token]
+  );
+
+  const getCourseProgressById = useCallback(
+    async (courseId: string) => {
+      if (!courseId || !token) return;
+      setLoadingCourseProgress(true);
+
+      try {
+        const data = await fetchCourseProgress(token, courseId);
+        setCourseProgress(data ?? null);
+      } catch (err) {
+        handleAxiosError(err);
+      } finally {
+        setLoadingCourseProgress(false);
+      }
+    },
+    [token]
+  );
+
+  const markProgressDataDone = useCallback(() => {
+    setProgress((prev) => {
+      if (!prev) return prev;
+      if (!prev.IsNotProgressData) return prev;
+
+      return {
+        ...prev,
+        IsNotProgressDataDone: true,
+      };
+    });
+  }, [setProgress]);
 
   return (
-    <PopUpWrapper>
-      <S.WorkOutWrapper>
-        <S.WorkOutFormTitle>Выберите тренировку</S.WorkOutFormTitle>
-        <S.WorkOutList>
-       {workouts?.map((workout, index) => {
-  const parsed = parseCourseName(workout.name);
-  const isActive = selectedWorkout?._id === workout._id;
-
-  // ✅ Чек только если "нет упражнений" и выбранный воркаут
-  const isDone = hasNoExercises && isActive;
-            return (
-              <S.WorkOutItem
-                key={index}
-                onClick={() => setSelectedWorkout(workout)}
-                $isActive={isActive}
-              >
-                <S.CheckMark
-                  src={isDone ? '/сheck_in_сircle.svg' : '/ellipse.svg'}
-                  alt={isDone ? 'Done check' : 'Not done check'}
-                />
-                <S.WorkOutText>
-                  <S.WorkOutTitle>{parsed.title}</S.WorkOutTitle>
-                  <S.WorkOutSubTitle>
-                    {[parsed.subtitle, parsed.day].filter(Boolean).join(' / ')}
-                  </S.WorkOutSubTitle>
-                </S.WorkOutText>
-              </S.WorkOutItem>
-            );
-          })}
-        </S.WorkOutList>
-        <S.WorkOutButton onClick={handleStart} disabled={!selectedWorkout}>
-          Начать
-        </S.WorkOutButton>
-      </S.WorkOutWrapper>
-    </PopUpWrapper>
+    <CourseContext.Provider
+      value={{
+        workOut,
+        workouts,
+        loadingWorkouts,
+        getWorkoutsList,
+        progress,
+        loadingWorkout,
+        loadingProgress,
+        getProgress,
+        getWorkoutById,
+        updateProgress,
+        getCourseProgressById,
+        courseProgress,
+        loadingCourseProgress,
+        setProgress,
+        markProgressDataDone,
+        hasExercises,
+        addCourseToFavorites,
+      }}
+    >
+      {children}
+    </CourseContext.Provider>
   );
-}
+};
 
-export default WorkOutForm;
+export default CourseProvider;

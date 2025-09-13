@@ -1,8 +1,5 @@
 import styled from 'styled-components';
 
-
-// Нужно AuthContainer вынести в отдельный компоненте
-
 export const AuthContainer = styled.div`
   width: 100%;
   min-width: 320px;
@@ -44,7 +41,7 @@ export const InputWrapper = styled.div`
 
 export const InputItem = styled.input`
   width: 100%;
-  box-sizing: border-box; 
+  box-sizing: border-box;
   border-radius: 8px;
   padding: 16px 18px;
   border: 1px solid rgba(208, 206, 206, 1);

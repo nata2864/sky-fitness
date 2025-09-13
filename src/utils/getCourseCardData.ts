@@ -17,7 +17,9 @@ export const getCourseCardData = (
   const workoutsProgress = userCourseProgress?.workoutsProgress ?? [];
   const totalWorkouts = course?.workouts.length ?? 0;
 
-  const completedWorkouts = workoutsProgress.filter(w => w.workoutCompleted).length;
+  const completedWorkouts = workoutsProgress.filter(
+    (w) => w.workoutCompleted
+  ).length;
 
   // Рассчитываем процент
   let percent = 0;
@@ -35,5 +37,3 @@ export const getCourseCardData = (
 
   return { percent, buttonText };
 };
-
-

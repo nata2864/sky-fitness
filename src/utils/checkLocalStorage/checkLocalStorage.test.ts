@@ -1,6 +1,4 @@
-
-import {checkLocalStorage} from "./checkLocalStorage"
-
+import { checkLocalStorage } from './checkLocalStorage';
 
 describe('checkLocalStorage', () => {
   beforeEach(() => {
@@ -18,7 +16,10 @@ describe('checkLocalStorage', () => {
   });
 
   it('возвращает объект, если userInfo корректный', () => {
-    localStorage.setItem('userInfo', JSON.stringify({ name: 'Alice', token: 'abc' }));
+    localStorage.setItem(
+      'userInfo',
+      JSON.stringify({ name: 'Alice', token: 'abc' })
+    );
     expect(checkLocalStorage()).toEqual({ name: 'Alice', token: 'abc' });
   });
 

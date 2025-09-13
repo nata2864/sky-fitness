@@ -4,20 +4,15 @@ import * as S from './Profile.styled.ts';
 import { getUsernameFromEmail } from '../../utils/getUsernameFromEmail/getUsernameFromEmail.ts';
 import { AuthContext } from '../../context/AuthContext';
 import { useEffect, useContext } from 'react';
-// import { CourseContext } from '../../context/CourseContext';
 import { useNavigate } from 'react-router-dom';
 import { RoutesApp } from '../../const.tsx';
 import { MainCourseContext } from '../../context/MainCourseContext .ts';
 import { CourseContext } from '../../context/CourseContext.ts';
-
 import Container from '../../ui/Container.styled.tsx';
 
 function Profile() {
-  
   const mainContext = useContext(MainCourseContext);
-    const courseContext = useContext(CourseContext);
-
-  // const { courseId } = useParams();
+  const courseContext = useContext(CourseContext);
   const { logout, userName } = useContext(AuthContext);
   const parsedMail = getUsernameFromEmail(userName || '');
   const navigate = useNavigate();
@@ -26,16 +21,9 @@ function Profile() {
     return null;
   }
 
+  const { getAllCourses, courses, usersData, getAllUsersData } = mainContext;
 
-  const {
-    getAllCourses,
-    courses,
-    usersData,
-    getAllUsersData,
-  
-  } = mainContext;
-
-    if (!courseContext) {
+  if (!courseContext) {
     return null;
   }
 
@@ -49,18 +37,13 @@ function Profile() {
 
   const usersCourses = usersData?.user?.selectedCourses ?? [];
 
-
-
   if (!courses) {
     return null;
   }
 
-
-
   const userCoursesList = courses.filter((course) =>
     usersCourses.includes(course._id)
   );
-
 
   function handleLogout(e: { preventDefault: () => void }) {
     e.preventDefault();
@@ -68,7 +51,7 @@ function Profile() {
     navigate(RoutesApp.SIGN_IN);
   }
 
-   return  (
+  return (
     <Container>
       <section>
         <S.Title>Профиль</S.Title>
@@ -89,8 +72,7 @@ function Profile() {
         <S.Title>Мои курсы</S.Title>
         <CoursesList courses={userCoursesList} isUserCourse={true} />
       </section>
-      </Container>
-  
+    </Container>
   );
 }
 

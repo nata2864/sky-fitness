@@ -8,15 +8,13 @@ import { getTotalProgressNumber } from '../../utils/getTotalProgressNumber/getTo
 import { calculateProgress } from '../../utils/calculateProgress/calculateProgress';
 import PopUpResultMessage from '../../popUps/PopUpResultMessage/PopUpResultMessage';
 import { MainCourseContext } from '../../context/MainCourseContext .ts';
-// import { markProgressDataDone } from '../../utils/markProgressDataDone';
-  import Spinner from '../Spinner/Spinner.tsx';
+import Spinner from '../Spinner/Spinner.tsx';
 
 function WorkOut() {
   const courseContext = useContext(CourseContext);
   const mainContext = useContext(MainCourseContext);
   const [isOpenPopMyProgress, setIsOpenPopMyProgress] = useState(false);
   const [isOpenPopUpResultMessage, setIsPopUpResultMessage] = useState(false);
-
 
   if (!courseContext) return null;
   if (!mainContext) {
@@ -29,7 +27,6 @@ function WorkOut() {
     workOut,
     getWorkoutById,
     getProgress,
-    
     progress,
     updateProgress,
     markProgressDataDone,
@@ -58,7 +55,13 @@ function WorkOut() {
     }
   }, [courseId, getCourseProgressById]);
 
-  if (!workOut || !progress) return null;
+  if (!workOut || !progress) {
+    return (
+      <>
+        <Spinner />
+      </>
+    );
+  }
 
   const progresDataWorkOut = progress.progressData;
   const workoutTasks = workOut.exercises;
@@ -70,23 +73,13 @@ function WorkOut() {
 
   const handleClickMarkDone = () => {
     markProgressDataDone();
-    console.log( progress)
+    console.log(progress);
     setIsPopUpResultMessage(true);
   };
 
   const handleClosePopUpResultMessage = () => {
     setIsPopUpResultMessage(false);
   };
-
-
-if (!workOut || !progress) {
-  return (
-   <>
-      <Spinner />
-  </>
-  );
-}
-
 
   return (
     <Container>
@@ -96,7 +89,7 @@ if (!workOut || !progress) {
       <S.CourseProgressBox>
         {hasNoTasks ? (
           <S.WorkOutsButton onClick={handleClickMarkDone}>
-           Отметить урок как пройденный
+            Отметить урок как пройденный
           </S.WorkOutsButton>
         ) : (
           <>

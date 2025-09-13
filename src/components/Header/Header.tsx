@@ -4,7 +4,6 @@ import Container from '../../ui/Container.styled.tsx';
 import PopUserSet from '../../popUps/PopUserSet/PopUserSet.tsx';
 import { AuthContext } from '../../context/AuthContext';
 import { useContext } from 'react';
-
 import { getUsernameFromEmail } from '../../utils/getUsernameFromEmail/getUsernameFromEmail.ts';
 import { Link, useNavigate } from 'react-router-dom';
 import { RoutesApp } from '../../const.tsx';
@@ -25,7 +24,7 @@ function Header({ showMoto = false }) {
     <Container>
       <S.Header>
         <S.Block>
-         <S.LogoBlock>
+          <S.LogoBlock>
             <Link to={'/'}>
               <img src="/logo.svg" alt="Логотип " />
             </Link>

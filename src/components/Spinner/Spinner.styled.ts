@@ -1,6 +1,4 @@
-import styled, { keyframes } from "styled-components";
-
-
+import styled, { keyframes } from 'styled-components';
 
 const spin = keyframes`
   from {
@@ -13,7 +11,7 @@ const spin = keyframes`
 
 export const SpinnerContainer = styled.div`
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;

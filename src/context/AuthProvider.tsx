@@ -5,7 +5,9 @@ import { checkLocalStorage } from '../utils/checkLocalStorage/checkLocalStorage'
 
 function AuthProvider({ children }: { children: React.ReactNode }) {
   const [token, setToken] = useState<string | null>(() => checkLocalStorage());
-  const [userName, setUserName] = useState<string | null>(() => localStorage.getItem('userEmail'));
+  const [userName, setUserName] = useState<string | null>(() =>
+    localStorage.getItem('userEmail')
+  );
 
   const updateUserInfo = (token: string | null, userName: string | null) => {
     setToken(token);
@@ -37,4 +39,4 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default AuthProvider
+export default AuthProvider;

@@ -21,7 +21,6 @@ function FooterContent({ onClick }: FooterContentProps) {
       <S.FooterButton onClick={onClick}>
         {token ? 'Добавить курc' : 'Войдите, чтобы добавить курс'}
       </S.FooterButton>
- 
     </S.ContentBlock>
   );
 }

@@ -22,28 +22,23 @@ export const PopUserSet = styled.div<PopUserProps>`
   background: white;
 `;
 
-
 export const UserName = styled.p`
   color: #000;
   font-size: 18px;
   font-weight: 400;
-
   margin-bottom: 10px;
 `;
 
 export const UserMail = styled.p`
   color: rgba(153, 153, 153, 1);
-
   font-size: 18px;
   font-weight: 400;
-
   margin-bottom: 34px;
 `;
 
 export const PopUserButton = styled(Button)`
   width: 206px;
   height: 52px;
-
   border-width: 1px;
   padding-top: 16px;
   padding-right: 26px;
@@ -53,7 +48,6 @@ export const PopUserButton = styled(Button)`
 export const PopUserSecondaryButton = styled(SecondaryButton)`
   width: 206px;
   height: 52px;
-
   border-width: 1px;
   padding-top: 16px;
   padding-right: 26px;

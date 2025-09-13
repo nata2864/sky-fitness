@@ -5,7 +5,7 @@ type CourseInfo = {
   author: string | null;
 };
 export function parseCourseName(name: string): CourseInfo {
-  const parts = name.split(" / ").map(p => p.trim());
+  const parts = name.split(' / ').map((p) => p.trim());
 
   return {
     title: parts[0] || null,
@@ -14,4 +14,3 @@ export function parseCourseName(name: string): CourseInfo {
     author: parts[3] || null,
   };
 }
-

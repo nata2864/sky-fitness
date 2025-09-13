@@ -1,25 +1,23 @@
 import type { Course, UserData } from '../sharesTypes/sharesTypes';
 import { createContext } from 'react';
 
-
 export type MainCourseContextValue = {
   // --- Данные ---
-  course: Course | null;           // Текущий выбранный курс
-  courses: Course[];               // Все доступные курсы
-  usersData: UserData | null;      // Данные о курсах конкретного пользователя
+  course: Course | null;
+  courses: Course[];
+  usersData: UserData | null;
 
   // --- Состояния загрузки ---
-  loadingCourses: boolean;         // true → загружаются все курсы
-  loadingUsersCourses: boolean;    // true → загружаются курсы пользователя
-  loadingCourse: boolean;          // true → загружается конкретный курс
+  loadingCourses: boolean;
+  loadingUsersCourses: boolean;
+  loadingCourse: boolean;
 
   // --- Методы для работы с API ---
-  getCourseById: (id: string) => Promise<Course | null>;   // Загрузить курс по id
-  getAllCourses: () => Promise<Course[] | null>;       // Загрузить все курсы
-  getAllUsersData: () => Promise<UserData | null>;    // Загрузить данные пользователя
+  getCourseById: (id: string) => Promise<Course | null>;
+  getAllCourses: () => Promise<Course[] | null>;
+  getAllUsersData: () => Promise<UserData | null>;
 };
 
-
-export const MainCourseContext = createContext<MainCourseContextValue | undefined>(
-  undefined
-);
+export const MainCourseContext = createContext<
+  MainCourseContextValue | undefined
+>(undefined);

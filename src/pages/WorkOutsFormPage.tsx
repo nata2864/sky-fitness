@@ -1,4 +1,4 @@
-import WorkOutForm from '../components/WorkOutForm/WorkOutForm ';
+import WorkOutForm from '../components/WorkOutForm/WorkOutForm';
 import { useParams } from 'react-router-dom';
 import Spinner from '../components/Spinner/Spinner';
 import { CourseContext } from '../context/CourseContext';
@@ -18,19 +18,10 @@ function WorkOutFormPage() {
     }
   }, [courseId, getWorkoutsList]);
 
-  // 👉 здесь определяем
-  const hasNoExercises = workouts?.every(
-    (lesson) => lesson.exercises.length === 0
-  );
-
   return loadingWorkouts ? (
     <Spinner />
   ) : (
-    <WorkOutForm
-      workouts={workouts}
-      courseId={courseId}
-      hasNoExercises={hasNoExercises}
-    />
+    <WorkOutForm workouts={workouts} courseId={courseId} />
   );
 }
 

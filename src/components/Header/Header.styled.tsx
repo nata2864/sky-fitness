@@ -22,7 +22,6 @@ export const Header = styled.header`
 
 export const Block = styled.div`
   display: flex;
-
   align-items: center;
   justify-content: space-between;
 `;
@@ -80,7 +79,7 @@ export const ProfileButton = styled.button`
   }
 
   @media (max-width: 768px) {
-    font-size: 0; // скрываем текст
+    font-size: 0;
     width: 24px;
     height: 24px;
     margin-left: 0;
@@ -92,7 +91,6 @@ export const ProfileButton = styled.button`
       border-left: 1.9px solid rgba(0, 0, 0, 1);
       border-bottom: 1.9px solid rgba(0, 0, 0, 1);
       transform: rotate(-45deg);
-      /* margin-left: 4px;  */
     }
   }
 `;

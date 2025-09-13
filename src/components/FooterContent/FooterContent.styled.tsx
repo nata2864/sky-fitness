@@ -7,7 +7,6 @@ export const ContentBlock = styled.div`
   flex-direction: column;
   padding: 40px;
   @media (max-width: 768px) {
-    /* max-width: 283px; */
     padding: 30px;
     align-items: center;
   }
@@ -53,11 +52,7 @@ export const FooterButton = styled(Button)`
   @media (max-width: 768px) {
     width: 283px;
     height: 50px;
-
-font-weight: 400;
-
-font-size: 16px;
-
-
+    font-weight: 400;
+    font-size: 16px;
   }
 `;

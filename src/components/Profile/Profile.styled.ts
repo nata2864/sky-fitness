@@ -5,7 +5,6 @@ import { SecondaryButton } from '../../ui/Button.styled';
 export const Title = styled.h3`
   font-weight: 600;
   font-size: 40px;
-  line-height: 110.00000000000001%;
   letter-spacing: 0px;
   color: rgba(0, 0, 0, 1);
   margin-bottom: 40px;
@@ -62,7 +61,7 @@ export const UserName = styled.p`
   margin-bottom: 30px;
   font-weight: 500;
   font-size: 32px;
-  line-height: 110.00000000000001%;
+
   letter-spacing: 0px;
   color: rgba(0, 0, 0, 1);
   @media (max-width: 768px) {
@@ -75,7 +74,7 @@ export const UserLogin = styled.p`
   margin-bottom: 44px;
   font-weight: 400;
   font-size: 18px;
-  line-height: 110.00000000000001%;
+
   letter-spacing: 0px;
   @media (max-width: 768px) {
     margin-bottom: 20px;

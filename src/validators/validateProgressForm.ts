@@ -1,6 +1,5 @@
-import type { Exercise, ProgressData } from '../sharesTypes/sharesTypes'
+import type { Exercise, ProgressData } from '../sharesTypes/sharesTypes';
 
-/** Валидация формы прогресса */
 export function validateProgressForm(
   formValues: { [key: string]: string },
   currentProgress: ProgressData,
@@ -11,7 +10,8 @@ export function validateProgressForm(
   workoutTasks.forEach((_, index) => {
     const key = `exercise-${index}`;
     const oldValue = currentProgress[index] || 0;
-    const newValue = formValues[key] === '' ? oldValue : Number(formValues[key]);
+    const newValue =
+      formValues[key] === '' ? oldValue : Number(formValues[key]);
 
     if (!/^\d*$/.test(formValues[key] || '0')) {
       errors[key] = 'Введите число 0 или больше';

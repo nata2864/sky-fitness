@@ -62,7 +62,7 @@ const CoursesList: React.FC<CoursesListProps> = ({ courses, isUserCourse }) => {
     [token, isUserCourse, usersCourses, getAllUsersData, navigate]
   );
 
- useEffect(() => {
+  useEffect(() => {
     const fetchStatus = async () => {
       const status = await getCoursesExercisesStatus(courses, token);
       setCoursesExercises(status);
@@ -80,9 +80,7 @@ const CoursesList: React.FC<CoursesListProps> = ({ courses, isUserCourse }) => {
             usersData?.user,
             course
           );
-
           const isHasNoExercises = coursesExercises[course._id] ?? false;
-
           return (
             <Card
               key={course._id}

@@ -13,21 +13,12 @@ export const IconImage = styled.img`
 `;
 
 export const IconText = styled.p`
-
   font-weight: 400;
-
   font-size: 24px;
 
-  line-height: 110.00000000000001%;
-  letter-spacing: 0px;
-    @media (max-width: 768px) {
-  
-font-weight: 400;
-
-font-size: 18px;
-
-line-height: 110.00000000000001%;
-letter-spacing: 0px;
-
+  @media (max-width: 768px) {
+    font-weight: 400;
+    font-size: 18px;
+    letter-spacing: 0px;
   }
 `;

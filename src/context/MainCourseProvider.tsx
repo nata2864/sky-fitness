@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useContext } from 'react';
-import {MainCourseContext} from './MainCourseContext ';
+import { MainCourseContext } from './MainCourseContext ';
 import type { Course, UserData } from '../sharesTypes/sharesTypes';
 import {
   fetchCoursesById,

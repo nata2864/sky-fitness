@@ -1,16 +1,18 @@
 import type {
-
   WorkOutLesson,
-  CourseProgress,ExtendedWorkOutsProgress 
+  CourseProgress,
+  ExtendedWorkOutsProgress,
 } from '../sharesTypes/sharesTypes';
 import { createContext } from 'react';
 
 export type CourseContextValue = {
   workOut: WorkOutLesson | null;
-  workouts: WorkOutLesson []| null;
+  workouts: WorkOutLesson[] | null;
 
-  progress: ExtendedWorkOutsProgress  | null;
-  setProgress: React.Dispatch<React.SetStateAction<ExtendedWorkOutsProgress | null>>;
+  progress: ExtendedWorkOutsProgress | null;
+  setProgress: React.Dispatch<
+    React.SetStateAction<ExtendedWorkOutsProgress | null>
+  >;
   courseProgress: CourseProgress | null;
   loadingWorkout: boolean;
   loadingProgress: boolean;
@@ -28,8 +30,8 @@ export type CourseContextValue = {
     workoutId: string,
     progressData: number[]
   ) => Promise<void>;
-   markProgressDataDone: () => void;
-   addCourseToFavorites(courseId: string) : Promise<void>
+  markProgressDataDone: () => void;
+  addCourseToFavorites(courseId: string): Promise<void>;
 };
 export const CourseContext = createContext<CourseContextValue | undefined>(
   undefined

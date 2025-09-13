@@ -11,7 +11,6 @@ export const PopUpWrapper = styled.div<PopUpWrapperProps>`
 
 export const MessageBlock = styled.div`
   width: 426px;
-  /* height: 88px; */
   background-color: white;
   display: flex;
   flex-direction: column;
@@ -26,17 +25,14 @@ export const SuccessMessage = styled.h2`
   font-weight: 600;
   font-size: 40px;
   text-align: center;
-   margin-bottom:24px;
+  margin-bottom: 24px;
 `;
 
 export const SuccessImage = styled.img`
   width: 68px;
   height: 68px;
-  margin-bottom:24px;
+  margin-bottom: 24px;
 `;
-
-
-
 
 export const BaseLinkStyle = `
   display: block;
