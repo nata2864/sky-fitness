@@ -21,13 +21,13 @@ export const getCourseCardData = (
     (w) => w.workoutCompleted
   ).length;
 
-  // Рассчитываем процент
+
   let percent = 0;
   if (totalWorkouts > 0) {
     percent = Math.round((completedWorkouts / totalWorkouts) * 100);
   }
 
-  // Логика кнопки
+
   let buttonText = 'Начать тренировки';
   if (percent > 0 && percent < 100) {
     buttonText = 'Продолжить';

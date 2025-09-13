@@ -2,11 +2,10 @@ import type { WorkOutLesson } from '../../sharesTypes/sharesTypes';
 import { useNavigate } from 'react-router-dom';
 import { parseCourseName } from '../../utils/parseCourseName/parseCourseName';
 import { PopUpWrapper } from '../../ui/PopUpWrapper.styled ';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import * as S from './WorkOutForm.styled';
 import { CourseContext } from '../../context/CourseContext';
 import { AuthContext } from '../../context/AuthContext';
-import { useEffect } from 'react';
 
 type WorkOutFormProps = {
   workouts: WorkOutLesson[] | null;
@@ -18,13 +17,7 @@ function WorkOutForm({ workouts, courseId }: WorkOutFormProps) {
   const courseContext = useContext(CourseContext);
   if (!courseContext) return null;
   const { token } = useContext(AuthContext);
-
-  useEffect(() => {
-    if (!token) {
-      localStorage.removeItem('doneNoExercisesIds');
-      setDoneNoExercisesIds([]);
-    }
-  }, [token]);
+  const { getProgress, progress } = courseContext;
 
   const [activeWorkoutId, setActiveWorkoutId] = useState<string | null>(null);
 
@@ -33,17 +26,54 @@ function WorkOutForm({ workouts, courseId }: WorkOutFormProps) {
     return saved ? JSON.parse(saved) : [];
   });
 
+  const [doneWorkoutsIds, setDoneWorkoutsIds] = useState<string[]>(() => {
+    const saved = localStorage.getItem('doneWorkoutsIds');
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  useEffect(() => {
+    if (activeWorkoutId && courseId) {
+      getProgress(courseId, activeWorkoutId);
+    }
+  }, [courseId, activeWorkoutId, getProgress]);
+
+  useEffect(() => {
+    if (!token) {
+      localStorage.removeItem('doneNoExercisesIds');
+      localStorage.removeItem('doneWorkoutsIds');
+      setDoneNoExercisesIds([]);
+      setDoneWorkoutsIds([]);
+    }
+  }, [token]);
+
+  useEffect(() => {
+    if (workouts) {
+      const noExercisesIds = workouts
+        .filter(
+          (w) => w.exercises.length === 0 && !doneNoExercisesIds.includes(w._id)
+        )
+        .map((w) => w._id);
+
+      if (noExercisesIds.length > 0) {
+        const newDone = [...doneNoExercisesIds, ...noExercisesIds];
+        setDoneNoExercisesIds(newDone);
+        localStorage.setItem('doneNoExercisesIds', JSON.stringify(newDone));
+      }
+    }
+  }, [workouts]);
+
+  useEffect(() => {
+    if (progress?.workoutCompleted && progress.workoutId) {
+      if (!doneWorkoutsIds.includes(progress.workoutId)) {
+        const newDone = [...doneWorkoutsIds, progress.workoutId];
+        setDoneWorkoutsIds(newDone);
+        localStorage.setItem('doneWorkoutsIds', JSON.stringify(newDone));
+      }
+    }
+  }, [progress]);
+
   const handleWorkoutClick = (workout: WorkOutLesson) => {
     setActiveWorkoutId(workout._id);
-
-    if (
-      workout.exercises.length === 0 &&
-      !doneNoExercisesIds.includes(workout._id)
-    ) {
-      const newArray = [...doneNoExercisesIds, workout._id];
-      setDoneNoExercisesIds(newArray);
-      localStorage.setItem('doneNoExercisesIds', JSON.stringify(newArray));
-    }
   };
 
   const handleStart = () => {
@@ -61,8 +91,10 @@ function WorkOutForm({ workouts, courseId }: WorkOutFormProps) {
             const parsed = parseCourseName(workout.name);
             const isActive = activeWorkoutId === workout._id;
             const hasNoExercises = workout.exercises.length === 0;
+
             const isDone =
-              hasNoExercises && doneNoExercisesIds.includes(workout._id);
+              (hasNoExercises && doneNoExercisesIds.includes(workout._id)) ||
+              (!hasNoExercises && doneWorkoutsIds.includes(workout._id));
 
             return (
               <S.WorkOutItem
@@ -71,7 +103,7 @@ function WorkOutForm({ workouts, courseId }: WorkOutFormProps) {
                 $isActive={isActive}
               >
                 <S.CheckMark
-                  src={isDone ? '/сheck_in_сircle.svg' : '/ellipse.svg'}
+                  src={isDone ? '/check.png' : '/ellipse.svg'}
                   alt={isDone ? 'Done check' : 'Not done check'}
                 />
                 <S.WorkOutText>
