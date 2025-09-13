@@ -1,69 +1,48 @@
-# React + TypeScript + Vite
+# React + TypeScript + Vite -WorkOut App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Описание проекта
 
-Currently, two official plugins are available:
+WorkOut App — это веб-приложение для управления курсами и тренировками. Пользователь может:  
+- Просматривать список уроков курса.  
+- Отмечать выполненные уроки (с упражнениями и без).  
+- Отслеживать прогресс по упражнениям.  
+- Навигировать к выбранному уроку и запускать тренировку.  
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
+## Установка
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. Склонируйте репозиторий:
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+```bash
+git clone <URL_репозитория>
+cd <имя_папки_проекта>
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+2. Установите зависимости:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
-```
+npm install
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+3. Запустите проект:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
+npm ran dev
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
-```
+Структура проекта
+
+src/components — React-компоненты интерфейса
+src/context — контексты для управления состоянием курсов  авторизации
+src/utils — вспомогательные функции, например, парсинг названий курсов
+src/ui — стилизованные компоненты и обёртки
+src/sharesTypes — общие типы TypeScript
+
+Использование
+Выбор тренировки
+Откройте приложение.
+В списке тренировок выберите урок.
+Для уроков без упражнений галочка ставится автоматически.
+Для уроков с упражнениями галочка появляется после выполнения.
+Старт тренировки
+Выберите урок, нажмите кнопку Начать.
+Перейдите к выполнению упражнений.
+Хранение прогресса
+Выполненные уроки без упражнений сохраняются в localStorage (doneNoExercisesIds).
+Выполненные уроки с упражнениями сохраняются в localStorage (doneWorkoutsIds).
+Это позволяет сохранять галочки даже при перезагрузке страницы.
