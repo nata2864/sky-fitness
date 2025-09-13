@@ -103,7 +103,7 @@ function WorkOut() {
                   <S.ProgressText>
                     {workOuttask.name} — {progressValue}%
                   </S.ProgressText>
-                  <S.ProgressBar type="range" value={progressValue} max={100} />
+                  <S.ProgressBar type="range" value={progressValue} max={100}  readOnly/>
                 </S.ProgressBlock>
               );
             })}
