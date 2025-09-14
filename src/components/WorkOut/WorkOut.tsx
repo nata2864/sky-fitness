@@ -30,8 +30,8 @@ function WorkOut() {
     progress,
     updateProgress,
     markProgressDataDone,
-    getCourseProgressById,
-    courseProgress
+    // getCourseProgressById,
+    // courseProgress
   } = courseContext;
 
   const { workoutId, courseId } = useParams();
@@ -50,15 +50,15 @@ function WorkOut() {
     }
   }, [courseId, workoutId, getProgress]);
 
-  useEffect(() => {
-    if (courseId) {
-      getCourseProgressById(courseId);
-    }
-  }, [courseId, getCourseProgressById]);
+  // useEffect(() => {
+  //   if (courseId) {
+  //     getCourseProgressById(courseId);
+  //   }
+  // }, [courseId, getCourseProgressById]);
 
   console.log(workOut);
   console.log(progress);
-  console.log(courseProgress)
+  // console.log(courseProgress)
 
 
   if (!workOut || !progress) {
@@ -78,10 +78,10 @@ function WorkOut() {
   };
 
   const handleClickMarkDone = () => {
-    markProgressDataDone();
-    console.log(progress);
-    setIsPopUpResultMessage(true);
-  };
+   
+  markProgressDataDone();        // обновляем состояние и localStorage
+  setIsPopUpResultMessage(true); // показываем попап с результатом
+};
 
   const handleClosePopUpResultMessage = () => {
     setIsPopUpResultMessage(false);

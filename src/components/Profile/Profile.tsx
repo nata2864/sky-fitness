@@ -52,8 +52,6 @@ function Profile() {
     navigate(RoutesApp.SIGN_IN);
   }
 
-  console.log(usersData)
-
   return (
     <Container>
       <section>

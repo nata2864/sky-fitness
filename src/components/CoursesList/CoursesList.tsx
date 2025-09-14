@@ -5,7 +5,6 @@ import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { Course, CourseProgress } from '../../sharesTypes/sharesTypes';
 import { getCourseCardData } from '../../utils/getCourseCardData';
-import {useLessonProgress} from '../../hooks/useLessonProgress'
 
 type CoursesListProps = {
   courses: Course[];
@@ -31,15 +30,11 @@ const CoursesList: React.FC<CoursesListProps> = ({
     <Container>
       <S.Courses>
         {courses.map((course) => {
-           
           const { percent, buttonText } = getCourseCardData(
             course._id,
             isUserCourse ? coursesWithProgress : undefined,
             course
           );
-          // const isHasExercises =
-          //   coursesWithProgress?.some((c) => c.courseId === course._id) ??
-            false;
 
           return (
             <Card

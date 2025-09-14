@@ -14,7 +14,8 @@ import {
   patchProgressWorkOut,
   fetchCourseProgress,
   fetchListWorkOuts,
-  addFavoriteCourse,patchAllCourseProgress
+  addFavoriteCourse,
+  patchAllCourseProgress,
 } from '../services/api';
 import { handleAxiosError } from '../utils/handleAxiosError/handleAxiosError';
 import { AuthContext } from '../context/AuthContext';
@@ -42,10 +43,7 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
   const [loadingProgress, setLoadingProgress] = useState(false);
   const [loadingCourseProgress, setLoadingCourseProgress] = useState(false);
 
-  // const [hasExercises, setHasExercises] = useState<boolean | null>(null);
-
   const { token } = useContext(AuthContext);
-
 
   const getWorkoutsList = useCallback(
     async (courseId: string): Promise<WorkOutLesson[]> => {
@@ -68,14 +66,6 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
   const addCourseToFavorites = useCallback(
     async (courseId: string): Promise<void> => {
       try {
-        // const workouts = await getWorkoutsList(courseId);
-
-        // const hasExercisesValue =
-        //   workouts?.some(
-        //     (lesson) => lesson.exercises && lesson.exercises.length > 0
-        //   ) ?? false;
-
-        // setHasExercises(hasExercisesValue);
         const message = await addFavoriteCourse(token, courseId);
         toast.success(message);
       } catch (err) {
@@ -191,14 +181,12 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
     [token]
   );
 
-
-
   const deleteAllCourseProgress = useCallback(
     async (courseId: string) => {
       setLoadingCourseProgress(true);
       try {
         const message = await patchAllCourseProgress(token, courseId);
-        toast.success(message); 
+        toast.success(message);
       } catch (err) {
         handleAxiosError(err);
       } finally {
@@ -208,17 +196,28 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
     [token]
   );
 
-
-
   const markProgressDataDone = useCallback(() => {
     setProgress((prev) => {
       if (!prev) return prev;
       if (!prev.IsNotProgressData) return prev;
 
-      return {
-        ...prev,
-        IsNotProgressDataDone: true,
-      };
+      const updated = { ...prev, IsNotProgressDataDone: true };
+
+      // сохраняем в localStorage
+      const storedWorkouts = JSON.parse(
+        localStorage.getItem('workouts') || '[]'
+      );
+      const index = storedWorkouts.findIndex(
+        (w: ExtendedWorkOutsProgress) => w.workoutId === updated.workoutId
+      );
+      if (index !== -1) {
+        storedWorkouts[index] = updated;
+      } else {
+        storedWorkouts.push(updated);
+      }
+      localStorage.setItem('workouts', JSON.stringify(storedWorkouts));
+
+      return updated;
     });
   }, [setProgress]);
 
@@ -240,9 +239,8 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
         loadingCourseProgress,
         setProgress,
         markProgressDataDone,
-    
         addCourseToFavorites,
-        deleteAllCourseProgress
+        deleteAllCourseProgress,
       }}
     >
       {children}
