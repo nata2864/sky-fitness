@@ -10,7 +10,13 @@ function WorkOutFormPage() {
 
   if (!courseContext) return null;
 
-  const { workouts, loadingWorkouts, getWorkoutsList } = courseContext;
+  const {
+    workouts,
+    loadingWorkouts,
+    getWorkoutsList,
+    courseProgress,
+    getCourseProgressById,
+  } = courseContext;
 
   useEffect(() => {
     if (courseId) {
@@ -18,10 +24,20 @@ function WorkOutFormPage() {
     }
   }, [courseId, getWorkoutsList]);
 
+  useEffect(() => {
+    if (courseId) {
+      getCourseProgressById(courseId);
+    }
+  }, [courseId, getCourseProgressById]);
+
   return loadingWorkouts ? (
     <Spinner />
   ) : (
-    <WorkOutForm workouts={workouts} courseId={courseId} />
+    <WorkOutForm
+      workouts={workouts}
+      courseId={courseId}
+      courseProgress={courseProgress}
+    />
   );
 }
 

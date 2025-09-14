@@ -31,6 +31,7 @@ function WorkOut() {
     updateProgress,
     markProgressDataDone,
     getCourseProgressById,
+    courseProgress
   } = courseContext;
 
   const { workoutId, courseId } = useParams();
@@ -54,6 +55,11 @@ function WorkOut() {
       getCourseProgressById(courseId);
     }
   }, [courseId, getCourseProgressById]);
+
+  console.log(workOut);
+  console.log(progress);
+  console.log(courseProgress)
+
 
   if (!workOut || !progress) {
     return (

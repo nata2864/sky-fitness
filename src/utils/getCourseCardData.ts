@@ -1,4 +1,4 @@
-import type { AllUsersData, Course } from '../sharesTypes/sharesTypes';
+import type {CourseProgress, Course } from '../sharesTypes/sharesTypes';
 
 type CourseProgressResult = {
   percent: number;
@@ -7,10 +7,10 @@ type CourseProgressResult = {
 
 export const getCourseCardData = (
   courseId: string,
-  usersData?: AllUsersData,
+  courseProgress?: CourseProgress[],
   course?: Course
 ): CourseProgressResult => {
-  const userCourseProgress = usersData?.courseProgress.find(
+  const userCourseProgress = courseProgress?.find(
     (progress) => progress.courseId === courseId
   );
 

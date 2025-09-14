@@ -4,14 +4,13 @@ import { getCourseImage } from '../../utils/getCourseImage/getCourseImage';
 import Progress from '../Progress/Progress';
 import { useNavigate } from 'react-router-dom';
 
-
 type CardProps = {
   course: Course;
   isUserCourse: boolean;
   onIconClick?: (courseId: string) => void;
   percent?: number;
   buttonText?: string;
-  isHasNoExercises: boolean;
+  // isHasExercises: boolean;
 };
 
 const Card: React.FC<CardProps> = ({
@@ -20,7 +19,7 @@ const Card: React.FC<CardProps> = ({
   onIconClick,
   percent = 0,
   buttonText,
-  isHasNoExercises,
+  // isHasExercises,
 }) => {
   const navigate = useNavigate();
   const {
@@ -46,7 +45,6 @@ const Card: React.FC<CardProps> = ({
 
       <S.CourseDiscription>
         <S.Title>{nameRU}</S.Title>
-
         <S.Duration>
           <S.Badge>
             <img src="/time.svg" alt="time icon" />
@@ -58,19 +56,19 @@ const Card: React.FC<CardProps> = ({
             мин/день
           </S.Badge>
         </S.Duration>
-
         <S.Difficulty>
           <S.Badge>
             <img src="/difficulty.svg" alt="difficulty icon" />
             {difficulty}
           </S.Badge>
         </S.Difficulty>
-
         {isUserCourse && (
           <>
-            <Progress percent={percent} isHasNoExercises={isHasNoExercises} />
+            <Progress percent={percent}  />
+
             <S.CourseButton onClick={() => navigate(`/course/${_id}/workouts`)}>
-              {isHasNoExercises ? 'Тренироваться' : buttonText}
+              {/* {isHasExercises ? buttonText : 'Тренироваться'} */}
+                 { buttonText}
             </S.CourseButton>
           </>
         )}

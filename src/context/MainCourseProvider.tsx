@@ -68,11 +68,11 @@ const MainCourseProvider: React.FC<MainCourseProviderProps> = ({
   // --- Загрузка конкретного курса по id ---
   const getCourseById = useCallback(
     async (id: string): Promise<Course | null> => {
-      if (!id || !token) return null;
+      if (!id ) return null;
 
       setLoadingCourse(true);
       try {
-        const data = await fetchCoursesById(token, id);
+        const data = await fetchCoursesById( id);
         if (data) {
           setCourse(data);
           return data;
@@ -85,7 +85,7 @@ const MainCourseProvider: React.FC<MainCourseProviderProps> = ({
         setLoadingCourse(false);
       }
     },
-    [token]
+    []
   );
 
   return (

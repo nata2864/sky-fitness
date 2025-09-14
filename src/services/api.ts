@@ -50,13 +50,11 @@ export async function fetchWorkOutsById(
 }
 
 export async function fetchCoursesById(
-  token: Token,
+
   id: string | number
 ): Promise<Course> {
   const response = await api.get(API_ENDPOINTS.GET_COURSE_BY_ID(id), {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+ 
   });
   return response.data;
 }

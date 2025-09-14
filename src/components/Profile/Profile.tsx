@@ -36,6 +36,7 @@ function Profile() {
   }, [getAllUsersData]);
 
   const usersCourses = usersData?.user?.selectedCourses ?? [];
+  const coursesWithProgress = usersData?.user?.courseProgress ?? [];
 
   if (!courses) {
     return null;
@@ -50,6 +51,8 @@ function Profile() {
     logout();
     navigate(RoutesApp.SIGN_IN);
   }
+
+  console.log(usersData)
 
   return (
     <Container>
@@ -70,7 +73,11 @@ function Profile() {
       </section>
       <section>
         <S.Title>Мои курсы</S.Title>
-        <CoursesList courses={userCoursesList} isUserCourse={true} />
+        <CoursesList
+          courses={userCoursesList}
+          isUserCourse={true}
+          coursesWithProgress={coursesWithProgress}
+        />
       </section>
     </Container>
   );

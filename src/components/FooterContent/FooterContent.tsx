@@ -1,13 +1,11 @@
 import * as S from './FooterContent.styled';
-import { useContext } from 'react';
-import { AuthContext } from '../../context/AuthContext';
 
 type FooterContentProps = {
   onClick?: () => void;
+  text: string; // новый проп
 };
 
-function FooterContent({ onClick }: FooterContentProps) {
-  const { token } = useContext(AuthContext);
+function FooterContent({ onClick, text }: FooterContentProps) {
   return (
     <S.ContentBlock>
       <S.FooterTitle>Начните путь к новому телу</S.FooterTitle>
@@ -19,7 +17,7 @@ function FooterContent({ onClick }: FooterContentProps) {
         <li>помогают противостоять стрессам</li>
       </S.FooterList>
       <S.FooterButton onClick={onClick}>
-        {token ? 'Добавить курc' : 'Войдите, чтобы добавить курс'}
+        {text}
       </S.FooterButton>
     </S.ContentBlock>
   );

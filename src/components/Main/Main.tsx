@@ -18,7 +18,7 @@ const Main: React.FC = () => {
   const handleScrollTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth', 
+      behavior: 'smooth',
     });
   };
 

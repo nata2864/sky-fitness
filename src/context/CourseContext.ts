@@ -9,16 +9,17 @@ export type CourseContextValue = {
   workOut: WorkOutLesson | null;
   workouts: WorkOutLesson[] | null;
 
+
   progress: ExtendedWorkOutsProgress | null;
   setProgress: React.Dispatch<
     React.SetStateAction<ExtendedWorkOutsProgress | null>
   >;
-  courseProgress: CourseProgress | null;
+  courseProgress: CourseProgress| null;
   loadingWorkout: boolean;
   loadingProgress: boolean;
   loadingCourseProgress: boolean;
   loadingWorkouts: boolean;
-  hasExercises: boolean | null;
+
 
   // --- методы ---
   getProgress: (courseId: string, workoutId: string) => Promise<void>;

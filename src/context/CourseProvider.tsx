@@ -42,9 +42,10 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
   const [loadingProgress, setLoadingProgress] = useState(false);
   const [loadingCourseProgress, setLoadingCourseProgress] = useState(false);
 
-  const [hasExercises, setHasExercises] = useState<boolean | null>(null);
+  // const [hasExercises, setHasExercises] = useState<boolean | null>(null);
 
   const { token } = useContext(AuthContext);
+
 
   const getWorkoutsList = useCallback(
     async (courseId: string): Promise<WorkOutLesson[]> => {
@@ -67,14 +68,14 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
   const addCourseToFavorites = useCallback(
     async (courseId: string): Promise<void> => {
       try {
-        const workouts = await getWorkoutsList(courseId);
+        // const workouts = await getWorkoutsList(courseId);
 
-        const hasExercisesValue =
-          workouts?.some(
-            (lesson) => lesson.exercises && lesson.exercises.length > 0
-          ) ?? false;
+        // const hasExercisesValue =
+        //   workouts?.some(
+        //     (lesson) => lesson.exercises && lesson.exercises.length > 0
+        //   ) ?? false;
 
-        setHasExercises(hasExercisesValue);
+        // setHasExercises(hasExercisesValue);
         const message = await addFavoriteCourse(token, courseId);
         toast.success(message);
       } catch (err) {
@@ -239,7 +240,7 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
         loadingCourseProgress,
         setProgress,
         markProgressDataDone,
-        hasExercises,
+    
         addCourseToFavorites,
         deleteAllCourseProgress
       }}

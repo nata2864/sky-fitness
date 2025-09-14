@@ -1,15 +1,20 @@
-import * as S from './Progress.styled'
+import * as S from './Progress.styled';
 
 type ProgressProps = {
   percent: number;
-  isHasNoExercises: boolean;
+  // isHasExercises: boolean;
 };
 
-const Progress: React.FC<ProgressProps> = ({ percent, isHasNoExercises }) => {
+const Progress: React.FC<ProgressProps> = ({ percent }) => {
   return (
     <S.ProgressBlock>
       <S.ProgressText>
-        {isHasNoExercises ? 'Прогресс по курсу не считается' : `Прогресс ${percent}%`}
+        {/* {isHasExercises
+          ? `Прогресс ${percent}%`
+          : 'Прогресс по курсу не считается'} */}
+              {
+         `Прогресс ${percent}%`
+        }
       </S.ProgressText>
       <S.ProgressBar type="range" value={percent} max={100} readOnly />
     </S.ProgressBlock>
