@@ -38,6 +38,8 @@ function Profile() {
   const usersCourses = usersData?.user?.selectedCourses ?? [];
   const coursesWithProgress = usersData?.user?.courseProgress ?? [];
 
+  console.log(usersData)
+
   if (!courses) {
     return null;
   }

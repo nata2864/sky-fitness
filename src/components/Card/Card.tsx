@@ -30,10 +30,6 @@ const Card: React.FC<CardProps> = ({
   } = course;
   const srcPath = getCourseImage(nameEN);
 
-  const isHasNoExercises =
-    nameRU.trim().toLowerCase() === 'фитнес' ||
-    nameRU.trim().toLowerCase() === 'степ-аэробика';
-
   return (
     <S.CourseCard>
       <S.ImageWrapper>
@@ -66,10 +62,10 @@ const Card: React.FC<CardProps> = ({
         </S.Difficulty>
         {isUserCourse && (
           <>
-            <Progress percent={percent} isHasNoExercises={isHasNoExercises} />
+            <Progress percent={percent} />
 
             <S.CourseButton onClick={() => navigate(`/course/${_id}/workouts`)}>
-              {isHasNoExercises ? 'Тренироваться' : buttonText}
+              {buttonText}
             </S.CourseButton>
           </>
         )}

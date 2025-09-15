@@ -1,7 +1,4 @@
-import type {
-  WorkOutLesson,
-  CourseProgress,
-} from '../../sharesTypes/sharesTypes';
+import type { WorkOutLesson, CourseProgress } from '../../sharesTypes/sharesTypes';
 import { useNavigate } from 'react-router-dom';
 import { parseCourseName } from '../../utils/parseCourseName/parseCourseName';
 import { PopUpWrapper } from '../../ui/PopUpWrapper.styled ';
@@ -17,12 +14,6 @@ type WorkOutFormProps = {
 function WorkOutForm({ workouts, courseId, courseProgress }: WorkOutFormProps) {
   const navigate = useNavigate();
   const [activeWorkoutId, setActiveWorkoutId] = useState<string | null>(null);
-
-  const localWorkoutsDone: string[] = JSON.parse(
-    localStorage.getItem('workouts') || '[]'
-  )
-    .filter((w: any) => w.IsNotProgressDataDone)
-    .map((w: any) => w.workoutId);
 
   const handleWorkoutClick = (workout: WorkOutLesson) => {
     setActiveWorkoutId(workout._id);
@@ -43,12 +34,10 @@ function WorkOutForm({ workouts, courseId, courseProgress }: WorkOutFormProps) {
             const parsed = parseCourseName(workout.name);
             const isActive = activeWorkoutId === workout._id;
 
-            const isDoneServer = courseProgress?.workoutsProgress?.some(
+            // ✅ теперь прогресс определяется только по данным с сервера
+            const isDone = courseProgress?.workoutsProgress?.some(
               (wp) => wp.workoutId === workout._id && wp.workoutCompleted
             );
-
-            const isDoneLocal = localWorkoutsDone.includes(workout._id);
-            const isDone = isDoneServer || isDoneLocal;
 
             return (
               <S.WorkOutItem

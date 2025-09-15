@@ -9,17 +9,15 @@ export type CourseContextValue = {
   workOut: WorkOutLesson | null;
   workouts: WorkOutLesson[] | null;
 
-
   progress: ExtendedWorkOutsProgress | null;
   setProgress: React.Dispatch<
     React.SetStateAction<ExtendedWorkOutsProgress | null>
   >;
-  courseProgress: CourseProgress| null;
+  courseProgress: CourseProgress | null;
   loadingWorkout: boolean;
   loadingProgress: boolean;
   loadingCourseProgress: boolean;
   loadingWorkouts: boolean;
-
 
   // --- методы ---
   getProgress: (courseId: string, workoutId: string) => Promise<void>;
@@ -31,9 +29,9 @@ export type CourseContextValue = {
     workoutId: string,
     progressData: number[]
   ) => Promise<void>;
-  markProgressDataDone: () => void;
+
   addCourseToFavorites(courseId: string): Promise<void>;
-   deleteAllCourseProgress: (courseId: string) => Promise<void>;
+  deleteAllCourseProgress: (courseId: string) => Promise<void>;
 };
 export const CourseContext = createContext<CourseContextValue | undefined>(
   undefined

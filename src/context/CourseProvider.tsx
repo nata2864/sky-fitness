@@ -196,31 +196,6 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
     [token]
   );
 
-  const markProgressDataDone = useCallback(() => {
-    setProgress((prev) => {
-      if (!prev) return prev;
-      if (!prev.IsNotProgressData) return prev;
-
-      const updated = { ...prev, IsNotProgressDataDone: true };
-
-      // сохраняем в localStorage
-      const storedWorkouts = JSON.parse(
-        localStorage.getItem('workouts') || '[]'
-      );
-      const index = storedWorkouts.findIndex(
-        (w: ExtendedWorkOutsProgress) => w.workoutId === updated.workoutId
-      );
-      if (index !== -1) {
-        storedWorkouts[index] = updated;
-      } else {
-        storedWorkouts.push(updated);
-      }
-      localStorage.setItem('workouts', JSON.stringify(storedWorkouts));
-
-      return updated;
-    });
-  }, [setProgress]);
-
   return (
     <CourseContext.Provider
       value={{
@@ -238,7 +213,7 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
         courseProgress,
         loadingCourseProgress,
         setProgress,
-        markProgressDataDone,
+
         addCourseToFavorites,
         deleteAllCourseProgress,
       }}

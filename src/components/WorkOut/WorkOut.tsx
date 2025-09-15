@@ -9,6 +9,7 @@ import { calculateProgress } from '../../utils/calculateProgress/calculateProgre
 import PopUpResultMessage from '../../popUps/PopUpResultMessage/PopUpResultMessage';
 import { MainCourseContext } from '../../context/MainCourseContext .ts';
 import Spinner from '../Spinner/Spinner.tsx';
+import { toast } from 'react-toastify';
 
 function WorkOut() {
   const courseContext = useContext(CourseContext);
@@ -29,7 +30,6 @@ function WorkOut() {
     getProgress,
     progress,
     updateProgress,
-    markProgressDataDone,
   } = courseContext;
 
   const { workoutId, courseId } = useParams();
@@ -64,10 +64,18 @@ function WorkOut() {
     setIsOpenPopMyProgress((prev) => !prev);
   };
 
-  const handleClickMarkDone = () => {
-    markProgressDataDone();
+
+ const handleClickMarkDone = async () => {
+  if (!courseId || !workoutId) return;
+
+  try {
+    await updateProgress(courseId, workoutId, []);
     setIsPopUpResultMessage(true);
-  };
+  } catch (error) {
+    toast.error('Не удалось отметить тренировку, попробуйте снова');
+  }
+};
+
 
   const handleClosePopUpResultMessage = () => {
     setIsPopUpResultMessage(false);
