@@ -1,10 +1,13 @@
 import Container from '../../ui/Container.styled';
 import * as S from './CoursesList.styled';
 import Card from '../Card/Card';
-import { useCallback } from 'react';
+import { useEffect, useContext } from 'react';
+import { MainCourseContext } from '../../context/MainCourseContext ';
 import { useNavigate } from 'react-router-dom';
 import type { Course, CourseProgress } from '../../sharesTypes/sharesTypes';
 import { getCourseCardData } from '../../utils/getCourseCardData';
+import { toast } from 'react-toastify';
+import { AuthContext } from '../../context/AuthContext';
 
 type CoursesListProps = {
   courses: Course[];
@@ -18,13 +21,39 @@ const CoursesList: React.FC<CoursesListProps> = ({
   coursesWithProgress,
 }) => {
   const navigate = useNavigate();
+  const context = useContext(MainCourseContext);
+  const { token } = useContext(AuthContext);
+  if (!courses) {
+    return null;
+  }
 
-  const handleIconClick = useCallback(
-    (courseId: string) => {
+  if (!context) {
+    return null;
+  }
+
+  const { usersData, getAllUsersData } = context;
+
+  const isAuthenticated = Boolean(usersData?.user);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      getAllUsersData();
+    }
+  }, [getAllUsersData, isAuthenticated]);
+
+  const usersCourses = usersData?.user?.selectedCourses ?? [];
+
+  const handleAddToFavorites = (courseId: string) => {
+    if (token) {
+      if (usersCourses.includes(courseId)) {
+        toast.info('Этот курс уже есть в избранном');
+      } else {
+        navigate(`/course/${courseId}`);
+      }
+    } else {
       navigate(`/course/${courseId}`);
-    },
-    [navigate]
-  );
+    }
+  };
 
   return (
     <Container>
@@ -41,10 +70,9 @@ const CoursesList: React.FC<CoursesListProps> = ({
               key={course._id}
               course={course}
               isUserCourse={isUserCourse}
-              onIconClick={handleIconClick}
+              onIconClick={handleAddToFavorites}
               percent={percent}
               buttonText={buttonText}
-          
             />
           );
         })}

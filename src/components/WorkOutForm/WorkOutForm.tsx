@@ -1,4 +1,7 @@
-import type { WorkOutLesson, CourseProgress } from '../../sharesTypes/sharesTypes';
+import type {
+  WorkOutLesson,
+  CourseProgress,
+} from '../../sharesTypes/sharesTypes';
 import { useNavigate } from 'react-router-dom';
 import { parseCourseName } from '../../utils/parseCourseName/parseCourseName';
 import { PopUpWrapper } from '../../ui/PopUpWrapper.styled ';
@@ -34,7 +37,6 @@ function WorkOutForm({ workouts, courseId, courseProgress }: WorkOutFormProps) {
             const parsed = parseCourseName(workout.name);
             const isActive = activeWorkoutId === workout._id;
 
-            // ✅ теперь прогресс определяется только по данным с сервера
             const isDone = courseProgress?.workoutsProgress?.some(
               (wp) => wp.workoutId === workout._id && wp.workoutCompleted
             );

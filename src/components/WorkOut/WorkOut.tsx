@@ -24,13 +24,8 @@ function WorkOut() {
 
   const { course, getCourseById } = mainContext;
 
-  const {
-    workOut,
-    getWorkoutById,
-    getProgress,
-    progress,
-    updateProgress,
-  } = courseContext;
+  const { workOut, getWorkoutById, getProgress, progress, updateProgress } =
+    courseContext;
 
   const { workoutId, courseId } = useParams();
 
@@ -64,18 +59,16 @@ function WorkOut() {
     setIsOpenPopMyProgress((prev) => !prev);
   };
 
+  const handleClickMarkDone = async () => {
+    if (!courseId || !workoutId) return;
 
- const handleClickMarkDone = async () => {
-  if (!courseId || !workoutId) return;
-
-  try {
-    await updateProgress(courseId, workoutId, []);
-    setIsPopUpResultMessage(true);
-  } catch (error) {
-    toast.error('Не удалось отметить тренировку, попробуйте снова');
-  }
-};
-
+    try {
+      await updateProgress(courseId, workoutId, []);
+      setIsPopUpResultMessage(true);
+    } catch (error) {
+      toast.error('Не удалось отметить тренировку, попробуйте снова');
+    }
+  };
 
   const handleClosePopUpResultMessage = () => {
     setIsPopUpResultMessage(false);
