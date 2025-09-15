@@ -44,7 +44,7 @@ const CoursesList: React.FC<CoursesListProps> = ({
               onIconClick={handleIconClick}
               percent={percent}
               buttonText={buttonText}
-              // isHasExercises={isHasExercises}
+          
             />
           );
         })}

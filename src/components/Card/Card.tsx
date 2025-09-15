@@ -10,7 +10,6 @@ type CardProps = {
   onIconClick?: (courseId: string) => void;
   percent?: number;
   buttonText?: string;
-  // isHasExercises: boolean;
 };
 
 const Card: React.FC<CardProps> = ({
@@ -19,7 +18,6 @@ const Card: React.FC<CardProps> = ({
   onIconClick,
   percent = 0,
   buttonText,
-  // isHasExercises,
 }) => {
   const navigate = useNavigate();
   const {
@@ -31,6 +29,10 @@ const Card: React.FC<CardProps> = ({
     difficulty,
   } = course;
   const srcPath = getCourseImage(nameEN);
+
+  const isHasNoExercises =
+    nameRU.trim().toLowerCase() === 'фитнес' ||
+    nameRU.trim().toLowerCase() === 'степ-аэробика';
 
   return (
     <S.CourseCard>
@@ -64,11 +66,10 @@ const Card: React.FC<CardProps> = ({
         </S.Difficulty>
         {isUserCourse && (
           <>
-            <Progress percent={percent}  />
+            <Progress percent={percent} isHasNoExercises={isHasNoExercises} />
 
             <S.CourseButton onClick={() => navigate(`/course/${_id}/workouts`)}>
-              {/* {isHasExercises ? buttonText : 'Тренироваться'} */}
-                 { buttonText}
+              {isHasNoExercises ? 'Тренироваться' : buttonText}
             </S.CourseButton>
           </>
         )}

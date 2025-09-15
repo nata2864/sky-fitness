@@ -30,8 +30,6 @@ function WorkOut() {
     progress,
     updateProgress,
     markProgressDataDone,
-    // getCourseProgressById,
-    // courseProgress
   } = courseContext;
 
   const { workoutId, courseId } = useParams();
@@ -50,17 +48,6 @@ function WorkOut() {
     }
   }, [courseId, workoutId, getProgress]);
 
-  // useEffect(() => {
-  //   if (courseId) {
-  //     getCourseProgressById(courseId);
-  //   }
-  // }, [courseId, getCourseProgressById]);
-
-  console.log(workOut);
-  console.log(progress);
-  // console.log(courseProgress)
-
-
   if (!workOut || !progress) {
     return (
       <>
@@ -78,10 +65,9 @@ function WorkOut() {
   };
 
   const handleClickMarkDone = () => {
-   
-  markProgressDataDone();        // обновляем состояние и localStorage
-  setIsPopUpResultMessage(true); // показываем попап с результатом
-};
+    markProgressDataDone();
+    setIsPopUpResultMessage(true);
+  };
 
   const handleClosePopUpResultMessage = () => {
     setIsPopUpResultMessage(false);
@@ -109,7 +95,12 @@ function WorkOut() {
                   <S.ProgressText>
                     {workOuttask.name} — {progressValue}%
                   </S.ProgressText>
-                  <S.ProgressBar type="range" value={progressValue} max={100}  readOnly/>
+                  <S.ProgressBar
+                    type="range"
+                    value={progressValue}
+                    max={100}
+                    readOnly
+                  />
                 </S.ProgressBlock>
               );
             })}

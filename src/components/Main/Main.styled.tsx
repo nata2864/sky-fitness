@@ -33,18 +33,17 @@ export const TitleImg = styled.img`
 `;
 
 export const Footer = styled.div`
-  height: 167px;
-
+  max-height: 167px;
   color: #222;
   padding: 20px;
   text-align: center;
   @media (max-width: 768px) {
     text-align: end;
+    padding: 0px;
   }
 `;
 
 export const FooterButton = styled(Button)`
-
   max-width: 172px;
   padding-top: 16px;
   padding-right: 26px;
@@ -52,6 +51,6 @@ export const FooterButton = styled(Button)`
   padding-left: 26px;
 
   @media (max-width: 768px) {
-    margin-top: 24px;
+    margin-top: 10px;
   }
 `;

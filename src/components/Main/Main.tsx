@@ -30,9 +30,7 @@ const Main: React.FC = () => {
         <S.Title>Начните заниматься спортом и улучшите качество жизни</S.Title>
         <S.TitleImg src="./titleLogo.svg" alt="Логотип к названию сайта" />
       </S.TitleBlock>
-
       <CoursesList courses={courses} isUserCourse={false} />
-
       <S.Footer>
         <S.FooterButton onClick={handleScrollTop}>Наверх ↑</S.FooterButton>
       </S.Footer>

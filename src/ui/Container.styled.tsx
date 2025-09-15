@@ -15,9 +15,9 @@ const Container = styled.div`
   }
 
   @media (max-width: 768px) {
-    max-width: 343px;
-    width: 100%;
-    margin: 0 auto;
+      max-width: 343px;
+      padding: 0 5px;
+
   }
 `;
 
