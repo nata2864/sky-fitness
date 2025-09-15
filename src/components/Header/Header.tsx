@@ -26,7 +26,7 @@ function Header({ showMoto = false }) {
         <S.Block>
           <S.LogoBlock>
             <Link to={'/'}>
-              <img src="/logo.svg" alt="Логотип " />
+              <S.LogoImg src="/logo.svg" alt="Логотип " />
             </Link>
             {showMoto && (
               <S.LogoText>Онлайн-тренировки для занятий дома</S.LogoText>

@@ -15,8 +15,7 @@ export const Header = styled.header`
   }
 
   @media (max-width: 768px) {
-    padding-top: 40px;
-    padding-bottom: 40px;
+    padding: 40px 0px;
   }
 `;
 
@@ -24,6 +23,16 @@ export const Block = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+`;
+
+export const LogoImg = styled.img`
+  width: 220px;
+  height: 35px;
+
+  @media (max-width: 768px) {
+    width: 200px;
+    height: 35px;
+  }
 `;
 
 export const LogoText = styled.p`
@@ -99,6 +108,6 @@ export const HeaderButton = styled(Button)`
   max-width: 103px;
 
   @media (max-width: 768px) {
-    max-width: 83px;
+    padding-top: 8px 16px;
   }
 `;
