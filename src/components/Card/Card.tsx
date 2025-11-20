@@ -1,66 +1,47 @@
-import * as S from './Card.styled.tsx';
-import type { Course } from '../../data.tsx';
-import { getCourseImage } from '../../utils/getCourseImage/getCourseImage.ts';
-import { Link } from 'react-router-dom';
-import Progress from '../Progress/Progress.tsx';
-import { Button } from '../../ui/Button.styled.tsx';
-import { CourseContext } from '../../context/CourseContext';
-import { useContext } from 'react';
+import * as S from './Card.styled';
+import type { Course } from '../../sharesTypes/sharesTypes';
+import { getCourseImage } from '../../utils/getCourseImage/getCourseImage';
+import Progress from '../Progress/Progress';
+import { useNavigate } from 'react-router-dom';
 
 type CardProps = {
   course: Course;
   isUserCourse: boolean;
-    onClick?: () => void;
-    selectedCourseId?: string | null;
+  onIconClick?: (courseId: string) => void;
+  percent?: number;
+  buttonText?: string;
 };
 
-function Card({ course, isUserCourse, onClick, selectedCourseId }: CardProps) {
-  // const srcMinusIcon = '/removeIcon.svg';
-  // const srcPlusIcon = '/addIcon.svg';
-
-    const context = useContext(CourseContext);
-  
-    if (!context) {
-      // Можно отрендерить заглушку, если контекста нет
-      return null;
-    }
-  
-
-    const { addCourseToFavorites} = context;
-
+const Card: React.FC<CardProps> = ({
+  course,
+  isUserCourse,
+  onIconClick,
+  percent = 0,
+  buttonText,
+}) => {
+  const navigate = useNavigate();
   const {
+    _id,
     nameEN,
     nameRU,
     durationInDays,
     dailyDurationInMinutes,
     difficulty,
-    _id,
   } = course;
   const srcPath = getCourseImage(nameEN);
 
-  console.log({selectedCourseId})
-
-  function handleAddToFavorites(){
- 
-if (selectedCourseId) {
-  addCourseToFavorites(selectedCourseId);
-}
-  
-}
-
   return (
     <S.CourseCard>
-      <Link to={`/course/${_id}`}>
-        <S.ImageWrapper>
-          <S.CardImg $src={`/${srcPath}.png`} />
-          <S.Icon
-            src={isUserCourse ? '/removeIcon.svg' : '/addIcon.svg'}
-            alt={isUserCourse ? 'Remove from favorites' : 'Add to favorites'}
-          />
-        </S.ImageWrapper>
-      </Link>
+      <S.ImageWrapper>
+        <S.CardImg $src={`/${srcPath}.png`} />
+        <S.Icon
+          src={isUserCourse ? '/removeIcon.svg' : '/addIcon.svg'}
+          alt={isUserCourse ? 'Remove from favorites' : 'Add to favorites'}
+          onClick={() => onIconClick?.(_id)}
+        />
+      </S.ImageWrapper>
 
-      <S.CourseDiscription onClick={onClick}>
+      <S.CourseDiscription>
         <S.Title>{nameRU}</S.Title>
         <S.Duration>
           <S.Badge>
@@ -73,23 +54,24 @@ if (selectedCourseId) {
             мин/день
           </S.Badge>
         </S.Duration>
-
         <S.Difficulty>
           <S.Badge>
             <img src="/difficulty.svg" alt="difficulty icon" />
             {difficulty}
           </S.Badge>
         </S.Difficulty>
-        <Button onClick={handleAddToFavorites}>Добавить курс</Button>
         {isUserCourse && (
           <>
-            <Progress />
-            <S.CourseButton>Начать тренировки</S.CourseButton>
+            <Progress percent={percent} />
+
+            <S.CourseButton onClick={() => navigate(`/course/${_id}/workouts`)}>
+              {buttonText}
+            </S.CourseButton>
           </>
         )}
       </S.CourseDiscription>
     </S.CourseCard>
   );
-}
+};
 
 export default Card;

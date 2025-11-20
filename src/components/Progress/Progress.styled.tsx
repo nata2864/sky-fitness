@@ -1,9 +1,7 @@
 import styled from 'styled-components';
 
 export const ProgressBlock = styled.div`
-  /* width: 100%; */
   max-width: 300px;
-
 `;
 
 export const ProgressText = styled.p`
@@ -13,14 +11,12 @@ export const ProgressText = styled.p`
   margin-bottom: 10px;
 `;
 
-
-
 interface ProgressProps {
-  value: number; // явно указываем, что value — число
+  value: number; 
   max?: number;
 }
 
-export const ProgressBar = styled.input.attrs({ type: "range" })<ProgressProps>`
+export const ProgressBar = styled.input.attrs({ type: 'range' })<ProgressProps>`
   width: 100%;
   height: 6px;
   border-radius: 50px;
@@ -50,5 +46,3 @@ export const ProgressBar = styled.input.attrs({ type: "range" })<ProgressProps>`
     border: none;
   }
 `;
-
-

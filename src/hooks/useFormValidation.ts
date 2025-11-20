@@ -1,16 +1,14 @@
-'use client';
-
 import { useState } from 'react';
 import { emptyFieldsValidator } from '../validators/emptyFieldsValidator';
 import { formatValidator } from '../validators/formatValidator';
 
 type FormData = Record<string, string>;
-type Errors = Record<string, string | null>; 
+type Errors = Record<string, string | null>;
 
 export const useFormValidation = (initialFields: FormData) => {
   const [formData, setFormData] = useState<FormData>(initialFields);
   const [errors, setErrors] = useState<Errors>({});
-  const [error, setError] = useState<string>(''); 
+  const [error, setError] = useState<string>('');
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -21,14 +19,12 @@ export const useFormValidation = (initialFields: FormData) => {
     setError('');
   };
 
-  // Валидация одного поля (для onBlur)
   const validateField = (
     name: string,
     requiredFields: string[]
   ): string | null => {
     let fieldError: string | null = null;
 
- 
     if (requiredFields.includes(name)) {
       const { hasEmpty, errors: emptyErrors } = emptyFieldsValidator(
         { [name]: formData[name] },
@@ -50,7 +46,6 @@ export const useFormValidation = (initialFields: FormData) => {
     return fieldError;
   };
 
- 
   const validateForm = (requiredFields: string[]): boolean => {
     const newErrors: Errors = {};
     let hasError = false;

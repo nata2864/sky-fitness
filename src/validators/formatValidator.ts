@@ -1,9 +1,11 @@
 type FormatValidationResult = {
   hasErrors: boolean;
-  errors: Record<string, string | null>; 
+  errors: Record<string, string | null>;
 };
 
-export const formatValidator = (values: Record<string, string>): FormatValidationResult => {
+export const formatValidator = (
+  values: Record<string, string>
+): FormatValidationResult => {
   const errors: Record<string, string | null> = {};
   let hasErrors = false;
 
@@ -21,22 +23,17 @@ export const formatValidator = (values: Record<string, string>): FormatValidatio
   if ('password' in values) {
     const password = values.password;
 
-    // базовая проверка длины
     if (password.length < 6) {
       errors.password = 'Пароль должен содержать не менее 6 символов';
       hasErrors = true;
-    } 
-    // проверка спецсимволов (минимум 2)
-    else if ((password.match(/[^A-Za-z0-9]/g) || []).length < 2) {
+    } else if ((password.match(/[^A-Za-z0-9]/g) || []).length < 2) {
       errors.password = 'Пароль должен содержать не менее 2 спецсимволов';
       hasErrors = true;
-    } 
-    // проверка заглавной буквы
-    else if (!/[A-Z]/.test(password)) {
-      errors.password = 'Пароль должен содержать как минимум одну заглавную букву';
+    } else if (!/[A-Z]/.test(password)) {
+      errors.password =
+        'Пароль должен содержать как минимум одну заглавную букву';
       hasErrors = true;
-    } 
-    else {
+    } else {
       errors.password = null;
     }
 

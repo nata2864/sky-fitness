@@ -1,59 +1,42 @@
-import { useState, useEffect } from "react";
-import type { ReactNode } from "react";
-import { AuthContext } from "./AuthContext";
-import { checkLocalStorage } from "../utils/checkLocalStorage/checkLocalStorage";
+import { useState } from 'react';
+import { saveToken, dropToken } from '../services/token';
+import { AuthContext } from './AuthContext';
+import { checkLocalStorage } from '../utils/checkLocalStorage/checkLocalStorage';
 
-// Тип данных пользователя
-export type User ={
-  _id: string;
-  login: string;
-}
+function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [token, setToken] = useState<string | null>(() => checkLocalStorage());
+  const [userName, setUserName] = useState<string | null>(() =>
+    localStorage.getItem('userEmail')
+  );
 
-// Тип пропсов провайдера
-interface AuthProviderProps {
-  children: ReactNode;
-}
+  const updateUserInfo = (token: string | null, userName: string | null) => {
+    setToken(token);
+    setUserName(userName);
 
-const AuthProvider = ({ children }: AuthProviderProps) => {
-  // checkLocalStorage может вернуть либо User, либо null
-  const [user, setUser] = useState<User | null>(checkLocalStorage());
-
-  useEffect(() => {
-    try {
-      const storedUser = localStorage.getItem("userInfo");
-      if (storedUser) {
-        setUser(JSON.parse(storedUser) as User);
-      }
-    } catch (error) {
-      console.error("Ошибка при загрузке данных из localStorage:", error);
-    }
-  }, []);
-
-  // Обновляем данные о пользователе и сохраняем в лс
-  const updateUserInfo = (userData: User | null) => {
-    setUser(userData);
-    if (userData) {
-      localStorage.setItem("userInfo", JSON.stringify(userData));
+    if (token && userName) {
+      saveToken(token);
+      localStorage.setItem('userEmail', userName);
     } else {
-      localStorage.removeItem("userInfo");
+      dropToken();
+      localStorage.removeItem('userEmail');
     }
   };
 
-  const login = (loginData: User): boolean => {
-    updateUserInfo(loginData);
+  const login = (newToken: string, userName: string) => {
+    updateUserInfo(newToken, userName);
     return true;
   };
 
-  const logout = (): boolean => {
-    updateUserInfo(null);
+  const logout = () => {
+    updateUserInfo(null, null);
     return true;
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, updateUserInfo }}>
+    <AuthContext.Provider value={{ token, userName, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
-};
+}
 
 export default AuthProvider;

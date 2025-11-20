@@ -4,15 +4,17 @@ import Container from '../../ui/Container.styled.tsx';
 import PopUserSet from '../../popUps/PopUserSet/PopUserSet.tsx';
 import { AuthContext } from '../../context/AuthContext';
 import { useContext } from 'react';
-import { Button } from '../../ui/Button.styled.tsx';
 import { getUsernameFromEmail } from '../../utils/getUsernameFromEmail/getUsernameFromEmail.ts';
+import { Link, useNavigate } from 'react-router-dom';
+import { RoutesApp } from '../../const.tsx';
 
-function Header() {
+function Header({ showMoto = false }) {
   const [isOpenPopUser, setIsOpenPopUser] = useState(false);
+  const navigate = useNavigate();
 
-  const { user } = useContext(AuthContext);
-  console.log({ user });
-  const parsedMail = getUsernameFromEmail(user?.login || '');
+  const { token, userName } = useContext(AuthContext);
+
+  const parsedMail = getUsernameFromEmail(userName || '');
 
   function handleClickPopupUser() {
     setIsOpenPopUser((prev) => !prev);
@@ -23,16 +25,15 @@ function Header() {
       <S.Header>
         <S.Block>
           <S.LogoBlock>
-            <a href="#">
-              <img
-                className=""
-                src="/logo.svg"
-                alt="Логотип "
-              />
-            </a>
-            <S.LogoText>Онлайн-тренировки для занятий дома</S.LogoText>
+            <Link to={'/'}>
+              <S.LogoImg src="/logo.svg" alt="Логотип " />
+            </Link>
+            {showMoto && (
+              <S.LogoText>Онлайн-тренировки для занятий дома</S.LogoText>
+            )}
           </S.LogoBlock>
-          {user ? (
+
+          {token ? (
             <S.ProfileBlock>
               <img src="/profile.svg" alt="Иконка профиля" />
               <S.ProfileButton
@@ -45,12 +46,13 @@ function Header() {
 
               <PopUserSet
                 setIsOpenPopUser={setIsOpenPopUser}
-                // setIsOpenPopExit={setIsOpenPopExit}
                 isOpenPopUser={isOpenPopUser}
               />
             </S.ProfileBlock>
           ) : (
-            <Button>Войти</Button>
+            <S.HeaderButton onClick={() => navigate(RoutesApp.SIGN_IN)}>
+              Войти
+            </S.HeaderButton>
           )}
         </S.Block>
       </S.Header>

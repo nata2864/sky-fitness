@@ -1,61 +1,41 @@
 import CoursesList from '../CoursesList/CoursesList';
 import Container from '../../ui/Container.styled';
 import * as S from './Main.styled';
-import { useCallback, useState, useEffect } from 'react';
-import { fetchAllCourses } from '../../services/api';
-import { handleAxiosError } from '../../utils/handleAxiosError/handleAxiosError';
-import type { Course } from '../../sharesTypes/sharesTypes';
+import { useEffect, useContext } from 'react';
+import { MainCourseContext } from '../../context/MainCourseContext ';
+import Spinner from '../Spinner/Spinner';
 
-function Main() {
+const Main: React.FC = () => {
+  const context = useContext(MainCourseContext);
+  if (!context) return null;
 
-const [courses, setCourses] = useState<Course[]>([]);
-
-
-
-   const getAllCourses = useCallback(async () => {
-
-    try {
-      const data = await fetchAllCourses();
-      if (data) setCourses(data);
-  
-    } catch (error) {
-      handleAxiosError(error);
-    } 
-    //  finally {
-    //      setLoading(false);
-    //   }
-    // Доделать загрузку
-   }, []);
+  const { getAllCourses, courses, loadingCourses } = context;
 
   useEffect(() => {
     getAllCourses();
   }, [getAllCourses]);
 
-      console.log(courses)
+  const handleScrollTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
 
-
-  return (
+  return loadingCourses ? (
+    <Spinner />
+  ) : (
     <Container>
-      <section >
-        <S.TitleBlock>
-          <S.Title>
-            Начните заниматься спортом и улучшите качество жизни
-          </S.Title>
-          <S.TitleImg
-            src="../../../../../../public/titleLogo.svg"
-            alt="Логотип к названию сайта"
-          />
-        </S.TitleBlock>
-       <CoursesList courses={courses} isUserCourse={false}/>
-      </section>
+      <S.TitleBlock>
+        <S.Title>Начните заниматься спортом и улучшите качество жизни</S.Title>
+        <S.TitleImg src="./titleLogo.svg" alt="Логотип к названию сайта" />
+      </S.TitleBlock>
+      <CoursesList courses={courses} isUserCourse={false} />
       <S.Footer>
-        <S.FooterButton>Наверх ↑</S.FooterButton>
+        <S.FooterButton onClick={handleScrollTop}>Наверх ↑</S.FooterButton>
       </S.Footer>
     </Container>
   );
-}
-
-//доделать кнопку
-
+};
 
 export default Main;

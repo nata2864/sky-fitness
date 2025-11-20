@@ -5,7 +5,7 @@ type CourseInfo = {
   author: string | null;
 };
 export function parseCourseName(name: string): CourseInfo {
-  const parts = name.split(" / ").map(p => p.trim());
+  const parts = name.split(' / ').map((p) => p.trim());
 
   return {
     title: parts[0] || null,
@@ -14,15 +14,3 @@ export function parseCourseName(name: string): CourseInfo {
     author: parts[3] || null,
   };
 }
-
-// Пример:
-const name = "Утренняя практика / Йога на каждый день / 1 день / Алексей Казубский";
-
-const course = parseCourseName(name);
-console.log(course);
-// {
-//   title: "Утренняя практика",
-//   subtitle: "Йога на каждый день",
-//   day: "1 день",
-//   author: "Алексей Казубский"
-// }

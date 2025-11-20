@@ -1,11 +1,10 @@
-
-import Main from "../../components/Main/Main";
+import Main from '../../components/Main/Main';
 
 function MainPage() {
   return (
-<>
-<Main/>
-</>
+    <>
+      <Main />
+    </>
   );
 }
 

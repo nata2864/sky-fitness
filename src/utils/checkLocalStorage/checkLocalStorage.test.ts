@@ -1,10 +1,9 @@
-
-import {checkLocalStorage} from "./checkLocalStorage"
-
+import { checkLocalStorage } from './checkLocalStorage';
+import * as tokenService from '../../services/token';
 
 describe('checkLocalStorage', () => {
   beforeEach(() => {
-    localStorage.clear();
+    jest.clearAllMocks();
     jest.spyOn(console, 'warn').mockImplementation(() => {});
     jest.spyOn(console, 'error').mockImplementation(() => {});
   });
@@ -13,24 +12,30 @@ describe('checkLocalStorage', () => {
     jest.restoreAllMocks();
   });
 
-  it('возвращает null, если userInfo отсутствует', () => {
+  it('возвращает null, если токен отсутствует', () => {
+    jest.spyOn(tokenService, 'getToken').mockReturnValue(null);
     expect(checkLocalStorage()).toBeNull();
   });
 
-  it('возвращает объект, если userInfo корректный', () => {
-    localStorage.setItem('userInfo', JSON.stringify({ name: 'Alice', token: 'abc' }));
-    expect(checkLocalStorage()).toEqual({ name: 'Alice', token: 'abc' });
+  it('возвращает токен, если он корректный', () => {
+    jest.spyOn(tokenService, 'getToken').mockReturnValue('abc');
+    expect(checkLocalStorage()).toEqual('abc');
   });
 
-  it('возвращает null и вызывает warn, если структура некорректная', () => {
-    localStorage.setItem('userInfo', JSON.stringify({ foo: 'bar' }));
+  it('возвращает null и вызывает warn, если токен пустой или пробельный', () => {
+    jest.spyOn(tokenService, 'getToken').mockReturnValue('   ');
     expect(checkLocalStorage()).toBeNull();
-    expect(console.warn).toHaveBeenCalled();
+    expect(console.warn).toHaveBeenCalledWith('Некорректный токен в localStorage');
   });
 
-  it('возвращает null и вызывает error, если JSON битый', () => {
-    localStorage.setItem('userInfo', '{ broken json ');
+  it('возвращает null и вызывает error, если getToken выбросил ошибку', () => {
+    jest.spyOn(tokenService, 'getToken').mockImplementation(() => {
+      throw new Error('test error');
+    });
     expect(checkLocalStorage()).toBeNull();
-    expect(console.error).toHaveBeenCalled();
+    expect(console.error).toHaveBeenCalledWith(
+      'Ошибка при чтении localStorage token:',
+      expect.any(Error)
+    );
   });
 });

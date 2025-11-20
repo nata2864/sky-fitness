@@ -6,42 +6,82 @@ import {
   IconText,
 } from '../../ui/IconTextBlock.styled';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useCallback, useContext } from 'react';
 import { getCourseImage } from '../../utils/getCourseImage/getCourseImage';
 import FooterContent from '../FooterContent/FooterContent';
-import { useContext } from 'react';
-
-import { CourseContext } from '../../context/CourseContext';
+import { toast } from 'react-toastify';
+import { addFavoriteCourse, removeFavoriteCourse } from '../../services/api';
+import { RoutesApp } from '../../const';
+import { AuthContext } from '../../context/AuthContext';
+import { MainCourseContext } from '../../context/MainCourseContext ';
+import Spinner from '../Spinner/Spinner';
+import { handleAxiosError } from '../../utils/handleAxiosError/handleAxiosError';
 
 function CourseDescription() {
-  // const [isOpenWorkOut, setIsOpenPopWorkOut] = useState(false);
-  const { courseId } = useParams();
+  const { courseId } = useParams<{ courseId: string }>();
   const navigate = useNavigate();
+  const { token } = useContext(AuthContext);
+  const mainContext = useContext(MainCourseContext);
 
-      const context = useContext(CourseContext);
-  
-    if (!context) {
-      // Можно отрендерить заглушку, если контекста нет
-      return null;
-    }
-  
+  if (!mainContext) return null;
 
-    const { addCourseToFavorites} = context;
-
-
-  const { course, getCourseById } = useContext(CourseContext)!;
+  const { course, getCourseById, loadingCourse, usersData, getAllUsersData } =
+    mainContext;
 
   useEffect(() => {
     if (courseId) getCourseById(courseId);
-  }, [courseId, getCourseById]);
 
+    if (token) {
+      getAllUsersData();
+    }
+  }, [courseId, getCourseById, getAllUsersData, token]);
 
-  if (!course) {
-    return null;
+  const userCourses = usersData?.user?.selectedCourses ?? [];
+  const isUserHasCourse =
+    !!courseId && userCourses.some((c: any) => String(c) === String(courseId));
+
+  const handleFooterButtonClick = useCallback(async () => {
+    if (!courseId) return;
+
+    if (!token) {
+      navigate(RoutesApp.SIGN_IN);
+      return;
+    }
+
+    try {
+      const currentUserCourses = usersData?.user?.selectedCourses ?? [];
+      const has = currentUserCourses.some(
+        (c: any) => String(c) === String(courseId)
+      );
+
+      if (has) {
+        const message = await removeFavoriteCourse(token, courseId);
+        toast.success(message);
+      } else {
+        const message = await addFavoriteCourse(token, courseId);
+        toast.success(message);
+      }
+
+      // Обновляем данные пользователя (если getAllUsersData возвращает промис — ждём)
+      await getAllUsersData();
+    } catch (err: any) {
+      // Если при добавлении сервер отвечает, что курс уже есть — показываем понятный тост.
+      // Попытка детектировать - 409 или текст ошибки, иначе пробрасываем в общий обработчик.
+      if (!isUserHasCourse) {
+        // это попытка добавить — если сервер скажет, что уже добавлен
+        toast.error('Курс уже был добавлен!');
+      } else {
+        handleAxiosError(err);
+      }
+    }
+  }, [courseId, token, usersData, getAllUsersData, navigate, isUserHasCourse]);
+
+  if (loadingCourse) {
+    return <Spinner />;
   }
 
-  if (!courseId) {
-    return null;
+  if (!course) {
+    return <div>Курс не найден</div>;
   }
 
   const { nameEN, fitting, directions } = course;
@@ -51,17 +91,12 @@ function CourseDescription() {
     mobile: `/${basePath}.png`,
   };
 
-  function handleClickPopUpWorkOut() {
+  const footerButtonText = !token
+    ? 'Войдите, чтобы добавить курс'
+    : isUserHasCourse
+      ? 'Удалить курс'
+      : 'Добавить курс';
 
-    if (courseId){
-        addCourseToFavorites(courseId);
-    }
-
- 
-
-
-    navigate(`/course/${courseId}/workouts`);
-  }
   return (
     <>
       <Container>
@@ -83,31 +118,34 @@ function CourseDescription() {
           <S.Directions>
             {directions.map((direction: string, index: number) => (
               <IconTextBlock key={index}>
-                <IconImage src="/Sparcle.svg"></IconImage>
-                <IconText> {direction}</IconText>
+                <IconImage src="/Sparcle.svg" />
+                <IconText>{direction}</IconText>
               </IconTextBlock>
             ))}
           </S.Directions>
         </S.DirectionsBlock>
         <S.FooterCourseDiscription>
-          <FooterContent onClick={handleClickPopUpWorkOut} />
-
-          <S.FooterImage src="/footerImg.png" />
-
-          {/* </S.FooterImage> */}
+          <FooterContent
+            onClick={handleFooterButtonClick}
+            text={footerButtonText}
+          />
+          <S.FooterImageBlock>
+            <S.FooterImageLine src="/greenLine.svg" alt="curve" />
+            <S.FooterImage src="/footerImg.png" alt="person" />
+          </S.FooterImageBlock>
         </S.FooterCourseDiscription>
       </Container>
-
       <S.MobileFooter>
-        {/* упрощённая верстка для мобилы */}
         <S.MobileImage src="/footerImg.png" />
         <Container>
           <S.MobileCard>
-            <FooterContent onClick={handleClickPopUpWorkOut} />
+            <FooterContent
+              onClick={handleFooterButtonClick}
+              text={footerButtonText}
+            />
           </S.MobileCard>
         </Container>
       </S.MobileFooter>
-      {/* <PopUpWorkOut workouts={workouts} isOpenWorkOut={isOpenWorkOut} /> */}
     </>
   );
 }

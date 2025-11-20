@@ -1,40 +1,37 @@
-
-import type { ProgressData, WorkOutLesson } from '../sharesTypes/sharesTypes';
+import type {
+  WorkOutLesson,
+  CourseProgress,
+  ExtendedWorkOutsProgress,
+} from '../sharesTypes/sharesTypes';
 import { createContext } from 'react';
-import type { Course } from '../sharesTypes/sharesTypes';
-
-export interface CourseProgress {
-  courseId: string;
-  courseCompleted: boolean;
-  workoutsProgress: {
-    workoutId: string;
-    workoutCompleted: boolean;
-    progressData: number[];
-  }[];
-}
-
 
 export type CourseContextValue = {
-  course: Course | null;
   workOut: WorkOutLesson | null;
-  progress: ProgressData | null;
-  courseProgress: CourseProgress | null; // <-- новый стейт прогресса по всему курсу
+  workouts: WorkOutLesson[] | null;
 
-  loadingCourse: boolean;
+  progress: ExtendedWorkOutsProgress | null;
+  setProgress: React.Dispatch<
+    React.SetStateAction<ExtendedWorkOutsProgress | null>
+  >;
+  courseProgress: CourseProgress | null;
   loadingWorkout: boolean;
   loadingProgress: boolean;
-  loadingCourseProgress: boolean; // <-- новый флаг загрузки
-
-  favorites: Course[];
+  loadingCourseProgress: boolean;
+  loadingWorkouts: boolean;
 
   // --- методы ---
   getProgress: (courseId: string, workoutId: string) => Promise<void>;
-  getCourseProgressById: (courseId: string) => Promise<void>; // <-- новый метод
-  getCourseById: (id: string) => Promise<void>;
-  getWorkoutById: (id: string) => Promise<void>;
+  getCourseProgressById: (courseId: string) => Promise<void>;
+  getWorkoutById: (id: string) => Promise<WorkOutLesson | null>;
+  getWorkoutsList: (courseId: string) => Promise<WorkOutLesson[] | null>;
+  updateProgress: (
+    courseId: string,
+    workoutId: string,
+    progressData: number[]
+  ) => Promise<void>;
 
-  addCourseToFavorites: (id: string) => Promise<void>;
-  updateProgress: (courseId: string, workoutId: string, progressData: number[]) => Promise<void>;
+  addCourseToFavorites(courseId: string): Promise<void>;
+  deleteAllCourseProgress: (courseId: string) => Promise<void>;
 };
 export const CourseContext = createContext<CourseContextValue | undefined>(
   undefined

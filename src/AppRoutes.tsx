@@ -10,32 +10,48 @@ import ProfilPage from './pages/ProfilPage/ProfilPage';
 import WorkOutFormPage from './pages/WorkOutsFormPage';
 import WorkOutCoursePage from './pages/WorkOutCoursePage/WorkOutCoursePage';
 import PrivateRoute from './PrivateRoute';
+import PrivateLayout from './pages/PrivateLayout/PrivateLayout';
+import MainCourseProvider from './context/MainCourseProvider';
 
 function AppRoutes() {
   return (
     <Routes>
-      {/* Публичные страницы в MainLayout */}
-      <Route element={<MainLayout />}>
+      {/* Публичные страницы */}
+      <Route
+        element={
+          <MainCourseProvider>
+            <MainLayout />
+          </MainCourseProvider>
+        }
+      >
         <Route path={RoutesApp.MAIN} element={<MainPage />} />
         <Route path="/course/:courseId" element={<CoursePage />} />
+      </Route>
 
-        {/* Приватные страницы внутри PrivateRoute */}
-        <Route element={<PrivateRoute />}>
+      {/* Приватные страницы */}
+      <Route element={<PrivateRoute />}>
+        <Route
+          element={
+            <MainCourseProvider>
+              <PrivateLayout />
+            </MainCourseProvider>
+          }
+        >
+          <Route path={RoutesApp.PROFILE} element={<ProfilPage />} />
           <Route
             path="/course/:courseId/workouts/:workoutId"
             element={<WorkOutCoursePage />}
           />
-
-          <Route path={RoutesApp.PROFILE} element={<ProfilPage />} />
+          <Route
+            path="/course/:courseId/workouts"
+            element={<WorkOutFormPage />}
+          />
         </Route>
       </Route>
 
       {/* Авторизация */}
       <Route path={RoutesApp.SIGN_IN} element={<SignInPage />} />
       <Route path={RoutesApp.SIGN_UP} element={<SignUpPage />} />
-
-      {/* Форма выбора урока */}
-      <Route path="/course/:courseId/workouts" element={<WorkOutFormPage />} />
 
       {/* 404 */}
       <Route path={RoutesApp.NOT_FOUND} element={<NotFoundPage />} />
@@ -44,5 +60,3 @@ function AppRoutes() {
 }
 
 export default AppRoutes;
-
-// есть путь на выход в константах

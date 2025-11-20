@@ -1,16 +1,19 @@
+import * as S from './Progress.styled';
 
-import * as S from './Progress.styled'
+type ProgressProps = {
+  percent: number;
 
+};
 
-function Progress() {
-  
-
+const Progress: React.FC<ProgressProps> = ({ percent }) => {
   return (
-<S.ProgressBlock>
-    <S.ProgressText>Прогресс 40%</S.ProgressText>
-    <S.ProgressBar type="range" value={50} max={100}/>
-</S.ProgressBlock>
+    <S.ProgressBlock>
+      <S.ProgressText>
+        { `Прогресс ${percent}%`}
+      </S.ProgressText>
+      <S.ProgressBar type="range" value={percent} max={100} readOnly />
+    </S.ProgressBlock>
   );
-}
+};
 
 export default Progress;

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Button } from '../../ui/Button.styled';
 
 export const CourseCard = styled.div`
-  max-width: 360px;
+  width: 360px;
   border-radius: 30px;
   box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);
   @media (max-width: 768px) {
@@ -29,13 +29,9 @@ export const CardImg = styled.img<{ $src: string }>`
   background-repeat: no-repeat;
   background-position: center;
   width: 100%;
-border-radius:30px;
+  border-radius: 30px;
   height: 325px;
-  position:relative;
-
-  @media (max-width: 768px) {
-    max-width: 343px;
-  }
+  position: relative;
 `;
 
 export const Icon = styled.img`
@@ -51,7 +47,6 @@ export const Icon = styled.img`
 export const Title = styled.h3`
   font-weight: 500;
   font-size: 32px;
-  line-height: 110.00000000000001%;
   margin-bottom: 20px;
   @media (max-width: 768px) {
     font-size: 24px;
@@ -68,7 +63,6 @@ export const Duration = styled.div`
 export const Difficulty = styled.div`
   font-weight: 400;
   font-size: 16px;
-  line-height: 110.00000000000001%;
   letter-spacing: 0px;
   vertical-align: bottom;
   margin-bottom: 30px;
@@ -80,17 +74,10 @@ export const Badge = styled.div`
   gap: 6px;
   padding: 10px;
   background: rgba(247, 247, 247, 1);
-
   border-radius: 50px;
-
   color: rgba(32, 32, 32, 1);
-
   font-weight: 400;
-
   font-size: 16px;
-
-  line-height: 110.00000000000001%;
-  letter-spacing: 0px;
   vertical-align: bottom;
 
   svg {
@@ -100,8 +87,6 @@ export const Badge = styled.div`
 `;
 
 export const CourseButton = styled(Button)`
-margin-bottom: 15px;
-margin-top:30px;
-`
-
-
+  margin-bottom: 15px;
+  margin-top: 30px;
+`;

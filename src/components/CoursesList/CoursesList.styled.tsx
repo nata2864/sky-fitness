@@ -1,9 +1,13 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Courses = styled.div`
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 40px;
+  justify-content: flex-start; 
+  gap: 40px; 
+  margin-bottom: 34px;
+
+  @media (max-width: 768px) {
+    margin-bottom: 24px;
+  }
 `;

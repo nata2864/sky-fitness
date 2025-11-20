@@ -1,12 +1,11 @@
-
-
+import { PopUpWrapper } from '../../ui/PopUpWrapper.styled ';
 import SignUp from '../../components/SignUp/SignUp';
 
 function SignUpPage() {
   return (
-<>
-<SignUp/>
-</>
+    <PopUpWrapper>
+      <SignUp />
+    </PopUpWrapper>
   );
 }
 

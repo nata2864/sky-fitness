@@ -1,34 +1,43 @@
-
-import WorkOutForm from "../components/WorkOutForm/WorkOutForm ";
-import Container from "../ui/Container.styled";
-//    Временно. Сделать общий врапер для страниц с формами 
-import { AuthContainer } from "../ui/Form.styled";
+import WorkOutForm from '../components/WorkOutForm/WorkOutForm';
 import { useParams } from 'react-router-dom';
-import { useWorkoutsList } from "../hooks/useWorkoutsList";
+import Spinner from '../components/Spinner/Spinner';
+import { CourseContext } from '../context/CourseContext';
+import { useContext, useEffect } from 'react';
+
 function WorkOutFormPage() {
+  const { courseId } = useParams();
+  const courseContext = useContext(CourseContext);
 
-      const { courseId } = useParams();
+  if (!courseContext) return null;
 
+  const {
+    workouts,
+    loadingWorkouts,
+    getWorkoutsList,
+    courseProgress,
+    getCourseProgressById,
+  } = courseContext;
 
-//  const workouts= [
-//   {
-//     "_id": "a1rqtt",
-//     "name": "Урок 2. Основные движения",
-//     "video": "https://www.youtube.com/embed/gJPs7b8SpVw",
-//     "exercises": [],
-//   },
-// ]
+  useEffect(() => {
+    if (courseId) {
+      getWorkoutsList(courseId);
+    }
+  }, [courseId, getWorkoutsList]);
 
-  const { workouts } = useWorkoutsList(courseId);
-    // const workouts = {courses.workouts}
-    // console.log({courses})
+  useEffect(() => {
+    if (courseId) {
+      getCourseProgressById(courseId);
+    }
+  }, [courseId, getCourseProgressById]);
 
-  return (
-    // <Container>
-        <AuthContainer>
-    <WorkOutForm workouts={workouts} courseId={ courseId }/>
-    </AuthContainer>
-    // </Container>
+  return loadingWorkouts ? (
+    <Spinner />
+  ) : (
+    <WorkOutForm
+      workouts={workouts}
+      courseId={courseId}
+      courseProgress={courseProgress}
+    />
   );
 }
 

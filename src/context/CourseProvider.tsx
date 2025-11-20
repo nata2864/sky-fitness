@@ -1,122 +1,176 @@
 import { useState, useCallback } from 'react';
 import { CourseContext } from './CourseContext';
-import type { Course, WorkOutLesson, ProgressData } from '../sharesTypes/sharesTypes';
-import { fetchCoursesById, fetchWorkOutsById, fetchProgressWorkOutById, addFavoriteCourse, patchProgressWorkOut, fetchCourseProgress } from '../services/api';
-
+import type {
+  WorkOutLesson,
+  WorkOutsProgress,
+  ProgressData,
+  CourseProgress,
+  Exercise,
+  ExtendedWorkOutsProgress,
+} from '../sharesTypes/sharesTypes';
+import {
+  fetchWorkOutsById,
+  fetchProgressWorkOutById,
+  patchProgressWorkOut,
+  fetchCourseProgress,
+  fetchListWorkOuts,
+  addFavoriteCourse,
+  patchAllCourseProgress,
+} from '../services/api';
 import { handleAxiosError } from '../utils/handleAxiosError/handleAxiosError';
+import { AuthContext } from '../context/AuthContext';
+import { useContext } from 'react';
+import { toast } from 'react-toastify';
 
 type CourseProviderProps = {
   children: React.ReactNode;
 };
 
 const CourseProvider = ({ children }: CourseProviderProps) => {
-  const [course, setCourse] = useState<Course | null>(null);
   const [workOut, setWorkOut] = useState<WorkOutLesson | null>(null);
-  const [progress, setProgress] = useState<ProgressData | null>(null);
-    const [courseProgress, setCourseProgress] = useState<CourseProgress | null>(null);
+  const [workouts, setWorkouts] = useState<WorkOutLesson[]>([]);
+  const [loadingWorkouts, setLoadingWorkouts] = useState(false);
 
-  const [loadingCourse, setLoadingCourse] = useState(false);
+  const [progress, setProgress] = useState<ExtendedWorkOutsProgress | null>(
+    null
+  );
+
+  const [courseProgress, setCourseProgress] = useState<CourseProgress | null>(
+    null
+  );
+
   const [loadingWorkout, setLoadingWorkout] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(false);
   const [loadingCourseProgress, setLoadingCourseProgress] = useState(false);
 
-  const [favorites, setFavorites] = useState<Course[]>([]);
+  const { token } = useContext(AuthContext);
 
-  // const [errorCourse, setErrorCourse] = useState<string | null>(null);
-  // const [errorWorkout, setErrorWorkout] = useState<string | null>(null);
+  const getWorkoutsList = useCallback(
+    async (courseId: string): Promise<WorkOutLesson[]> => {
+      if (!courseId || !token) return [];
+      setLoadingWorkouts(true);
+      try {
+        const data = await fetchListWorkOuts(token, courseId);
+        setWorkouts(data ?? []);
+        return data ?? [];
+      } catch (err) {
+        handleAxiosError(err);
+        return [];
+      } finally {
+        setLoadingWorkouts(false);
+      }
+    },
+    [token]
+  );
 
-  // --- Загрузка курса ---
-  const getCourseById = useCallback(async (id: string) => {
-    if (!id) return;
-    setLoadingCourse(true);
-
-    try {
-      const data = await fetchCoursesById(id);
-      setCourse(data ?? null);
-    } catch (err) {
-      handleAxiosError(err);
-    } finally {
-      setLoadingCourse(false);
-    }
-  }, []);
-
-   // --- Добавить курс по Айди ---
-const addCourseToFavorites = useCallback(async (courseId: string) => {
-  try {
-    const data = await addFavoriteCourse(courseId);
-      console.log("Сервер вернул:", data);
-  
-    setFavorites(data);
-
-  } catch (err) {
-      console.error("Ошибка при добавлении в избранное:", err);
-    handleAxiosError(err);
-  }
-}, [setFavorites]);
+  const addCourseToFavorites = useCallback(
+    async (courseId: string): Promise<void> => {
+      try {
+        const message = await addFavoriteCourse(token, courseId);
+        toast.success(message);
+      } catch (err) {
+        toast.error('Курс уже был добавлен!');
+      }
+    },
+    [token, getWorkoutsList]
+  );
 
   // --- Загрузка тренировки ---
-  const getWorkoutById = useCallback(async (id: string) => {
-    if (!id) return;
-    setLoadingWorkout(true);
+  const getWorkoutById = useCallback(
+    async (id: string): Promise<WorkOutLesson | null> => {
+      if (!id || !token) return null; // защита от отсутствия токена
+      setLoadingWorkout(true);
+      try {
+        const data = await fetchWorkOutsById(token, id);
+        setWorkOut(data ?? null);
+        return data ?? null;
+      } catch (err) {
+        handleAxiosError(err);
+        return null;
+      } finally {
+        setLoadingWorkout(false);
+      }
+    },
+    [token]
+  );
 
-    try {
-      const data = await fetchWorkOutsById(id);
-      setWorkOut(data ?? null);
-    } catch (err) {
-         
-      handleAxiosError(err);
-    } finally {
-      setLoadingWorkout(false);
-    }
-  }, []);
-
-const getProgress = useCallback(
-  async (courseId: string, workoutId: string) => {
-    if (!courseId || !workoutId) return;
-    setLoadingProgress(true);
-
-    try {
-      const data = await fetchProgressWorkOutById({ courseId, workoutId });
-       console.log("✅ getProgress данные:", data);
-      setProgress(data ?? null);
-    } catch (err) {
-       console.error("❌ Ошибка getProgress:", err);
-      handleAxiosError(err);
-    } finally {
-      setLoadingProgress(false);
-    }
-  },
-  []
-);
-
-// --- Обновить прогресс тренировки ---
-  const updateProgress = useCallback(
-    async (courseId: string, workoutId: string, progressData: number[]) => {
-      if (!courseId || !workoutId) return;
+  const getProgress = useCallback(
+    async (courseId: string, workoutId: string) => {
+      if (!courseId || !workoutId || !token) return;
       setLoadingProgress(true);
 
       try {
-        const data = await patchProgressWorkOut({ courseId, workoutId, progressData });
-        console.log("✅ updateProgress данные:", data);
-        setProgress(data ?? null); // обновляем локальный стейт
-      } catch (err) {
-        console.error("❌ Ошибка updateProgress:", err);
+        const data: WorkOutsProgress | null = await fetchProgressWorkOutById(
+          token,
+          {
+            courseId,
+            workoutId,
+          }
+        );
+
+        const workout: WorkOutLesson | null = await getWorkoutById(workoutId);
+        const exercises: Exercise[] = workout?.exercises ?? [];
+        const progresDataWorkOut: number[] = data?.progressData ?? [];
+
+        const normalizedProgress: number[] = exercises.map(
+          (_, index) => progresDataWorkOut[index] ?? 0
+        );
+        const noExercises = exercises.length === 0;
+        if (noExercises) {
+          setProgress({
+            ...(data ?? { courseId, workoutId, progressData: [] }),
+            progressData: normalizedProgress,
+            IsNotProgressData: true,
+            IsNotProgressDataDone: false,
+          });
+        } else {
+          setProgress({
+            ...(data ?? { courseId, workoutId, progressData: [] }),
+            progressData: normalizedProgress,
+            IsNotProgressData: false,
+          });
+        }
+      } catch (err: unknown) {
         handleAxiosError(err);
       } finally {
         setLoadingProgress(false);
       }
     },
-    []
+    [getWorkoutById, token]
   );
 
-    // --- Новый метод: прогресс всего курса ---
+  const updateProgress = useCallback(
+    async (courseId: string, workoutId: string, progressData: ProgressData) => {
+      if (!courseId || !workoutId || !token) return;
+      setLoadingProgress(true);
+
+      setProgress((prev) => {
+        if (!prev) return prev;
+        return { ...prev, progressData };
+      });
+
+      try {
+        await patchProgressWorkOut(token, {
+          courseId,
+          workoutId,
+          progressData,
+        });
+      } catch (err) {
+        handleAxiosError(err);
+      } finally {
+        setLoadingProgress(false);
+      }
+    },
+    [token]
+  );
+
   const getCourseProgressById = useCallback(
     async (courseId: string) => {
-      if (!courseId) return;
+      if (!courseId || !token) return;
       setLoadingCourseProgress(true);
 
       try {
-        const data = await fetchCourseProgress(courseId);
+        const data = await fetchCourseProgress(token, courseId);
         setCourseProgress(data ?? null);
       } catch (err) {
         handleAxiosError(err);
@@ -124,31 +178,44 @@ const getProgress = useCallback(
         setLoadingCourseProgress(false);
       }
     },
-    []
+    [token]
   );
 
-
-
+  const deleteAllCourseProgress = useCallback(
+    async (courseId: string) => {
+      setLoadingCourseProgress(true);
+      try {
+        const message = await patchAllCourseProgress(token, courseId);
+        toast.success(message);
+      } catch (err) {
+        handleAxiosError(err);
+      } finally {
+        setLoadingCourseProgress(false);
+      }
+    },
+    [token]
+  );
 
   return (
     <CourseContext.Provider
       value={{
-        course,
         workOut,
+        workouts,
+        loadingWorkouts,
+        getWorkoutsList,
         progress,
-        loadingCourse,
         loadingWorkout,
-loadingProgress,
-getProgress,
-        getCourseById,
+        loadingProgress,
+        getProgress,
         getWorkoutById,
-          favorites,
-        addCourseToFavorites,
         updateProgress,
         getCourseProgressById,
-           courseProgress, 
-              loadingCourseProgress
+        courseProgress,
+        loadingCourseProgress,
+        setProgress,
 
+        addCourseToFavorites,
+        deleteAllCourseProgress,
       }}
     >
       {children}

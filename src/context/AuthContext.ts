@@ -1,18 +1,15 @@
-import { createContext } from "react";
-import type { User } from "./AuthProvider";
+import { createContext } from 'react';
 
 type AuthContextType = {
-  user: User | null;
-  login: (loginData: User) => boolean;
+  token: string | null;
+  userName: string | null;
+  login: (token: string, userName: string) => boolean;
   logout: () => boolean;
-  updateUserInfo: (userData: User | null) => void;
-}
-
-
+};
 
 export const AuthContext = createContext<AuthContextType>({
-  user: null,
-  login: () => false,               // дефолтная заглушка
-  logout: () => false,              // дефолтная заглушка
-  updateUserInfo: () => {},         // дефолтная заглушка
+  token: null,
+  userName: null,
+  login: () => false,
+  logout: () => false,
 });

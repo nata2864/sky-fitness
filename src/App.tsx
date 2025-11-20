@@ -8,12 +8,10 @@ function App() {
   return (
     <AuthProvider>
       <GlobalStyle />
-        <ToastContainer autoClose={1500} />
+      <ToastContainer autoClose={1500} />
       <AppRoutes />
     </AuthProvider>
   );
 }
-
-//Убрать в дальнейшем ненужные и лишние попапы
 
 export default App;
